@@ -29,4 +29,8 @@
 # Executables
 *.exe
 *.out
+*.out_debug
 *.app
+
+tools/bircd/bircd
+!tools/bircd
