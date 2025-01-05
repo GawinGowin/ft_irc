@@ -6,7 +6,7 @@
 /*   By: syamasaw <syamasaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 14:58:23 by syamasaw          #+#    #+#             */
-/*   Updated: 2025/01/05 15:10:46 by syamasaw         ###   ########.fr       */
+/*   Updated: 2025/01/05 15:19:06 by syamasaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ class Server {
     Server(const Server &src);
     Server &operator=(const Server &src);
 
-    u_short getPort() const;
+    unsigned int getPort() const;
+    u_short getPortBigEndian() const;
     std::string getPassword() const;
 };
 

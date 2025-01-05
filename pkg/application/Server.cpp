@@ -6,7 +6,7 @@
 /*   By: syamasaw <syamasaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:07:35 by syamasaw          #+#    #+#             */
-/*   Updated: 2025/01/05 15:11:12 by syamasaw         ###   ########.fr       */
+/*   Updated: 2025/01/05 15:19:37 by syamasaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,12 @@ Server &Server::operator=(const Server &src) {
   return *this;
 }
 
-u_short Server::getPort() const {
+u_short Server::getPortBigEndian() const {
   return htons(port_);
+}
+
+unsigned int Server::getPort() const {
+  return port_;
 }
 
 std::string Server::getPassword() const {
