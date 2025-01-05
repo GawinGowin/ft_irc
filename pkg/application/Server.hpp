@@ -6,7 +6,7 @@
 /*   By: syamasaw <syamasaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 14:58:23 by syamasaw          #+#    #+#             */
-/*   Updated: 2025/01/05 15:19:06 by syamasaw         ###   ########.fr       */
+/*   Updated: 2025/01/05 15:42:25 by syamasaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <string>
 #include <iostream>
 #include <netinet/in.h>
+#include <sstream>
 
 class Server {
   private:
