@@ -1,5 +1,5 @@
-#ifndef CHANELINFO_HPP
-#define CHANELINFO_HPP
+#ifndef CHANELDATA_HPP
+#define CHANELDATA_HPP
 
 #include <iostream>
 #include <list>
@@ -30,4 +30,4 @@ private:
     const std::string _mode; // TODO: モードのフラグだが、enumにしたい。しかし、enumはstd::stringを扱えないので、どうするか？
 };
 
-#endif /* CHANELINFO_HPP */
+#endif /* CHANELDATA_HPP */
