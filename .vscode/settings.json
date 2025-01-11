@@ -7,6 +7,14 @@
     "markdown": true,
     "plaintext": true
   },
+  "cmake.ctest.allowParallelJobs": true,
+  "testMate.cpp.debug.breakOnFailure": true,
+  "cmake.configureOnEdit": false,
+  "cmake.ctest.testExplorerIntegrationEnabled": false,
+  "editor.formatOnSave": true,
+  "testMate.cpp.test.executables": "{build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST}*",
+  "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+  "C_Cpp.clang_format_style": "file:./.clang-format",
   "C/C++ Include Guard.Macro Type": "Filename",
   "C/C++ Include Guard.Path Depth": 5,
   "C/C++ Include Guard.Path Skip": 0,
@@ -20,6 +28,7 @@
   ],
   "files.associations": {
     "iosfwd": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "iostream": "cpp"
   }
 }

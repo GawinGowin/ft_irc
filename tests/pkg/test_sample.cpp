@@ -16,7 +16,7 @@ class SampleTest : public ::testing::TestWithParam<TestData> {};
 
 TEST_P(SampleTest, Testcase) {
   auto param = GetParam();
-  std::cout << "Input: \e[32m" << param.input_a << param.input_b << "\e[m" << std::endl;
+  std::cout << "Input: \e[32m" << param.input_a << "," << param.input_b << "\e[m" << std::endl;
   int ret = add(param.input_a, param.input_b);
 
   const int expected = param.expected_result;
