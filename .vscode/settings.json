@@ -17,5 +17,9 @@
     ".hpp",
     ".h++",
     ".hh"
-  ]
+  ],
+  "files.associations": {
+    "iosfwd": "cpp",
+    "variant": "cpp"
+  }
 }

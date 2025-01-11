@@ -1,14 +1,14 @@
-## ${CMAKE_SOURCE_DIR} == ${WORKSPACE_DIR}
-include_directories(${CMAKE_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
 include(GoogleTest)
 
-## Each test consists of a test executable and a test library
-### Add test executables
-# add_executable(validation_test # test name
-# ... # sources from the test directory
-# )
-### Add test libraries
-# target_link_libraries(validation_test testftirc gtest gtest_main)
-# gtest_add_tests(TARGET validation_test)
-# ...
+# ..:: SampleTest ::..
+add_executable(SampleTest 
+ ${CMAKE_CURRENT_SOURCE_DIR}/pkg/test_sample.cpp
+)
+target_link_libraries(SampleTest testftirc gtest_main)
+target_include_directories(SampleTest PRIVATE 
+  ${CMAKE_SOURCE_DIR}/pkg/application/
+  ${gtest_SOURCE_DIR}
+)
+
+# ..:: GoogleTest ::..
+gtest_add_tests(TARGET SampleTest)

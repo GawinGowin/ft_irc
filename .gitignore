@@ -34,3 +34,5 @@
 
 tools/bircd/bircd
 !tools/bircd
+
+build/

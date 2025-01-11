@@ -3,7 +3,7 @@ BUILD_DIR = build
 # ...
 
 .PHONY: build
-build: all
+build:
 	@mkdir -p $(BUILD_DIR)
 	@cd $(BUILD_DIR) && cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..  && make
 
