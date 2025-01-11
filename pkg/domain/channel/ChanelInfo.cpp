@@ -1,44 +1,56 @@
 #include "ChanelInfo.hpp"
 
-const std::list<std::string> forbiddenChars({":", ",", " ", "\a"});
-const std::list<std::string> channelNameInitialChars({"#", "&", "+", "!"});
+Channel::Channel() : _name(""), _mode("") {}
 
-Channel::Channel(): _name(""), _topic("") {}
+Channel::Channel(std::string name) : _name(name), _mode(std::string(1, name[0])) {
+  std::ostringstream oss;
 
-Channel::Channel(std::string name, std::string topic): _name(name), _topic(name) {
   if (this->_name.empty()) {
     throw std::invalid_argument("Channel name cannot be empty");
   }
-  if (this->_name.size() > 50) {
-    throw std::invalid_argument("Channel name cannot be longer than 50 characters");
-  }
-  if (this->_name.at(0) != '#' && this->_name.at(0) != '&' && this->_name.at(0) != '+' && this->_name.at(0) != '!') {
-    throw std::invalid_argument("Channel name must start with #, &, + or !");
+  if (this->_name.size() > max_length) {
+    oss << "Channel name cannot be longer than " << max_length << " characters";
+    throw std::invalid_argument(oss.str());
   }
   std::list<std::string>::const_iterator it;
+  for (it = channelNameInitialChars.begin(); it != channelNameInitialChars.end(); ++it) {
+    if (this->_name[0] == (*it)[0]) {
+      break;
+    }
+    oss << "Channel name must start with " << channelNameInitialChars;
+    throw std::invalid_argument(oss.str());
+  }
   for (it = forbiddenChars.begin(); it != forbiddenChars.end(); ++it) {
     if (this->_name.find(*it) != std::string::npos) {
-      throw std::invalid_argument("Channel name cannot contain ':', ',', ' ', or '\a'");
+      oss << "Channel name cannot contain " << forbiddenChars;
+      throw std::invalid_argument(oss.str());
     }
   }
 }
 
-Channel::Channel(const Channel &other) {
-  *this = other;
-}
+Channel::Channel(const Channel &other) : _name(other.getName()), _mode(other.getMode()) {}
 
-Channel &Channel::operator=(const Channel &other) {
-  if (this != &other) {
-    this->_name = other._name;
-    this->_topic = other._topic;
+Channel &Channel::operator=(const Channel &other) { return *this; }
+
+std::string Channel::getName() const { return this->_name; }
+
+std::string Channel::getMode() const { return this->_mode; }
+
+std::ostream &operator<<(std::ostream &os, const CharsListSpecified &lst) {
+  if (lst.empty()) {
+    return os;
   }
-  return *this;
-}
+  std::list<std::string>::const_iterator it = lst.begin();
+  os << "'" << *it << "'";
+  ++it;
 
-std::string Channel::getName() const {
-  return this->_name;
-}
-
-std::string Channel::getTopic() const {
-  return this->_topic;
+  for (; it != lst.end(); ++it) {
+    if (std::distance(it, lst.end()) == 1) {
+      os << " or ";
+    } else {
+      os << ", ";
+    }
+    os << "'" << *it << "'";
+  }
+  return os;
 }
