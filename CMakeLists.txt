@@ -5,24 +5,18 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
 
-## The cube3D sources
-# file(GLOB SOURCES "cmd/cub3D/**/*.c" "cmd/cub3D/*.c")　# TODO: ファイル構成をcub3Dのときから変更
-# list(REMOVE_ITEM SOURCES "${CMAKE_SOURCE_DIR}/cmd/cub3D/main.c") # TODO: ファイル構成をcub3Dのときから変更
+## Sources
+file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/pkg/**/*.cpp")
+add_library(testftirc ${SOURCES}) 
 
-## The libft sources
-# file(GLOB LIBFT_SOURCES "${CMAKE_SOURCE_DIR}/pkg/libft/*.c") # TODO: ファイル構成をcub3Dのときから変更
-
-## Create the library
-add_library(testftirc ${SOURCES} ${LIBFT_SOURCES}) 
+target_include_directories(
+  testftirc
+  PRIVATE ${CMAKE_SOURCE_DIR}/pkg/application/
+)
 
 ## Link with necessary libraries
-# set(LIBRARIES
-#   ${CMAKE_SOURCE_DIR}/lib/libmlx_Linux.a # TODO: ファイル構成をcub3Dのときから変更
-# )
+set(LIBRARIES pthread)
 target_link_libraries(testftirc ${LIBRARIES})
-
-# target_include_directories(testftirc
-#   PUBLIC ${CMAKE_SOURCE_DIR}/include) # TODO: ファイル構成をcub3Dのときから変更
 
 ## install gtest
 include(FetchContent)

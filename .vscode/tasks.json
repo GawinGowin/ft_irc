@@ -1,0 +1,16 @@
+{
+  "tasks": [
+    {
+      "type": "cmake",
+      "label": "CMake: ビルド",
+      "command": "build",
+      "targets": [
+        "all"
+      ],
+      "group": "build",
+      "problemMatcher": [],
+      "detail": "CMake テンプレート ビルド タスク"
+    }
+  ],
+  "version": "2.0.0"
+}
