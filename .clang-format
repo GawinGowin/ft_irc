@@ -1,0 +1,5 @@
+ReflowComments: false
+BinPackParameters: false
+Cpp11BracedListStyle: true
+AlignAfterOpenBracket: AlwaysBreak
+ColumnLimit: 100
