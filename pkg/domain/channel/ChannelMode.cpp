@@ -1,14 +1,12 @@
 #include "ChannelMode.hpp"
 
-ChannelMode::ChannelMode(): _mode(STANDARD_MODE), _flag(0) {}
+ChannelMode::ChannelMode() : _mode(STANDARD_MODE), _flag(0) {}
 
-ChannelMode::ChannelMode(EachChunnelMode mode): _mode(mode), _flag(0) {}
+ChannelMode::ChannelMode(EachChunnelMode mode) : _mode(mode), _flag(0) {}
 
 ChannelMode::~ChannelMode() {}
 
-ChannelMode::ChannelMode(const ChannelMode &other) {
-  *this = other;
-}
+ChannelMode::ChannelMode(const ChannelMode &other) { *this = other; }
 
 ChannelMode &ChannelMode::operator=(const ChannelMode &other) {
   if (this != &other) {
@@ -17,21 +15,19 @@ ChannelMode &ChannelMode::operator=(const ChannelMode &other) {
   }
 }
 
-const EachChunnelMode ChannelMode::getMode() const {
-    return this->_mode;
-}
+const EachChunnelMode ChannelMode::getMode() const { return this->_mode; }
 
 void ChannelMode::setMode(EachChunnelMode mode) {
   this->_mode = mode;
-  return ;
+  return;
 }
 
 void ChannelMode::activateFlag(ChunnelFlag feature) {
   this->_flag |= feature;
-  return ;
+  return;
 }
 
 void ChannelMode::disableFlag(ChunnelFlag feature) {
   this->_flag &= ~feature;
-  return ;
+  return;
 }

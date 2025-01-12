@@ -1,5 +1,5 @@
-    
-#include "ChannelService.hpp"    
+
+#include "ChannelService.hpp"
 
 static const int max_name_length = 50;
 static const CharsListSpecified forbiddenChars({":", ",", " ", "\a"});
@@ -26,7 +26,7 @@ void ChannelService::isValidChannel(const ChannelData &channelData) {
   for (it = forbiddenChars.begin(); it != forbiddenChars.end(); ++it) {
     if (channelData.getName().find(*it) != std::string::npos) {
       oss << "Channel name cannot contain " << forbiddenChars;
-    throw std::invalid_argument(oss.str());
+      throw std::invalid_argument(oss.str());
     }
   }
 }

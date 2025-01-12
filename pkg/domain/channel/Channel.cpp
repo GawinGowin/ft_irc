@@ -1,9 +1,5 @@
 #include "Channel.hpp"
 
-const ChannelData Channel::getChannelData() const {
-  return this->_data;
-};
+const ChannelData Channel::getChannelData() const { return this->_data; };
 
-const ChannelMode Channel::getChannelMode() const {
-  return *this->_mode;
-}
+const ChannelMode Channel::getChannelMode() const { return *this->_mode; }

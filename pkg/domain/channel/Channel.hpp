@@ -8,15 +8,14 @@ class Client; // TODO: 仮での前方宣言/属しているユーザーリス�
 
 class Channel {
 public:
-
   const ChannelData getChannelData() const;
   const ChannelMode getChannelMode() const;
 
 private:
   ChannelData _data;
   ChannelMode *_mode;
-  std::list<Client*> _current_list;
-  std::list<Client*> _invite_list;
+  std::list<Client *> _current_list;
+  std::list<Client *> _invite_list;
 };
 
 #endif /* CHANNEL_HPP */
