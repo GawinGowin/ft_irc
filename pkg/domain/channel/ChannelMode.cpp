@@ -22,20 +22,7 @@ const EachChunnelMode ChannelMode::getMode() const {
 }
 
 void ChannelMode::setMode(EachChunnelMode mode) {
-  switch (mode) {
-    case LOCAL_MODE:
-      this->_mode = LOCAL_MODE;
-      break;
-    case ANONIMOUS_MODE:
-      this->_mode = ANONIMOUS_MODE;
-      break;
-    case STANDARD_MODE:
-      this->_mode = STANDARD_MODE;
-      break;
-    case MODE_DISABLED_MODE:
-      this->_mode = MODE_DISABLED_MODE;
-      break;
-  }
+  this->_mode = mode;
   return ;
 }
 

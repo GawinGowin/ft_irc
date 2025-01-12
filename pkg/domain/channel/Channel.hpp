@@ -5,11 +5,12 @@
 #include "ChannelService.hpp"
 
 class Client; // TODO: 仮での前方宣言/属しているユーザーリスト
-class ChannelMode; // TODO: 仮での前方宣言
 
 class Channel {
 public:
 
+  const ChannelData getChannelData() const;
+  const ChannelMode getChannelMode() const;
 
 private:
   ChannelData _data;
