@@ -9,12 +9,6 @@
 #include <ctime>
 #include <cmath>
 
-typedef std::list<std::string> CharsListSpecified;
-
-static const int max_name_length = 50;
-static const CharsListSpecified forbiddenChars({":", ",", " ", "\a"});
-static const CharsListSpecified channelNameInitialChars({"#", "&", "+", "!"});
-
 const std::string base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 const int channelIdLength = 5;
 
