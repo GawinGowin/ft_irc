@@ -45,4 +45,3 @@ INSTANTIATE_TEST_SUITE_P(
     [](const testing::TestParamInfo<SampleTest::ParamType> &info) {
       return "case" + std::to_string(info.index);
     });
-
