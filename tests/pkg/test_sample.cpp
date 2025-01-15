@@ -8,7 +8,8 @@ struct TestData {
 };
 
 std::ostream &operator<<(std::ostream &os, const TestData &data) {
-  os << "\"" << data.input_a << "+" << data.input_b << "\"" << " (correct answer: " << data.expected_result << ")";
+  os << "\"" << data.input_a << "+" << data.input_b << "\""
+     << " (correct answer: " << data.expected_result << ")";
   return os;
 }
 
@@ -26,16 +27,8 @@ TEST_P(SampleTest, Testcase) {
 }
 
 const TestData TestCases[] = {
-  {1, 2, 3},
-  {2, 3, 5},
-  {3, 4, 7},
-  {4, 5, 9},
-  {5, 6, 11},
-  {6, 7, 13},
-  {7, 8, 15},
-  {8, 9, 17},
-  {9, 10, 19},
-  {10, 11, 21},
+    {1, 2, 3},  {2, 3, 5},  {3, 4, 7},  {4, 5, 9},   {5, 6, 11},
+    {6, 7, 13}, {7, 8, 15}, {8, 9, 17}, {9, 10, 19}, {10, 11, 21},
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -45,4 +38,3 @@ INSTANTIATE_TEST_SUITE_P(
     [](const testing::TestParamInfo<SampleTest::ParamType> &info) {
       return "case" + std::to_string(info.index);
     });
-
