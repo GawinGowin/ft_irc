@@ -36,6 +36,7 @@ jobs:
             echo "No changes needed" > clang-format-changes.md
           fi
       - name: Create PR comment
+        if: always()
         run: |
           gh pr comment ${{ github.event.number }} --edit-last --body-file clang-format-changes.md \
           || gh pr comment ${{ github.event.number }} --body-file clang-format-changes.md \
