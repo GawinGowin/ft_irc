@@ -1,16 +1,16 @@
 #include "ServerService.hpp"
 
-void ServerService::addClient(Server &svr, const IClientRepository &client) {
+void ServerService::registerClient(Server &svr, const IClientRepository &client) {
   try {
-    svr.addClientById(client.getId());
+    svr.registerClientById(client.getId());
   } catch (std::runtime_error &e) {
     throw std::runtime_error(std::string("ServerService: ") + e.what());
   }
 }
 
-void ServerService::removeClient(Server &svr, const IClientRepository &client) {
+void ServerService::deleteClient(Server &svr, const IClientRepository &client) {
   try {
-    svr.removeClientById(client.getId());
+    svr.deleteClientById(client.getId());
   } catch (std::runtime_error &e) {
     throw std::runtime_error(std::string("ServerService: ") + e.what());
   }

@@ -7,8 +7,8 @@
 
 class ServerService : virtual public IServerServiceRepository {
 public:
-  static void addClient(Server &svr, const IClientRepository &client);
-  static void removeClient(Server &svr, const IClientRepository &client);
+  static void registerClient(Server &svr, const IClientRepository &client);
+  static void deleteClient(Server &svr, const IClientRepository &client);
 
 private:
   ServerService();

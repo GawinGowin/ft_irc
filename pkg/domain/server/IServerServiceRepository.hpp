@@ -3,8 +3,8 @@
 
 class IServerServiceRepository {
 public:
-  virtual void addClientById(const int &clientId) = 0;
-  virtual void removeClientById(const int &clientId) = 0;
+  virtual void registerClientById(const int &clientId) = 0;
+  virtual void deleteClientById(const int &clientId) = 0;
 };
 
 #endif /* ISERVERSERVICEREPOSITORY_HPP */
