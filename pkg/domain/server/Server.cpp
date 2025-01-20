@@ -1,7 +1,6 @@
 #include "Server.hpp"
 
-Server::Server()
-    : _addr(std::string()), _port(0), _clientFds(std::vector<int>()) {
+Server::Server() : _addr(std::string()), _port(0), _clientFds(std::vector<int>()) {
   this->_srvPass = NULL;
   this->_srvConn = NULL;
 }
@@ -60,4 +59,14 @@ void Server::deleteClientById(const int &clientId) {
   } else {
     throw std::runtime_error("Server: client does not exist");
   }
+}
+
+const std::vector<int> &Server::getAcceptedClients() const { return this->_clientFds; };
+
+const int &Server::getWatchingAddress() const { return this->_srvConn->getWatchingAddress(); }
+
+const int &Server::getClientSocket() const { return this->_srvConn->getClientSocket(); }
+
+const struct sockaddr_in &Server::getAssignedAddress() const {
+  return this->_srvConn->getAssignedAddress();
 }

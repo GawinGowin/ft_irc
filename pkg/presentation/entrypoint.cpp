@@ -12,7 +12,8 @@ void entrypoint(int argc, char **argv) {
   const std::string password = "password";
 
   IServerRepository *server = ServerFactory::createServer();
-  StartServerUseCase startServerUseCase(server);
+  IServerService *serverService = ServerFactory::createServerService();
+  StartServerUseCase startServerUseCase(server, serverService);
   try {
     startServerUseCase.execute(addr, port, password);
   } catch (const std::runtime_error &e){
@@ -30,12 +31,10 @@ void entrypoint(int argc, char **argv) {
     case MonitorSocketEventDTO::MessageReceived:
       // handle client disconnected
       break;
-    case MonitorSocketEventDTO::Disconnected:
-      // handle client message
-      break;
     default:
       throw std::runtime_error("Failed to monitor socket events");
     }
   }
   delete server;
+  delete serverService;
 }

@@ -2,16 +2,18 @@
 #define SERVERSERVICE_HPP
 
 #include "IClientRepository.hpp"
-#include "IServerServiceRepository.hpp"
+#include "IServerService.hpp"
+#include "IServerService.hpp"
 #include "Server.hpp"
+#include <stdexcept>
 
-class ServerService : virtual public IServerServiceRepository {
+class ServerService : virtual public IServerService {
 public:
-  static void registerClient(Server &svr, const IClientRepository &client);
-  static void deleteClient(Server &svr, const IClientRepository &client);
+  ServerService();
+  void registerClient(IServerRepository &svr, const IClientRepository &client);
+  void deleteClient(IServerRepository &svr, const IClientRepository &client);
 
 private:
-  ServerService();
   ~ServerService();
   ServerService(const ServerService &obj);
   ServerService &operator=(const ServerService &obj);

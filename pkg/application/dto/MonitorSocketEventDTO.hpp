@@ -6,7 +6,6 @@ public:
     enum EventType{
         NewConnection,
         MessageReceived,
-        Disconnected,
         Error
     };
     MonitorSocketEventDTO(): _event(NewConnection), _connectionFd(0) {};

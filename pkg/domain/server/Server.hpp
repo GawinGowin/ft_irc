@@ -22,7 +22,10 @@ public:
   void registerClientById(const int &clientId);
   void deleteClientById(const int &clientId);
 
-  const std::vector<int> &getAcceptedClients() const { return _clientFds; };
+  const std::vector<int> &getAcceptedClients() const;
+  const int &getWatchingAddress() const;
+  const int &getClientSocket() const;
+  const struct sockaddr_in &getAssignedAddress() const;
 
 private:
   std::string _addr;

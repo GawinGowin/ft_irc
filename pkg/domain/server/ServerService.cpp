@@ -1,6 +1,8 @@
 #include "ServerService.hpp"
 
-void ServerService::registerClient(Server &svr, const IClientRepository &client) {
+ServerService::ServerService() {}
+
+void ServerService::registerClient(IServerRepository &svr, const IClientRepository &client) {
   try {
     svr.registerClientById(client.getId());
   } catch (std::runtime_error &e) {
@@ -8,7 +10,7 @@ void ServerService::registerClient(Server &svr, const IClientRepository &client)
   }
 }
 
-void ServerService::deleteClient(Server &svr, const IClientRepository &client) {
+void ServerService::deleteClient(IServerRepository &svr, const IClientRepository &client) {
   try {
     svr.deleteClientById(client.getId());
   } catch (std::runtime_error &e) {
