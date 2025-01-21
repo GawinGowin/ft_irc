@@ -1,11 +1,12 @@
 #ifndef INMEMORYCLIENTDATABASE_HPP
 #define INMEMORYCLIENTDATABASE_HPP
 
-#include "IClientDatabaseRepository.hpp"
+#include "domain/client/IClientRepository.hpp"
+
 #include <vector>
 #include <stdexcept>
 
-class InmemoryClientDatabase: virtual public IClientDatabaseRepository {
+class InmemoryClientDatabase: virtual public IClientRepository {
     public:
       InmemoryClientDatabase();
       ~InmemoryClientDatabase();
