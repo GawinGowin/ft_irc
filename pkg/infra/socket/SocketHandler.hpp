@@ -1,17 +1,20 @@
-#ifndef SOCKETHANDLERIMPL_HPP
-#define SOCKETHANDLERIMPL_HPP
+#ifndef SOCKETHANDLER_HPP
+#define SOCKETHANDLER_HPP
 
-#include "ISocketHandler.hpp"
-#include <sys/socket.h>
+#include "domain/shared/ISocketHandler.hpp"
+#include <arpa/inet.h>
 #include <stdexcept>
 #include <string>
+#include <sys/socket.h>
 #include <unistd.h>
-#include <arpa/inet.h>
 
-class SocketHandlerImpl: public virtual ISocketHandler {
+class SocketHandler : public virtual ISocketHandler {
 public:
-  SocketHandlerImpl(std::string address, const int port, const int maxConnections, const int maxBufferSize);
-  ~SocketHandlerImpl();
+  SocketHandler(
+      std::string address, const int port, const int maxConnections, const int maxBufferSize);
+  ~SocketHandler();
+  SocketHandler(const SocketHandler &other);
+  SocketHandler &operator=(const SocketHandler &other);
 
   void initializeSocket();
 
@@ -39,9 +42,7 @@ private:
   struct sockaddr_in _addr;
   bool _isListening;
 
-  SocketHandlerImpl();
-  SocketHandlerImpl(const SocketHandlerImpl &other);
-  SocketHandlerImpl &operator=(const SocketHandlerImpl &other);
+  SocketHandler();
 };
 
-#endif /* SOCKETHANDLERIMPL_HPP */
+#endif /* SOCKETHANDLER_HPP */

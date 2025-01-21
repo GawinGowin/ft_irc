@@ -1,6 +1,6 @@
-#include "infra/socket/SocketHandlerImpl.hpp"
+#include "infra/socket/SocketHandler.hpp"
 
-SocketHandlerImpl::SocketHandlerImpl(
+SocketHandler::SocketHandler(
     const std::string address, const int port, const int maxConnections, const int maxBufferSize)
     : _socket(-1), _port(port), _maxConnections(maxConnections), _maxBufferSize(maxBufferSize),
       _isListening(false), _currentConnections(0) {
@@ -9,14 +9,33 @@ SocketHandlerImpl::SocketHandlerImpl(
   this->_addr.sin_addr.s_addr = inet_addr(address.c_str());
 }
 
-SocketHandlerImpl::~SocketHandlerImpl() {
+SocketHandler::~SocketHandler() {
   if (this->_socket != -1) {
     close(this->_socket);
     this->_socket = -1;
   }
 }
 
-void SocketHandlerImpl::initializeSocket() {
+SocketHandler::SocketHandler(const SocketHandler &other) {
+  *this = other;
+}
+
+SocketHandler &SocketHandler::operator=(const SocketHandler &other) {
+  if (this != &other) {
+    this->_socket = other._socket;
+    this->_port = other._port;
+    this->_maxConnections = other._maxConnections;
+    this->_maxBufferSize = other._maxBufferSize;
+    this->_isListening = other._isListening;
+    this->_currentConnections = other._currentConnections;
+    this->_addr.sin_family = other._addr.sin_family;
+    this->_addr.sin_port = other._addr.sin_port;
+    this->_addr.sin_addr.s_addr = other._addr.sin_addr.s_addr;
+  }
+  return *this;
+}
+
+void SocketHandler::initializeSocket() {
   this->_socket = socket(AF_INET, SOCK_STREAM, 0);
   if (this->_socket == -1) {
     throw std::runtime_error("socket failed");
@@ -30,7 +49,7 @@ void SocketHandlerImpl::initializeSocket() {
   this->_isListening = true;
 }
 
-void SocketHandlerImpl::closeConnection(int &targetSocket) {
+void SocketHandler::closeConnection(int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
@@ -42,7 +61,7 @@ void SocketHandlerImpl::closeConnection(int &targetSocket) {
   this->_currentConnections--;
 }
 
-int SocketHandlerImpl::acceptConnection() {
+int SocketHandler::acceptConnection() {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
@@ -57,7 +76,7 @@ int SocketHandlerImpl::acceptConnection() {
   return clientSocket;
 }
 
-void SocketHandlerImpl::sendMsg(const std::string &message, int &targetSocket) {
+void SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
@@ -66,7 +85,7 @@ void SocketHandlerImpl::sendMsg(const std::string &message, int &targetSocket) {
   }
 }
 
-std::string SocketHandlerImpl::receiveMsg(int &targetSocket) {
+std::string SocketHandler::receiveMsg(int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
@@ -78,20 +97,20 @@ std::string SocketHandlerImpl::receiveMsg(int &targetSocket) {
   return std::string(recv_buf, recv_size);
 }
 
-void SocketHandlerImpl::setMaxConnections(const int maxConnections) {
+void SocketHandler::setMaxConnections(const int maxConnections) {
   this->_maxConnections = maxConnections;
 }
 
-void SocketHandlerImpl::setMaxBufferSize(const int maxBufferSize) {
+void SocketHandler::setMaxBufferSize(const int maxBufferSize) {
   this->_maxBufferSize = maxBufferSize;
 }
 
-const int &SocketHandlerImpl::getServerSocket() const { return this->_socket; }
+const int &SocketHandler::getServerSocket() const { return this->_socket; }
 
-const int &SocketHandlerImpl::getPort() const { return this->_port; }
+const int &SocketHandler::getPort() const { return this->_port; }
 
-const int &SocketHandlerImpl::getMaxConnections() const { return this->_maxConnections; }
+const int &SocketHandler::getMaxConnections() const { return this->_maxConnections; }
 
-const int &SocketHandlerImpl::getMaxBufferSize() const { return this->_maxBufferSize; }
+const int &SocketHandler::getMaxBufferSize() const { return this->_maxBufferSize; }
 
-const bool &SocketHandlerImpl::isListening() const { return this->_isListening; }
+const bool &SocketHandler::isListening() const { return this->_isListening; }

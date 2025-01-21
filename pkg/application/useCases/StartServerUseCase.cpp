@@ -1,28 +1,24 @@
-#include "StartServerUseCase.hpp"
+#include "application/useCases/StartServerUseCase.hpp"
 
-StartServerUseCase::StartServerUseCase(
-    IServerRepository *serverRepository, IServerService *serverServiceRepository)
-    : _serverRepository(serverRepository), _serverServiceRepository(serverServiceRepository) {}
+const int maxConnections = 10;
+const int maxBufferSize = 1024;
 
-StartServerUseCase::~StartServerUseCase() {}
-
-StartServerDTO
-StartServerUseCase::execute(const std::string &addr, const int &port, const std::string &password) {
-  std::vector<pollfd> fds;
-
-  this->_serverRepository->setParams(addr, port);
-  this->_serverRepository->setPassword(password);
+StartServerUseCase::StartServerUseCase(const StartServerDTO &dto) {
   try {
-    this->_serverRepository->establishConnection();
-  } catch (std::runtime_error &e) {
-    throw std::runtime_error(std::string("StartServerUseCase: ") + e.what());
+    SocketHandlerServiceLocator::init(dto.getAddress(), dto.getPort(), maxConnections, maxBufferSize);
+  } catch (const std::runtime_error &e) {
+    throw std::runtime_error(std::string("init SocketHandler: ") + e.what());
   }
-  fds.push_back({this->_serverRepository->getWatchingAddress(), POLLIN, 0});
-  std::vector<int> clientFds = this->_serverRepository->getAcceptedClients();
-  for (size_t i = 0; i < clientFds.size(); ++i) {
-    pollfd client_pollfd = {clientFds[i], POLLIN, 0};
-    fds.push_back(client_pollfd);
+}
+
+StartServerUseCase::~StartServerUseCase() {
+  SocketHandlerServiceLocator::cleanup();
+}
+
+void StartServerUseCase::execute() {
+  try {
+    SocketHandlerServiceLocator::get().initializeSocket();
+  } catch (const std::runtime_error &e) {
+    throw std::runtime_error(std::string("init socket: ") + e.what());
   }
-  this->_serverRepository->registerClientById(this->_serverRepository->getWatchingAddress());
-  return StartServerDTO(fds);
 }

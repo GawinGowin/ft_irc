@@ -1,4 +1,4 @@
-#include "Server.hpp"
+#include "domain/server/Server.hpp"
 
 Server::Server(ISocketHandler *socketHandler, const std::string &password)
     : _socketHandler(socketHandler), _srvPass(ServerPassword(password)) {}

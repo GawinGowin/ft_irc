@@ -3,23 +3,21 @@
 
 #include <stdexcept>
 
-#include "IServerRepository.hpp"
-#include "IServerService.hpp"
-#include "StartServerDTO.hpp"
+#include "application/dto/StartServerDTO.hpp"
+#include "domain/shared/ISocketHandler.hpp"
+#include "infra/service/ClientDBServiceLocator.hpp"
+#include "infra/service/SocketHandlerServiceLocator.hpp"
 
 class StartServerUseCase {
 public:
-  StartServerUseCase(IServerRepository *serverRepository, IServerService *serverServiceRepository);
+  StartServerUseCase(const StartServerDTO &dto);
   ~StartServerUseCase();
-  StartServerDTO execute(const std::string &addr, const int &port, const std::string &password);
+  void execute();
 
 private:
   StartServerUseCase();
   StartServerUseCase(const StartServerUseCase &obj);
   StartServerUseCase &operator=(const StartServerUseCase &obj);
-
-  IServerRepository *_serverRepository;
-  IServerService *_serverServiceRepository;
 };
 
 #endif /* STARTSERVERUSECASE_HPP */
