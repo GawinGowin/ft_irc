@@ -1,39 +1,29 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "IServerRepository.hpp"
-#include "ServerConnection.hpp"
-#include "ServerPassword.hpp"
-
+#include "domain/server/IServerAggregateRoot.hpp"
+#include "domain/server/ServerPassword.hpp"
+#include "shared/ISocketHandler.hpp"
 #include <algorithm>
 #include <vector>
 
-class Server : virtual public IServerRepository {
+class Server : virtual public IServerAggregateRoot {
 public:
   // Server(const std::string &addr, const int &port, const int &buf_size);
-  Server();
+  Server(ISocketHandler *socketHandler, const std::string &password);
   ~Server();
 
-  void establishConnection();
-  void setParams(const std::string &addr, const int &port);
-  void setPassword(const std::string &password);
   bool isValidPassword(const std::string &password);
 
-  void registerClientById(const int &clientId);
-  void deleteClientById(const int &clientId);
+  const std::string &getPasswordAsHash() const;
 
-  const std::vector<int> &getAcceptedClients() const;
-  const int &getWatchingAddress() const;
-  const int &getClientSocket() const;
-  const struct sockaddr_in &getAssignedAddress() const;
+  const int &getServerSocket() const;
+  const bool &isListening() const;
 
 private:
-  std::string _addr;
-  int _port;
-  // int _buf_size;
-  const ServerPassword *_srvPass;
-  ServerConnection *_srvConn;
-  std::vector<int> _clientFds;
+  const ServerPassword _srvPass;
+
+  ISocketHandler *_socketHandler;
 
   Server(const Server &obj);
   Server &operator=(const Server &obj);

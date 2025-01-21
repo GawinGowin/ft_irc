@@ -1,72 +1,16 @@
 #include "Server.hpp"
 
-Server::Server() : _addr(std::string()), _port(0), _clientFds(std::vector<int>()) {
-  this->_srvPass = NULL;
-  this->_srvConn = NULL;
-}
+Server::Server(ISocketHandler *socketHandler, const std::string &password)
+    : _socketHandler(socketHandler), _srvPass(ServerPassword(password)) {}
 
-Server::~Server() {
-  if (this->_srvPass != NULL) {
-    delete this->_srvPass;
-  }
-  if (this->_srvConn != NULL) {
-    delete this->_srvConn;
-  }
-}
-
-void Server::establishConnection() {
-  try {
-    this->_srvConn = new ServerConnection(this->_addr, this->_port);
-  } catch (std::runtime_error &e) {
-    throw std::runtime_error(std::string("Server: ") + e.what());
-  }
-}
-
-void Server::setParams(const std::string &addr, const int &port) {
-  this->_addr = addr;
-  this->_port = port;
-}
-
-void Server::setPassword(const std::string &password) {
-  if (this->_srvPass != NULL) {
-    delete this->_srvPass;
-  }
-  this->_srvPass = new ServerPassword(password);
-}
+Server::~Server() {}
 
 bool Server::isValidPassword(const std::string &password) {
-  if (this->_srvPass == NULL) {
-    return false;
-  }
-  return ServerPassword(password) == *(this->_srvPass);
+  return ServerPassword(password) == this->_srvPass;
 }
 
-void Server::registerClientById(const int &clientId) {
-  std::vector<int>::iterator it;
-  it = std::find(this->_clientFds.begin(), this->_clientFds.end(), clientId);
-  if (it == this->_clientFds.end()) {
-    this->_clientFds.push_back(clientId);
-  } else {
-    throw std::runtime_error("Server: client already exists");
-  }
-}
+const std::string &Server::getPasswordAsHash() const { return this->_srvPass.getHash(); }
 
-void Server::deleteClientById(const int &clientId) {
-  std::vector<int>::iterator it;
-  it = std::find(this->_clientFds.begin(), this->_clientFds.end(), clientId);
-  if (it != this->_clientFds.end()) {
-    this->_clientFds.erase(it);
-  } else {
-    throw std::runtime_error("Server: client does not exist");
-  }
-}
+const int &Server::getServerSocket() const { return this->_socketHandler->getServerSocket(); }
 
-const std::vector<int> &Server::getAcceptedClients() const { return this->_clientFds; };
-
-const int &Server::getWatchingAddress() const { return this->_srvConn->getWatchingAddress(); }
-
-const int &Server::getClientSocket() const { return this->_srvConn->getClientSocket(); }
-
-const struct sockaddr_in &Server::getAssignedAddress() const {
-  return this->_srvConn->getAssignedAddress();
-}
+const bool &Server::isListening() const { return this->_socketHandler->isListening(); }

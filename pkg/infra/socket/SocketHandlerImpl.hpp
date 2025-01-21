@@ -23,6 +23,7 @@ public:
   void setPort(const int port);
   void setMaxConnections(const int maxConnections);
   void setMaxBufferSize(const int maxBufferSize);
+  const int &getServerSocket() const;
   const int &getPort() const;
   const int &getMaxConnections() const;
   const int &getMaxBufferSize() const;

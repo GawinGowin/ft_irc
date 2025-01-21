@@ -14,6 +14,7 @@ public:
   virtual void sendMsg(const std::string &message, int &targetSocket) = 0;
   virtual std::string receiveMsg(int &targetSocket) = 0;
 
+  virtual const int &getServerSocket() const = 0;
   virtual void setPort(const int port) = 0;
   virtual void setMaxConnections(const int maxConnections) = 0;
   virtual void setMaxBufferSize(const int maxBufferSize) = 0;

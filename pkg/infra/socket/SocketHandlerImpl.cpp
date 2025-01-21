@@ -86,6 +86,8 @@ void SocketHandlerImpl::setMaxBufferSize(const int maxBufferSize) {
   this->_maxBufferSize = maxBufferSize;
 }
 
+const int &SocketHandlerImpl::getServerSocket() const { return this->_socket; }
+
 const int &SocketHandlerImpl::getPort() const { return this->_port; }
 
 const int &SocketHandlerImpl::getMaxConnections() const { return this->_maxConnections; }

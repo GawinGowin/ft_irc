@@ -15,6 +15,7 @@ public:
   ServerPassword &operator=(const ServerPassword &obj);
 
   bool operator==(const ServerPassword &other) const;
+  std::string getHash() const;
 
 private:
   ServerPassword();
