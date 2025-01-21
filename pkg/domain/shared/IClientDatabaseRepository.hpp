@@ -1,7 +1,7 @@
 #ifndef ICLIENTDATABASEREPOSITORY_HPP
 #define ICLIENTDATABASEREPOSITORY_HPP
 
-#include "Client.hpp"
+#include "domain/client/Client.hpp"
 #include <vector>
 
 class IClientDatabaseRepository {

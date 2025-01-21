@@ -2,11 +2,11 @@ include(GoogleTest)
 
 # ..:: SampleTest ::..
 add_executable(SampleTest 
- ${CMAKE_CURRENT_SOURCE_DIR}/pkg/test_sample.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/test_sample.cpp
 )
 target_link_libraries(SampleTest testftirc gtest_main)
 target_include_directories(SampleTest PRIVATE 
-  ${CMAKE_SOURCE_DIR}/pkg/application/
+  ${CMAKE_SOURCE_DIR}/pkg
   ${gtest_SOURCE_DIR}
 )
 

@@ -1,4 +1,4 @@
-#include "InmemoryClientDatabase.hpp"
+#include "infra/database/InmemoryClientDatabase.hpp"
 
 InmemoryClientDatabase::InmemoryClientDatabase(): _clients(std::vector<Client>()) {}
 

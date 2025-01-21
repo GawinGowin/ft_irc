@@ -1,4 +1,3 @@
-
-#include "sample.hpp"
+#include "application/sample.hpp"
 
 int add(int a, int b) { return a + b; }

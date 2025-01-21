@@ -11,7 +11,7 @@ add_library(testftirc ${SOURCES})
 
 target_include_directories(
   testftirc
-  PRIVATE ${CMAKE_SOURCE_DIR}/pkg/application/
+  PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
 )
 
 ## Link with necessary libraries
@@ -30,4 +30,4 @@ FetchContent_MakeAvailable(googletest)
 FetchContent_GetProperties(googletest)
 
 enable_testing()
-add_subdirectory(tests)
+add_subdirectory(pkg/tests)

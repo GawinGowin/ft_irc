@@ -1,7 +1,4 @@
-#include "IServerRepository.hpp"
-#include "MonitorSocketEventsUseCase.hpp"
-#include "ServerFactory.hpp"
-#include "StartServerUseCase.hpp"
+#include "presentation/entrypoint.hpp"
 
 void entrypoint(int argc, char **argv) {
   // TODO: 以下のコードは仮実装。適当なusecase、もしくは関数でいい感じにする
@@ -16,7 +13,7 @@ void entrypoint(int argc, char **argv) {
   StartServerUseCase startServerUseCase(server, serverService);
   try {
     startServerUseCase.execute(addr, port, password);
-  } catch (const std::runtime_error &e){
+  } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("Failed to start server: ") + e.what());
   }
   MonitorSocketEventsUseCase monitorSocketEventsUseCase(server);

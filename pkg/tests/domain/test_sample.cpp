@@ -1,4 +1,4 @@
-#include "sample.hpp"
+#include "application/sample.hpp"
 #include <gtest/gtest.h>
 
 struct TestData {
