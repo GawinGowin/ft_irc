@@ -3,8 +3,13 @@
 
 #include "IClientRepository.hpp"
 
-class Clinet: virtual public IClientRepository {
-
+class Client : virtual public IClientRepository {
+  public:
+    Client();
+    ~Client();
+    const int &getId() const;
+  private:
+    int _id;
 };
 
 #endif /* CLIENT_HPP */
