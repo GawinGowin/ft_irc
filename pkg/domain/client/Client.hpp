@@ -11,10 +11,12 @@ public:
   Client &operator=(const Client &other);
 
   const int &getId() const;
-  bool operator==(const Client &other) const { return this->_id == other._id; }
+  const int &getSocketFd() const;
+  bool operator==(const Client &other) const;
 
 private:
   int _id;
+  int _socketFd;
 };
 
 #endif /* CLIENT_HPP */

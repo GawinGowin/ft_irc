@@ -3,7 +3,6 @@
 
 #include <poll.h>
 #include <string>
-#include <vector>
 
 class ISocketHandler {
 public:
@@ -11,7 +10,7 @@ public:
 
   virtual void initializeSocket() = 0;
 
-  virtual void createPoll(std::vector<pollfd> &poll_fds) = 0;
+  virtual void createPoll(pollfd *fds, nfds_t nfds) = 0;
 
   virtual int acceptConnection() = 0;
   virtual void closeConnection(int &targetSocket) = 0;

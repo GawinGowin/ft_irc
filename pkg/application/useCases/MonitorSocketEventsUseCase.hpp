@@ -8,6 +8,7 @@
 class MonitorSocketEventsUseCase {
 public:
   MonitorSocketEventsUseCase();
+  ~MonitorSocketEventsUseCase();
   void monitor();
 
 private:

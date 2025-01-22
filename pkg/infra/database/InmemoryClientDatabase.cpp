@@ -1,6 +1,6 @@
 #include "infra/database/InmemoryClientDatabase.hpp"
 
-InmemoryClientDatabase::InmemoryClientDatabase(): _clients(std::vector<IClientAggregateRoot>()) {}
+InmemoryClientDatabase::InmemoryClientDatabase(): _clients(std::vector<IClientAggregateRoot>()), _cachedPollfds(std::vector<pollfd>()), _isPollfdsCached(false) {}
 
 InmemoryClientDatabase::~InmemoryClientDatabase() {}
 
@@ -11,15 +11,31 @@ InmemoryClientDatabase::InmemoryClientDatabase(const InmemoryClientDatabase &oth
 InmemoryClientDatabase &InmemoryClientDatabase::operator=(const InmemoryClientDatabase &other) {
   if (this != &other) {
     this->_clients = other._clients;
+    this->_cachedPollfds = other._cachedPollfds;
+    this->_isPollfdsCached = other._isPollfdsCached;
   }
 }
 
 void InmemoryClientDatabase::add(const IClientAggregateRoot &client) {
   this->_clients.push_back(client);
+  this->_isPollfdsCached = false;
 }
 
 const std::vector<IClientAggregateRoot> &InmemoryClientDatabase::list() {
   return this->_clients;
+}
+
+const std::vector<pollfd> &InmemoryClientDatabase::listPollfds() {
+  if (this->_isPollfdsCached) {
+    return this->_cachedPollfds;
+  }
+  this->_cachedPollfds.clear();
+  std::vector<IClientAggregateRoot>::const_iterator it;
+  for (it = this->_clients.begin(); it != this->_clients.end(); ++it) {
+      this->_cachedPollfds.push_back({(*it).getSocketFd(), POLLIN, 0});
+  }
+  this->_isPollfdsCached = true;
+  return this->_cachedPollfds;
 }
 
 const IClientAggregateRoot &InmemoryClientDatabase::getById(const int id) {
@@ -40,6 +56,7 @@ void InmemoryClientDatabase::update(const int id, const IClientAggregateRoot &ne
       return ;
     }
   }
+  this->_isPollfdsCached = false;
   throw std::runtime_error("Not found");
 }
 
@@ -50,5 +67,6 @@ void InmemoryClientDatabase::remove(const IClientAggregateRoot &client) {
     this->_clients.erase(it);
     return;
   }
+  this->_isPollfdsCached = false;
   throw std::runtime_error("Not found");
 }

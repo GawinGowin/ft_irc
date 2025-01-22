@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
+#include <poll.h>
 
 class InmemoryClientDatabase : virtual public IClientRepository {
 public:
@@ -17,12 +18,15 @@ public:
 
   void add(const IClientAggregateRoot &client);
   const std::vector<IClientAggregateRoot> &list();
+  const std::vector<pollfd> &listPollfds();
   const IClientAggregateRoot &getById(const int id);
   void update(const int id, const IClientAggregateRoot &newData);
   void remove(const IClientAggregateRoot &client);
 
 private:
   std::vector<IClientAggregateRoot> _clients;
+  std::vector<pollfd> _cachedPollfds;
+  bool _isPollfdsCached;
 };
 
 #endif /* INMEMORYCLIENTDATABASE_HPP */

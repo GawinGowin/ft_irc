@@ -52,11 +52,11 @@ void SocketHandler::initializeSocket() {
   this->_isListening = true;
 }
 
-void SocketHandler::createPoll(std::vector<pollfd> &poll_fds) {
+void SocketHandler::createPoll(pollfd *fds, nfds_t nfds) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
-  if (poll(poll_fds.data(), poll_fds.size(), -1) < 0) {
+  if (poll(fds, nfds, -1) < 0) {
     throw std::runtime_error("poll failed");
   }
 }

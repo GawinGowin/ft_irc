@@ -8,7 +8,6 @@
 #include <string>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <vector>
 
 class SocketHandler : public virtual ISocketHandler {
 public:
@@ -20,7 +19,7 @@ public:
 
   void initializeSocket();
 
-  void createPoll(std::vector<pollfd> &poll_fds);
+  void createPoll(pollfd *fds, nfds_t nfds);
 
   int acceptConnection();
   void closeConnection(int &targetSocket);
