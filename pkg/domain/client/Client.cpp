@@ -13,6 +13,11 @@ Client &Client::operator=(const Client &other) {
     this->_id = other._id;
     this->_socketFd = other._socketFd;
   }
+  return *this;
+}
+
+Client *Client::clone() const {
+  return new Client(*this);
 }
 
 const int &Client::getId() const { return this->_id; }

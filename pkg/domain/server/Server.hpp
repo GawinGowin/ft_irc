@@ -3,7 +3,7 @@
 
 #include "domain/server/IServerAggregateRoot.hpp"
 #include "domain/server/ServerPassword.hpp"
-#include "shared/ISocketHandler.hpp"
+#include "domain/shared/ISocketHandler.hpp"
 #include <algorithm>
 #include <vector>
 
@@ -15,15 +15,14 @@ public:
 
   bool isValidPassword(const std::string &password);
 
-  const std::string &getPasswordAsHash() const;
+  std::string getPasswordAsHash();
 
   const int &getServerSocket() const;
   const bool &isListening() const;
 
 private:
-  const ServerPassword _srvPass;
-
   ISocketHandler *_socketHandler;
+  const ServerPassword _srvPass;
 
   Server(const Server &obj);
   Server &operator=(const Server &obj);

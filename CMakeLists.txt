@@ -6,7 +6,8 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
 
 ## Sources
-file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/pkg/**/*.cpp")
+file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/pkg/**/*.cpp")
+message(STATUS "SOURCES: ${SOURCES}")
 add_library(testftirc ${SOURCES}) 
 
 target_include_directories(

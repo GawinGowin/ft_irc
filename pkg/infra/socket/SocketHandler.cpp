@@ -2,8 +2,8 @@
 
 SocketHandler::SocketHandler(
     const std::string address, const int port, const int maxConnections, const int maxBufferSize)
-    : _socket(-1), _port(port), _maxConnections(maxConnections), _maxBufferSize(maxBufferSize),
-      _isListening(false), _currentConnections(0) {
+    : _socket(-1), _port(port), _maxBufferSize(maxBufferSize), _maxConnections(maxConnections),
+      _currentConnections(0), _isListening(false) {
   this->_addr.sin_family = AF_INET;
   this->_addr.sin_port = htons(port);
   this->_addr.sin_addr.s_addr = inet_addr(address.c_str());

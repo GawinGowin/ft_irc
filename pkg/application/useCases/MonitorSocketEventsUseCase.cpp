@@ -25,6 +25,7 @@ MonitorSocketEventDTO MonitorSocketEventsUseCase::monitor() {
         }
       }
     }
+    return MonitorSocketEventDTO(MonitorSocketEventDTO::Error, 0);
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("Monitoring Socket: ") + e.what());
   }

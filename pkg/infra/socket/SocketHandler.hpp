@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-class SocketHandler : public virtual ISocketHandler {
+class SocketHandler : virtual public ISocketHandler {
 public:
   SocketHandler(
       std::string address, const int port, const int maxConnections, const int maxBufferSize);
@@ -26,7 +26,6 @@ public:
   void sendMsg(const std::string &message, int &targetSocket);
   std::string receiveMsg(int &targetSocket);
 
-  void setPort(const int port);
   void setMaxConnections(const int maxConnections);
   void setMaxBufferSize(const int maxBufferSize);
   const int &getServerSocket() const;
@@ -42,10 +41,10 @@ private:
   int _maxBufferSize;
   int _maxConnections;
   int _currentConnections;
+  bool _isListening;
 
   pollfd _serverPollfd;
   struct sockaddr_in _addr;
-  bool _isListening;
 
   SocketHandler();
 };

@@ -6,7 +6,7 @@
 
 class ISocketHandler {
 public:
-  virtual ~ISocketHandler() = 0;
+  virtual ~ISocketHandler() {};
 
   virtual void initializeSocket() = 0;
 
@@ -18,7 +18,6 @@ public:
   virtual std::string receiveMsg(int &targetSocket) = 0;
 
   virtual const int &getServerSocket() const = 0;
-  virtual void setPort(const int port) = 0;
   virtual void setMaxConnections(const int maxConnections) = 0;
   virtual void setMaxBufferSize(const int maxBufferSize) = 0;
   virtual const int &getPort() const = 0;

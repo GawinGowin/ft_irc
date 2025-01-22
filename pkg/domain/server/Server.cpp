@@ -9,7 +9,7 @@ bool Server::isValidPassword(const std::string &password) {
   return ServerPassword(password) == this->_srvPass;
 }
 
-const std::string &Server::getPasswordAsHash() const { return this->_srvPass.getHash(); }
+std::string Server::getPasswordAsHash() { return this->_srvPass.getHash(); }
 
 const int &Server::getServerSocket() const { return this->_socketHandler->getServerSocket(); }
 

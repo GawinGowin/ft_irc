@@ -10,5 +10,17 @@ target_include_directories(SampleTest PRIVATE
   ${gtest_SOURCE_DIR}
 )
 
+#..:: UsecasesTest ::..
+add_executable(UsecasesTest 
+ ${CMAKE_CURRENT_SOURCE_DIR}/application/useCases/test_main.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/application/useCases/test_StartServerUseCase.cpp
+)
+target_link_libraries(UsecasesTest testftirc gtest_main)
+target_include_directories(UsecasesTest PRIVATE 
+  ${CMAKE_SOURCE_DIR}/pkg
+  ${gtest_SOURCE_DIR}
+)
+
 # ..:: GoogleTest ::..
 gtest_add_tests(TARGET SampleTest)
+gtest_add_tests(TARGET UsecasesTest)

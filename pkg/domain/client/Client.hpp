@@ -13,6 +13,8 @@ public:
   Client(const Client &other);
   Client &operator=(const Client &other);
 
+  Client *clone() const;
+
   const int &getId() const;
   const int &getSocketFd() const;
   const pollfd &getPollfd() const;

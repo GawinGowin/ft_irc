@@ -6,7 +6,7 @@
 
 class IServerAggregateRoot {
 public:
-  virtual ~IServerAggregateRoot() = 0;
+  virtual ~IServerAggregateRoot() {};
 
   virtual bool isValidPassword(const std::string &password) = 0;
 
