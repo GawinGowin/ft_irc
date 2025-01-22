@@ -12,6 +12,7 @@ Client &Client::operator=(const Client &other) {
   if (this != &other) {
     this->_id = other._id;
     this->_socketFd = other._socketFd;
+    this->_pollfd = other._pollfd;
   }
   return *this;
 }

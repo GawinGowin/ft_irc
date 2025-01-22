@@ -10,12 +10,14 @@ void entrypoint(int argc, char **argv) {
   }
   MonitorSocketEventsUseCase monitorSocketEventsUseCase;
   MonitorSocketEventDTO eventDto;
+  std::cout << "Start Listening..." << std::endl;
   while (true) {
     eventDto = monitorSocketEventsUseCase.monitor();
     // handle dto
     switch (eventDto.getEvent()) {
     case MonitorSocketEventDTO::NewConnection:
-      // handle client connected
+      AcceptConnectionUseCase::accept();
+      std::cout << "New connection" << std::endl;
       break;
     case MonitorSocketEventDTO::MessageReceived:
       // handle client disconnected

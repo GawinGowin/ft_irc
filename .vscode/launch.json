@@ -10,6 +10,7 @@
 			"args": [ "${cmake.testArgs}" ],
 			"MIMode": "gdb",
 			"miDebuggerPath": "/usr/bin/gdb",
+      "preLaunchTask": "CMake: ビルド"
 		}
   ]
 }

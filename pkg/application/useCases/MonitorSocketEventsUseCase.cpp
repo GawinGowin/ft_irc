@@ -11,8 +11,8 @@ MonitorSocketEventsUseCase::MonitorSocketEventsUseCase() {
 MonitorSocketEventsUseCase::~MonitorSocketEventsUseCase() {}
 
 MonitorSocketEventDTO MonitorSocketEventsUseCase::monitor() {
-  InmemoryClientDatabase db = InmemoryClientDBServiceLocator::get();
-  std::vector<pollfd> fds = db.listPollfds();
+  InmemoryClientDatabase *db = &InmemoryClientDBServiceLocator::get();
+  std::vector<pollfd> fds = db->listPollfds();
   nfds_t nfds = fds.size();
   try {
     this->_socketHandler->createPoll(fds.data(), nfds);

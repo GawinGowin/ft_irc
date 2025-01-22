@@ -10,7 +10,7 @@ public:
     };
     MonitorSocketEventDTO(): _event(NewConnection), _connectionFd(0) {};
     MonitorSocketEventDTO(const EventType type, const int connectionFd): _event(type), _connectionFd(connectionFd) {};
-    ~MonitorSocketEventDTO();
+    ~MonitorSocketEventDTO() {};
     MonitorSocketEventDTO(const MonitorSocketEventDTO &obj): _event(obj._event), _connectionFd(obj._connectionFd) {};
     MonitorSocketEventDTO &operator=(const MonitorSocketEventDTO &obj) {
         this->_event = obj._event;
