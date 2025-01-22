@@ -1,6 +1,8 @@
 #ifndef ICLIENTAGGREGATEROOT_HPP
 #define ICLIENTAGGREGATEROOT_HPP
 
+#include <poll.h>
+
 class IClientAggregateRoot {
   public: 
     virtual ~IClientAggregateRoot() = 0;

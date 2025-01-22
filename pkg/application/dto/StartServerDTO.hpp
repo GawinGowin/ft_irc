@@ -19,8 +19,9 @@ public:
   const std::string getAddress() const {
     return "127.0.0.1"; // TODO: Parse from _argv
   }
-  const int getPort() const {
-    return 8080; // TODO: Parse from _argv
+  int getPort() const{
+    int port = 8080;
+    return port; // TODO: Parse from _argv
   }
 
 private:
