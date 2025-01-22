@@ -1,13 +1,14 @@
 #ifndef SERVERPASSWORD_HPP
 #define SERVERPASSWORD_HPP
 
+#include "domain/server/IServerPasswordAggregateRoot.hpp"
 #include <iomanip>
 #include <iostream>
 #include <openssl/sha.h>
 #include <sstream>
 #include <string>
 
-class ServerPassword {
+class ServerPassword : virtual public IServerPasswordAggregateRoot {
 public:
   ServerPassword(const std::string &password);
   ServerPassword(const ServerPassword &obj);

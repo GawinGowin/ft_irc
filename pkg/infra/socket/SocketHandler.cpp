@@ -1,9 +1,13 @@
 #include "infra/socket/SocketHandler.hpp"
 
 SocketHandler::SocketHandler(
-    const std::string address, const int port, const int maxConnections, const int maxBufferSize)
+    const std::string address,
+    const int port,
+    const int maxConnections,
+    const int maxBufferSize,
+    IServerPasswordAggregateRoot *password)
     : _socket(-1), _port(port), _maxBufferSize(maxBufferSize), _maxConnections(maxConnections),
-      _currentConnections(0), _isListening(false) {
+      _currentConnections(0), _isListening(false), _password(password) {
   this->_addr.sin_family = AF_INET;
   this->_addr.sin_port = htons(port);
   this->_addr.sin_addr.s_addr = inet_addr(address.c_str());
@@ -14,6 +18,10 @@ SocketHandler::~SocketHandler() {
   if (this->_socket != -1) {
     close(this->_socket);
     this->_socket = -1;
+  }
+  if (this->_password != NULL) {
+    delete this->_password;
+    this->_password = NULL;
   }
 }
 

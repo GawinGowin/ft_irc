@@ -16,17 +16,17 @@ public:
     return *this;
   }
 
-  const std::string getAddress() const {
-    return "127.0.0.1"; // TODO: Parse from _argv
-  }
-  int getPort() const{
-    int port = 8080;
-    return port; // TODO: Parse from _argv
-  }
+  const std::string &getAddress() const { return this->_address; }
+  const int &getPort() const { return this->_port; }
+  const std::string &getPassword() const { return this->_password; }
 
 private:
   int _argc;
   char **_argv;
+
+  const std::string _address = "127.0.0.1";
+  const int _port = 8080;
+  const std::string _password = "password";
 };
 
 #endif /* STARTSERVERDTO_HPP */

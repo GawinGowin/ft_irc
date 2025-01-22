@@ -16,7 +16,7 @@ target_include_directories(
 )
 
 ## Link with necessary libraries
-set(LIBRARIES pthread)
+set(LIBRARIES pthread crypto ssl)
 target_link_libraries(testftirc ${LIBRARIES})
 
 ## install gtest

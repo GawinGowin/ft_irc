@@ -1,6 +1,6 @@
 #ifndef SOCKETHANDLER_HPP
 #define SOCKETHANDLER_HPP
-
+#include "domain/server/IServerPasswordAggregateRoot.hpp"
 #include "domain/shared/ISocketHandler.hpp"
 #include <arpa/inet.h>
 #include <poll.h>
@@ -12,7 +12,11 @@
 class SocketHandler : virtual public ISocketHandler {
 public:
   SocketHandler(
-      std::string address, const int port, const int maxConnections, const int maxBufferSize);
+      std::string address,
+      const int port,
+      const int maxConnections,
+      const int maxBufferSize,
+      IServerPasswordAggregateRoot *password);
   ~SocketHandler();
   SocketHandler(const SocketHandler &other);
   SocketHandler &operator=(const SocketHandler &other);
@@ -45,6 +49,8 @@ private:
 
   pollfd _serverPollfd;
   struct sockaddr_in _addr;
+
+  IServerPasswordAggregateRoot *_password;
 
   SocketHandler();
 };
