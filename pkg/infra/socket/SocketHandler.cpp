@@ -7,6 +7,7 @@ SocketHandler::SocketHandler(
   this->_addr.sin_family = AF_INET;
   this->_addr.sin_port = htons(port);
   this->_addr.sin_addr.s_addr = inet_addr(address.c_str());
+  this->_serverPollfd = {0, 0, 0};
 }
 
 SocketHandler::~SocketHandler() {
@@ -16,9 +17,7 @@ SocketHandler::~SocketHandler() {
   }
 }
 
-SocketHandler::SocketHandler(const SocketHandler &other) {
-  *this = other;
-}
+SocketHandler::SocketHandler(const SocketHandler &other) { *this = other; }
 
 SocketHandler &SocketHandler::operator=(const SocketHandler &other) {
   if (this != &other) {
@@ -31,6 +30,9 @@ SocketHandler &SocketHandler::operator=(const SocketHandler &other) {
     this->_addr.sin_family = other._addr.sin_family;
     this->_addr.sin_port = other._addr.sin_port;
     this->_addr.sin_addr.s_addr = other._addr.sin_addr.s_addr;
+    this->_serverPollfd.events = other._serverPollfd.events;
+    this->_serverPollfd.revents = other._serverPollfd.revents;
+    this->_serverPollfd.fd = other._serverPollfd.fd;
   }
   return *this;
 }
@@ -46,7 +48,17 @@ void SocketHandler::initializeSocket() {
   if (listen(this->_socket, SOMAXCONN) == -1) {
     throw std::runtime_error("listen failed");
   }
+  this->_serverPollfd = {this->_socket, POLLIN, 0};
   this->_isListening = true;
+}
+
+void SocketHandler::createPoll(std::vector<pollfd> &poll_fds) {
+  if (!this->_isListening) {
+    throw std::runtime_error("socket is not listening");
+  }
+  if (poll(poll_fds.data(), poll_fds.size(), -1) < 0) {
+    throw std::runtime_error("poll failed");
+  }
 }
 
 void SocketHandler::closeConnection(int &targetSocket) {

@@ -8,11 +8,9 @@
 class MonitorSocketEventsUseCase {
 public:
   MonitorSocketEventsUseCase();
-
   void monitor();
 
 private:
-  MonitorSocketEventsUseCase();
   MonitorSocketEventsUseCase(const MonitorSocketEventsUseCase &obj);
   MonitorSocketEventsUseCase &operator=(const MonitorSocketEventsUseCase &obj);
 };

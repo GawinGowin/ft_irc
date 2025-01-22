@@ -3,10 +3,12 @@
 
 #include "domain/shared/ISocketHandler.hpp"
 #include <arpa/inet.h>
+#include <poll.h>
 #include <stdexcept>
 #include <string>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <vector>
 
 class SocketHandler : public virtual ISocketHandler {
 public:
@@ -17,6 +19,8 @@ public:
   SocketHandler &operator=(const SocketHandler &other);
 
   void initializeSocket();
+
+  void createPoll(std::vector<pollfd> &poll_fds);
 
   int acceptConnection();
   void closeConnection(int &targetSocket);
@@ -39,6 +43,7 @@ private:
   int _maxConnections;
   int _currentConnections;
 
+  pollfd _serverPollfd;
   struct sockaddr_in _addr;
   bool _isListening;
 

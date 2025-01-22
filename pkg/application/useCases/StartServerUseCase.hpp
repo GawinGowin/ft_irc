@@ -5,8 +5,8 @@
 
 #include "application/dto/StartServerDTO.hpp"
 #include "domain/shared/ISocketHandler.hpp"
-#include "infra/service/ClientDBServiceLocator.hpp"
-#include "infra/service/SocketHandlerServiceLocator.hpp"
+#include "infra/database/InmemoryClientDBServiceLocator.hpp"
+#include "infra/socket/SocketHandlerServiceLocator.hpp"
 
 class StartServerUseCase {
 public:

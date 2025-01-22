@@ -1,13 +1,17 @@
 #ifndef ISOCKETHANDLER_HPP
 #define ISOCKETHANDLER_HPP
 
+#include <poll.h>
 #include <string>
+#include <vector>
 
 class ISocketHandler {
 public:
   virtual ~ISocketHandler() = 0;
 
   virtual void initializeSocket() = 0;
+
+  virtual void createPoll(std::vector<pollfd> &poll_fds) = 0;
 
   virtual int acceptConnection() = 0;
   virtual void closeConnection(int &targetSocket) = 0;
