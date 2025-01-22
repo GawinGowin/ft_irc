@@ -10,12 +10,12 @@ void entrypoint(int argc, char **argv) {
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("Failed to start server: ") + e.what());
   }
-  MonitorSocketEventsUseCase monitorSocketEventsUseCase(server);
-  MonitorSocketEventDTO dto;
+  MonitorSocketEventsUseCase monitorSocketEventsUseCase;
+  MonitorSocketEventDTO eventDto;
   while (true) {
-    dto = monitorSocketEventsUseCase.monitor();
+    eventDto = monitorSocketEventsUseCase.monitor();
     // handle dto
-    switch (dto.getEvent()) {
+    switch (eventDto.getEvent()) {
     case MonitorSocketEventDTO::NewConnection:
       // handle client connected
       break;
@@ -26,5 +26,4 @@ void entrypoint(int argc, char **argv) {
       throw std::runtime_error("Failed to monitor socket events");
     }
   }
-
 }
