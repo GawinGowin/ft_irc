@@ -105,7 +105,7 @@ void SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
   }
 }
 
-std::string SocketHandler::receiveMsg(int &targetSocket) {
+std::string SocketHandler::receiveMsg(const int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }

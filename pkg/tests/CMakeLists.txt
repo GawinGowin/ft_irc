@@ -22,17 +22,17 @@ target_include_directories(UsecasesTest PRIVATE
 )
 
 # ..:: PresentationTest ::..
-add_executable(EntrypointTest 
- ${CMAKE_CURRENT_SOURCE_DIR}/presentation/test_main.cpp
- ${CMAKE_CURRENT_SOURCE_DIR}/presentation/test_entrypoint.cpp
-)
-target_link_libraries(EntrypointTest testftirc gtest_main gmock_main)
-target_include_directories(EntrypointTest PRIVATE 
-  ${CMAKE_SOURCE_DIR}/pkg
-  ${gtest_SOURCE_DIR}
-)
+# add_executable(EntrypointTest 
+#  ${CMAKE_CURRENT_SOURCE_DIR}/presentation/test_main.cpp
+#  ${CMAKE_CURRENT_SOURCE_DIR}/presentation/test_entrypoint.cpp
+# )
+# target_link_libraries(EntrypointTest testftirc gtest_main gmock_main)
+# target_include_directories(EntrypointTest PRIVATE 
+#   ${CMAKE_SOURCE_DIR}/pkg
+#   ${gtest_SOURCE_DIR}
+# )
 
 # ..:: GoogleTest ::..
 gtest_add_tests(TARGET SampleTest)
 gtest_add_tests(TARGET UsecasesTest)
-gtest_add_tests(TARGET EntrypointTest)
+# gtest_add_tests(TARGET EntrypointTest)

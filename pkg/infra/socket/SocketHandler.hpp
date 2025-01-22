@@ -28,7 +28,7 @@ public:
   int acceptConnection();
   void closeConnection(int &targetSocket);
   void sendMsg(const std::string &message, int &targetSocket);
-  std::string receiveMsg(int &targetSocket);
+  std::string receiveMsg(const int &targetSocket);
 
   void setMaxConnections(const int maxConnections);
   void setMaxBufferSize(const int maxBufferSize);

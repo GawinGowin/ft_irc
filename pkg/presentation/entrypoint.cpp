@@ -14,13 +14,15 @@ void entrypoint(int argc, char **argv) {
   while (true) {
     eventDto = monitorSocketEventsUseCase.monitor();
     // handle dto
+    std::string msg;
     switch (eventDto.getEvent()) {
     case MonitorSocketEventDTO::NewConnection:
       AcceptConnectionUseCase::accept();
       std::cout << "New connection" << std::endl;
       break;
     case MonitorSocketEventDTO::MessageReceived:
-      // handle client disconnected
+      msg = RecieveMsgUseCase::recieve(eventDto);
+      std::cout << "Message received: " << msg << std::endl;
       break;
     default:
       throw std::runtime_error("Failed to monitor socket events");

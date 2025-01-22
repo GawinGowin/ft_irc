@@ -15,7 +15,7 @@ public:
   virtual int acceptConnection() = 0;
   virtual void closeConnection(int &targetSocket) = 0;
   virtual void sendMsg(const std::string &message, int &targetSocket) = 0;
-  virtual std::string receiveMsg(int &targetSocket) = 0;
+  virtual std::string receiveMsg(const int &targetSocket) = 0;
 
   virtual const int &getServerSocket() const = 0;
   virtual void setMaxConnections(const int maxConnections) = 0;
