@@ -32,7 +32,7 @@ const std::vector<pollfd> &InmemoryClientDatabase::listPollfds() {
   this->_cachedPollfds.clear();
   std::vector<IClientAggregateRoot>::const_iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); ++it) {
-      this->_cachedPollfds.push_back({(*it).getSocketFd(), POLLIN, 0});
+      this->_cachedPollfds.push_back((*it).getPollfd());
   }
   this->_isPollfdsCached = true;
   return this->_cachedPollfds;

@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include "application/dto/StartServerDTO.hpp"
+#include "domain/client/Client.hpp"
 #include "domain/shared/ISocketHandler.hpp"
 #include "infra/database/InmemoryClientDBServiceLocator.hpp"
 #include "infra/socket/SocketHandlerServiceLocator.hpp"

@@ -126,3 +126,5 @@ const int &SocketHandler::getMaxConnections() const { return this->_maxConnectio
 const int &SocketHandler::getMaxBufferSize() const { return this->_maxBufferSize; }
 
 const bool &SocketHandler::isListening() const { return this->_isListening; }
+
+const pollfd &SocketHandler::getServerPollfd() const { return this->_serverPollfd; }

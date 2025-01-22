@@ -25,6 +25,7 @@ public:
   virtual const int &getMaxConnections() const = 0;
   virtual const int &getMaxBufferSize() const = 0;
   virtual const bool &isListening() const = 0;
+  virtual const pollfd &getServerPollfd() const = 0;
 };
 
 #endif /* ISOCKETHANDLER_HPP */

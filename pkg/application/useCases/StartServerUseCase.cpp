@@ -21,4 +21,8 @@ void StartServerUseCase::execute() {
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("init socket: ") + e.what());
   }
+  InmemoryClientDatabase db = InmemoryClientDBServiceLocator::get();
+  pollfd serverPollfd = SocketHandlerServiceLocator::get().getServerPollfd();
+  Client client(0, serverPollfd);
+  db.add(client);
 }

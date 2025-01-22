@@ -34,6 +34,7 @@ public:
   const int &getMaxConnections() const;
   const int &getMaxBufferSize() const;
   const bool &isListening() const;
+  const pollfd &getServerPollfd() const;
 
 private:
   int _socket;
