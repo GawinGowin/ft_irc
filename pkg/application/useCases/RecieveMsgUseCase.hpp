@@ -2,7 +2,7 @@
 #define RECIEVEMSGUSECASE_HPP
 
 #include "application/dto/MonitorSocketEventDTO.hpp"
-#include "infra/socket/SocketHandlerServiceLocator.hpp"
+#include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include <string>
 #include <sys/socket.h>
 

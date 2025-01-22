@@ -2,8 +2,8 @@
 #define ACCEPTCONNECTIONUSECASE_HPP
 
 #include "domain/client/Client.hpp"
-#include "infra/database/InmemoryClientDBServiceLocator.hpp"
-#include "infra/socket/SocketHandlerServiceLocator.hpp"
+#include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
+#include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include <stdexcept>
 
 class AcceptConnectionUseCase {

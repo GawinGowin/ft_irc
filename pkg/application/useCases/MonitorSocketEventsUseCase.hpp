@@ -6,9 +6,9 @@
 #include <vector>
 
 #include "application/dto/MonitorSocketEventDTO.hpp"
-#include "infra/database/InmemoryClientDBServiceLocator.hpp"
+#include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "infra/database/InmemoryClientDatabase.hpp"
-#include "infra/socket/SocketHandlerServiceLocator.hpp"
+#include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 
 class MonitorSocketEventsUseCase {
 public:

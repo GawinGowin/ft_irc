@@ -4,11 +4,11 @@
 #include <stdexcept>
 
 #include "application/dto/StartServerDTO.hpp"
+#include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
+#include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include "domain/client/Client.hpp"
 #include "domain/server/ServerPassword.hpp"
 #include "domain/shared/ISocketHandler.hpp"
-#include "infra/database/InmemoryClientDBServiceLocator.hpp"
-#include "infra/socket/SocketHandlerServiceLocator.hpp"
 
 class StartServerUseCase {
 public:
