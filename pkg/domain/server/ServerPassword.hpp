@@ -4,6 +4,7 @@
 #include "domain/server/IServerPasswordAggregateRoot.hpp"
 #include <iomanip>
 #include <iostream>
+#include <openssl/evp.h>
 #include <openssl/sha.h>
 #include <sstream>
 #include <string>

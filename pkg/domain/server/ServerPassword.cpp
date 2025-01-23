@@ -30,10 +30,26 @@ std::string ServerPassword::_toHex(const unsigned char *hash, size_t length) {
 }
 
 std::string ServerPassword::_toHash(const std::string &password) {
-  unsigned char hash[SHA256_DIGEST_LENGTH];
-  SHA256_CTX sha256;
-  SHA256_Init(&sha256);
-  SHA256_Update(&sha256, password.c_str(), password.size());
-  SHA256_Final(hash, &sha256);
-  return _toHex(hash, SHA256_DIGEST_LENGTH);
+  unsigned char hash[EVP_MAX_MD_SIZE];
+  unsigned int hashLength = 0;
+  EVP_MD_CTX *context = EVP_MD_CTX_new();
+  if (!context) {
+    throw std::runtime_error("Failed to create EVP_MD_CTX");
+  }
+  try {
+    if (EVP_DigestInit_ex(context, EVP_sha256(), nullptr) != 1) {
+      throw std::runtime_error("Failed to initialize SHA256 context");
+    }
+    if (EVP_DigestUpdate(context, password.c_str(), password.size()) != 1) {
+      throw std::runtime_error("Failed to update SHA256 hash");
+    }
+    if (EVP_DigestFinal_ex(context, hash, &hashLength) != 1) {
+      throw std::runtime_error("Failed to finalize SHA256 hash");
+    }
+    EVP_MD_CTX_free(context);
+    return _toHex(hash, hashLength);
+  } catch (...) {
+    EVP_MD_CTX_free(context);
+    throw std::runtime_error("Failed to hash password");
+  }
 }
