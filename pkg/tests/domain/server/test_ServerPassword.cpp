@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "domain/server/ServerPassword.hpp"
+#include <gtest/gtest.h>
 
 TEST(ServerPasswordTest, ConstructorTest) {
   std::string password = "test_password";
