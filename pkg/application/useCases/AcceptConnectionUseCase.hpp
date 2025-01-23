@@ -1,9 +1,9 @@
 #ifndef ACCEPTCONNECTIONUSECASE_HPP
 #define ACCEPTCONNECTIONUSECASE_HPP
 
-#include "domain/client/Client.hpp"
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
+#include "domain/client/Client.hpp"
 #include <stdexcept>
 
 class AcceptConnectionUseCase {

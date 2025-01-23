@@ -5,8 +5,8 @@
 #include "application/dto/StartServerDTO.hpp"
 #include "application/useCases/AcceptConnectionUseCase.hpp"
 #include "application/useCases/MonitorSocketEventsUseCase.hpp"
-#include "application/useCases/StartServerUseCase.hpp"
 #include "application/useCases/RecieveMsgUseCase.hpp"
+#include "application/useCases/StartServerUseCase.hpp"
 
 void entrypoint(int argc, char **argv);
 

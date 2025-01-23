@@ -19,9 +19,7 @@ bool ServerPassword::operator==(const ServerPassword &other) const {
   return _hashedPassword == other._hashedPassword;
 };
 
-std::string ServerPassword::getHash() const {
-  return this->_hashedPassword;
-}
+std::string ServerPassword::getHash() const { return this->_hashedPassword; }
 
 std::string ServerPassword::_toHex(const unsigned char *hash, size_t length) {
   std::ostringstream oss;

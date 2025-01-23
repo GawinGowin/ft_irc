@@ -2,7 +2,7 @@
 
 Client::Client() : _id(0), _socketFd(0) {}
 
-Client::Client(int id, pollfd pollfd): _id(id), _socketFd(pollfd.fd), _pollfd(pollfd) {}
+Client::Client(int id, pollfd pollfd) : _id(id), _socketFd(pollfd.fd), _pollfd(pollfd) {}
 
 Client::~Client() {}
 
@@ -17,9 +17,7 @@ Client &Client::operator=(const Client &other) {
   return *this;
 }
 
-Client *Client::clone() const {
-  return new Client(*this);
-}
+Client *Client::clone() const { return new Client(*this); }
 
 const int &Client::getId() const { return this->_id; }
 

@@ -1,9 +1,11 @@
 #include "infra/database/InmemoryClientDatabase.hpp"
 
-InmemoryClientDatabase::InmemoryClientDatabase(): _clients(std::vector<IClientAggregateRoot*>()), _cachedPollfds(std::vector<pollfd>()), _isPollfdsCached(false) {}
+InmemoryClientDatabase::InmemoryClientDatabase()
+    : _clients(std::vector<IClientAggregateRoot *>()), _cachedPollfds(std::vector<pollfd>()),
+      _isPollfdsCached(false) {}
 
 InmemoryClientDatabase::~InmemoryClientDatabase() {
-  std::vector<IClientAggregateRoot*>::iterator it;
+  std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
     delete *it;
   }
@@ -29,25 +31,23 @@ void InmemoryClientDatabase::add(const IClientAggregateRoot &client) {
   this->_isPollfdsCached = false;
 }
 
-const std::vector<IClientAggregateRoot*> &InmemoryClientDatabase::list() {
-  return this->_clients;
-}
+const std::vector<IClientAggregateRoot *> &InmemoryClientDatabase::list() { return this->_clients; }
 
 const std::vector<pollfd> &InmemoryClientDatabase::listPollfds() {
   if (this->_isPollfdsCached) {
     return this->_cachedPollfds;
   }
   this->_cachedPollfds.clear();
-  std::vector<IClientAggregateRoot*>::const_iterator it;
+  std::vector<IClientAggregateRoot *>::const_iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); ++it) {
-      this->_cachedPollfds.push_back((*it)->getPollfd());
+    this->_cachedPollfds.push_back((*it)->getPollfd());
   }
   this->_isPollfdsCached = true;
   return this->_cachedPollfds;
 }
 
 const IClientAggregateRoot &InmemoryClientDatabase::getById(const int id) {
-  std::vector<IClientAggregateRoot*>::iterator it;
+  std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
     if (id == (*it)->getId()) {
       return *(*it);
@@ -57,12 +57,12 @@ const IClientAggregateRoot &InmemoryClientDatabase::getById(const int id) {
 }
 
 void InmemoryClientDatabase::update(const int id, const IClientAggregateRoot &newData) {
-  std::vector<IClientAggregateRoot*>::iterator it;
+  std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
     if (id == (*it)->getId()) {
       delete *it;
       *it = newData.clone();
-      return ;
+      return;
     }
   }
   this->_isPollfdsCached = false;
@@ -70,13 +70,13 @@ void InmemoryClientDatabase::update(const int id, const IClientAggregateRoot &ne
 }
 
 void InmemoryClientDatabase::remove(const int id) {
-  std::vector<IClientAggregateRoot*>::iterator it;
+  std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
     if (id == (*it)->getId()) {
       delete *it;
       this->_clients.erase(it);
       this->_isPollfdsCached = false;
-      return ;
+      return;
     }
   }
   this->_isPollfdsCached = false;

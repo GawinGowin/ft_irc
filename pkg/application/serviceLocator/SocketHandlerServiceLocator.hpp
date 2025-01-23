@@ -1,20 +1,25 @@
 #ifndef SOCKETHANDLERSERVICELOCATOR_HPP
 #define SOCKETHANDLERSERVICELOCATOR_HPP
 
-#include "infra/socket/SocketHandler.hpp"
 #include "domain/server/IServerPasswordAggregateRoot.hpp"
+#include "infra/socket/SocketHandler.hpp"
 #include <stdexcept>
 
 class SocketHandlerServiceLocator {
 public:
-  static void init(std::string address, const int port, const int maxConnections, const int maxBufferSize, IServerPasswordAggregateRoot *password) {
+  static void init(
+      std::string address,
+      const int port,
+      const int maxConnections,
+      const int maxBufferSize,
+      IServerPasswordAggregateRoot *password) {
     if (_service != NULL) {
       throw std::runtime_error("already initialized");
     }
     _service = new SocketHandler(address, port, maxConnections, maxBufferSize, password);
   }
 
-  static SocketHandler& get() {
+  static SocketHandler &get() {
     if (_service == NULL) {
       throw std::runtime_error("not initialized");
     }

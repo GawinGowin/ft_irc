@@ -7,8 +7,8 @@
 
 #include "application/dto/MonitorSocketEventDTO.hpp"
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
-#include "infra/database/InmemoryClientDatabase.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
+#include "infra/database/InmemoryClientDatabase.hpp"
 
 class MonitorSocketEventsUseCase {
 public:

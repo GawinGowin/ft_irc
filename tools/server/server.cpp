@@ -2,12 +2,12 @@
 #include <iostream>
 #include <netinet/in.h>
 #include <poll.h>
+#include <stdexcept>
 #include <string.h>
 #include <string>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <vector>
-#include <stdexcept>
 
 const std::string SVR_ADDR = "127.0.0.1";
 const int SVR_PORT = 8080;
@@ -70,7 +70,7 @@ int main() {
           try {
             is_closed = communicate(poll_fds[i].fd); // 接続済のソケットでデータのやり取り
           } catch (const std::runtime_error &e) {
-            std::cerr << "Error: "<< e.what() << std::endl;
+            std::cerr << "Error: " << e.what() << std::endl;
             is_closed = 1;
           }
           if (is_closed) {
