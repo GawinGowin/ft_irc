@@ -7,7 +7,7 @@ services:
       - PGID=1000
       - TZ=Asia/Tokyo
     volumes:
-      - config:/config
+      - ./config:/config
     ports:
       - 6667:6667
     restart: unless-stopped
