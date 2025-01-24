@@ -47,7 +47,7 @@ clean:
 .PHONY: fclean
 fclean: clean
 	rm -f $(NAME) $(DNAME)
-	rm -rf ../build/
+	rm -rf $(BUILD_DIR)
 
 .PHONY: re
 re: fclean all
@@ -63,4 +63,4 @@ build:
 
 .PHONY: test
 test: build
-	cd build/pkg/tests && make test
+	cd $(BUILD_DIR)/pkg/tests && make test
