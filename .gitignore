@@ -37,3 +37,6 @@ tools/bircd/bircd
 
 build/
 install_ngircd.sh
+ft_irc
+!cmd/ft_irc/
+ft_irc_debug
