@@ -23,14 +23,15 @@ target_include_directories(DomainTest PRIVATE
 )
 
 #..:: InfrastructureTest ::..
-# add_executable(InfrastructureTest 
-#  ${CMAKE_CURRENT_SOURCE_DIR}/infra/test_main.cpp
-# )
-# target_link_libraries(InfrastructureTest testftirc gtest_main gmock_main)
-# target_include_directories(InfrastructureTest PRIVATE 
-#   ${CMAKE_SOURCE_DIR}/pkg
-#   ${gtest_SOURCE_DIR}
-# )
+add_executable(InfrastructureTest 
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryClientDatabase.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/test_main.cpp
+)
+target_link_libraries(InfrastructureTest testftirc gtest_main gmock_main)
+target_include_directories(InfrastructureTest PRIVATE 
+  ${CMAKE_SOURCE_DIR}/pkg
+  ${gtest_SOURCE_DIR}
+)
 
 # ..:: PresentationTest ::..
 # add_executable(PresentationTest 
@@ -46,5 +47,5 @@ target_include_directories(DomainTest PRIVATE
 # ..:: GoogleTest ::..
 gtest_add_tests(TARGET DomainTest)
 gtest_add_tests(TARGET ApplicationTest)
-# gtest_add_tests(TARGET InfrastructureTest)
+gtest_add_tests(TARGET InfrastructureTest)
 # gtest_add_tests(TARGET PresentationTest)
