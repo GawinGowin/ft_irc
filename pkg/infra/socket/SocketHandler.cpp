@@ -11,7 +11,9 @@ SocketHandler::SocketHandler(
   this->_addr.sin_family = AF_INET;
   this->_addr.sin_port = htons(port);
   this->_addr.sin_addr.s_addr = inet_addr(address.c_str());
-  this->_serverPollfd = {0, 0, 0};
+  this->_serverPollfd.fd = 0;
+  this->_serverPollfd.events = 0;
+  this->_serverPollfd.revents = 0;
 }
 
 SocketHandler::~SocketHandler() {
@@ -56,7 +58,9 @@ void SocketHandler::initializeSocket() {
   if (listen(this->_socket, SOMAXCONN) == -1) {
     throw std::runtime_error("listen failed");
   }
-  this->_serverPollfd = {this->_socket, POLLIN, 0};
+  this->_serverPollfd.fd = this->_socket;
+  this->_serverPollfd.events = POLLIN;
+  this->_serverPollfd.revents = 0;
   this->_isListening = true;
 }
 

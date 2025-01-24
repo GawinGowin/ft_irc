@@ -37,7 +37,7 @@ std::string ServerPassword::_toHash(const std::string &password) {
     throw std::runtime_error("Failed to create EVP_MD_CTX");
   }
   try {
-    if (EVP_DigestInit_ex(context, EVP_sha256(), nullptr) != 1) {
+    if (EVP_DigestInit_ex(context, EVP_sha256(), NULL) != 1) {
       throw std::runtime_error("Failed to initialize SHA256 context");
     }
     if (EVP_DigestUpdate(context, password.c_str(), password.size()) != 1) {

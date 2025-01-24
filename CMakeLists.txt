@@ -25,7 +25,7 @@ target_include_directories(
 )
 
 ## Link with necessary libraries
-set(LIBRARIES pthread crypto ssl)
+set(LIBRARIES crypto ssl)
 target_link_libraries(testftirc ${LIBRARIES})
 
 add_executable(ft_irc

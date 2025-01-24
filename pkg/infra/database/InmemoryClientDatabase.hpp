@@ -22,6 +22,8 @@ public:
   const IClientAggregateRoot &getById(const int id);
   void update(const int id, const IClientAggregateRoot &newData);
   void remove(const int id);
+  void clear();
+  size_t size() const;
 
 private:
   std::vector<IClientAggregateRoot *> _clients;
