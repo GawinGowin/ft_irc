@@ -1,10 +1,10 @@
 name: C/C++ CI
 
 on:
-  # pull_request:
-  #   branches: ["main", "ci/**"]
-  # push:
-  #   branches: ["main"]
+  pull_request:
+    branches: ["main", "ci/**"]
+  push:
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -24,39 +24,16 @@ jobs:
         path: build/tests/Testing/Temporary/LastTest.log
 
   format:
-    permissions:
-      contents: read
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.base.sha }}
       - uses: actions/checkout@v4
       - name: Install clang-format
         run: sudo apt install clang-format
       - name: Run clang-format
         run: |
-          git diff --diff-filter=AM --name-only ${{ github.event.pull_request.base.sha }}..  > changed_files.txt
-          cat changed_files.txt | grep -E "\.(c|cpp|h|hpp|tpp)$" | xargs clang-format -i -style=file || true
+          git ls-files | grep -E "\.(c|cpp|h|hpp|tpp)$" | xargs clang-format -i -style=file || true
       - name: Check for changes
         run: |
           if ! git diff --quiet ; then
-            cat << EOF > clang-format-changes.md
-          ### The following files need to be reformatted:
-          \`\`\`sh
-          $(git diff --name-only)
-          \`\`\`
-          EOF
             exit 1
-          else
-            echo "No changes needed" > clang-format-changes.md
           fi
-      - name: Create PR comment
-        if: always()
-        run: |
-          gh pr comment ${{ github.event.number }} --edit-last --body-file clang-format-changes.md \
-          || gh pr comment ${{ github.event.number }} --body-file clang-format-changes.md \
-          || true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
