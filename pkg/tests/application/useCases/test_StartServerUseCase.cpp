@@ -3,21 +3,22 @@
 
 #include <gtest/gtest.h>
 
-const std::pair<int, std::string> portPassword = std::make_pair(8080, "password");
+const int argc = 3;
+char *argv[] = {(char *)"./ft_irc", (char *)"8080", (char *)"password", nullptr};
 
 TEST(StartServerUseCaseTest, TestInitialization) {
-  StartServerDTO dto(portPassword);
+  StartServerDTO dto(argc, argv);
   EXPECT_NO_THROW({ StartServerUseCase useCase(dto); });
 }
 
 TEST(StartServerUseCaseTest, TestExecute) {
-  StartServerDTO dto(portPassword);
+  StartServerDTO dto(argc, argv);
   StartServerUseCase useCase(dto);
   EXPECT_NO_THROW({ useCase.execute(); });
 }
 
 TEST(StartServerUseCaseTest, TestCleanup) {
-  StartServerDTO dto(portPassword);
+  StartServerDTO dto(argc, argv);
   StartServerUseCase *useCase = new StartServerUseCase(dto);
   delete useCase;
 }

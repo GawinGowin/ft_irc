@@ -2,12 +2,12 @@
 #define STARTSERVERDTO_HPP
 
 #include <string>
+#include <sstream>
+#include <stdexcept>
 
 class StartServerDTO {
 public:
-  StartServerDTO(std::pair<int, std::string> portPassword)
-      : _address(std::string("127.0.0.1")), _port(portPassword.first),
-        _password(portPassword.second){};
+  StartServerDTO(int argc, char **argv);
   ~StartServerDTO(){};
   StartServerDTO(const StartServerDTO &obj)
       : _address(obj._address), _port(obj._port), _password(obj._password){};
@@ -22,9 +22,9 @@ public:
   const std::string &getPassword() const { return this->_password; }
 
 private:
-  const std::string _address;
-  const int _port;
-  const std::string _password;
+  std::string _address;
+  int _port;
+  std::string _password;
 };
 
 #endif /* STARTSERVERDTO_HPP */
