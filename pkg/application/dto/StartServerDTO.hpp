@@ -6,7 +6,8 @@
 class StartServerDTO {
 public:
   StartServerDTO(std::pair<int, std::string> portPassword)
-      : _address(std::string("127.0.0.1")), _port(portPassword.first), _password(portPassword.second) {};
+      : _address(std::string("127.0.0.1")), _port(portPassword.first),
+        _password(portPassword.second){};
   ~StartServerDTO(){};
   StartServerDTO(const StartServerDTO &obj)
       : _address(obj._address), _port(obj._port), _password(obj._password){};
