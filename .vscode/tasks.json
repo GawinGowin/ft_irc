@@ -10,6 +10,17 @@
       "group": "build",
       "problemMatcher": [],
       "detail": "CMake テンプレート ビルド タスク"
+    },
+    {
+      "type": "cppbuild",
+      "label": "make-compile",
+      "command": "make",
+      "args": [
+        "debug"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
     }
   ],
   "version": "2.0.0"

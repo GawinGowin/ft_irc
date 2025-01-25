@@ -11,6 +11,34 @@
 			"MIMode": "gdb",
 			"miDebuggerPath": "/usr/bin/gdb",
       "preLaunchTask": "CMake: ビルド"
+		},
+		{
+			"name": "ft_irc (cpp98)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/ft_irc_debug",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": true,
+			"preLaunchTask": "make-compile", 
+			"MIMode": "gdb",
+			"miDebuggerPath": "/usr/bin/gdb"
+		},
+		{
+			"name": "ft_irc (cpp11)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/ft_irc",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": true,
+      "preLaunchTask": "CMake: ビルド",
+			"MIMode": "gdb",
+			"miDebuggerPath": "/usr/bin/gdb"
 		}
   ]
 }
