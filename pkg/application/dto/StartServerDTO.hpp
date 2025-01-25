@@ -5,19 +5,14 @@
 
 class StartServerDTO {
 public:
-  StartServerDTO(int argc, char **argv)
-      : _argc(argc), _argv(argv), _address(std::string("127.0.0.1")), _port(8080),
-        _password(std::string("password")){};
+  StartServerDTO(std::pair<int, std::string> portPassword)
+      : _address(std::string("127.0.0.1")), _port(portPassword.first), _password(portPassword.second) {};
   ~StartServerDTO(){};
   StartServerDTO(const StartServerDTO &obj)
-      : _argc(obj._argc), _argv(obj._argv), _address(obj._address), _port(obj._port),
-        _password(obj._password){};
+      : _address(obj._address), _port(obj._port), _password(obj._password){};
 
   StartServerDTO &operator=(const StartServerDTO &obj) {
-    if (this != &obj) {
-      this->_argc = obj._argc;
-      this->_argv = obj._argv;
-    }
+    (void)obj;
     return *this;
   }
 
@@ -26,9 +21,6 @@ public:
   const std::string &getPassword() const { return this->_password; }
 
 private:
-  int _argc;
-  char **_argv;
-
   const std::string _address;
   const int _port;
   const std::string _password;
