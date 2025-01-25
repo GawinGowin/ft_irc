@@ -1,9 +1,9 @@
 #ifndef STARTSERVERDTO_HPP
 #define STARTSERVERDTO_HPP
 
-#include <string>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
 class StartServerDTO {
 public:
