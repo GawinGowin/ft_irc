@@ -10,7 +10,9 @@ public:
   MOCK_METHOD(const int &, getSocketFd, (), (const));
   MOCK_METHOD(const pollfd &, getPollfd, (), (const));
   bool operator==(const IClientAggregateRoot &other) const override {
-    return _id == other.getId() && _pfd.fd == other.getPollfd().fd&& _pfd.events == other.getPollfd().events&& _pfd.revents == other.getPollfd().revents ; }
+    return _id == other.getId() && _pfd.fd == other.getPollfd().fd &&
+           _pfd.events == other.getPollfd().events && _pfd.revents == other.getPollfd().revents;
+  }
   MOCK_METHOD(IClientAggregateRoot *, clone, (), (const));
 
 private:
