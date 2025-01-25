@@ -6,17 +6,35 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
 
 ## Sources
-file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/pkg/**/*.cpp")
+file(GLOB_RECURSE SOURCES
+"${CMAKE_SOURCE_DIR}/pkg/application/**/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/application/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/domain/**/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/domain/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/infra/**/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/infra/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/presentation/**/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/presentation/*.cpp"
+)
+message(STATUS "SOURCES: ${SOURCES}")
 add_library(testftirc ${SOURCES}) 
 
 target_include_directories(
   testftirc
-  PRIVATE ${CMAKE_SOURCE_DIR}/pkg/application/
+  PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
 )
 
 ## Link with necessary libraries
-set(LIBRARIES pthread)
+set(LIBRARIES crypto ssl)
 target_link_libraries(testftirc ${LIBRARIES})
+
+add_executable(ft_irc
+${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)
+target_include_directories(
+  ft_irc
+  PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
+)
+target_link_libraries(ft_irc testftirc ${LIBRARIES})
 
 ## install gtest
 include(FetchContent)
@@ -30,4 +48,4 @@ FetchContent_MakeAvailable(googletest)
 FetchContent_GetProperties(googletest)
 
 enable_testing()
-add_subdirectory(tests)
+add_subdirectory(pkg/tests)

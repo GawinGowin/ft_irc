@@ -10,7 +10,7 @@ build:
 
 .PHONY: test
 test: build
-	cd build/tests && make test
+	cd build/pkg/tests && make test
 
 .PHONY: find
 find:

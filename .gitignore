@@ -36,3 +36,4 @@ tools/bircd/bircd
 !tools/bircd
 
 build/
+install_ngircd.sh
