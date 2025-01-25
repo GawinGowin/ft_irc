@@ -1,4 +1,4 @@
-#include "StartServerDTO.hpp"
+#include "application/dto/StartServerDTO.hpp"
 
 StartServerDTO::StartServerDTO(int argc, char **argv) {
   if (argc != 3) {
