@@ -8,7 +8,7 @@ StartServerUseCase::StartServerUseCase(const StartServerDTO &dto) {
     ServerPassword *password = new ServerPassword(dto.getPassword());
     SocketHandlerServiceLocator::init(
         dto.getAddress(), dto.getPort(), maxConnections, maxBufferSize,
-        reinterpret_cast<IServerPasswordAggregateRoot *>(password));
+        static_cast<IServerPasswordAggregateRoot *>(password));
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("init SocketHandler: ") + e.what());
   }
