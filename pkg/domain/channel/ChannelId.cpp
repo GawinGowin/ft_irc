@@ -12,7 +12,7 @@ ChannelId::~ChannelId() {}
 
 const long &ChannelId::getChannelId() const { return this->_channelidInt; }
 
-const std::string &ChannelId::getChannelIdString() const {
+const std::string ChannelId::getChannelIdString() const {
   const int base_size = base.size();
   long raw_id = this->_channelidInt % static_cast<long>(std::pow(base_size, channelIdLength));
   std::ostringstream oss;

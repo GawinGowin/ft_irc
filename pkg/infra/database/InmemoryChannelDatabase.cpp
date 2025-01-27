@@ -21,7 +21,7 @@ void InmemoryChannelDatabase::add(const IChannelAggregateRoot &channel) {
   _channels.insert(std::make_pair(key, channel.clone()));
 }
 
-const std::vector<IChannelAggregateRoot *> &InmemoryChannelDatabase::list() {
+const std::vector<IChannelAggregateRoot *> InmemoryChannelDatabase::list() {
   std::vector<IChannelAggregateRoot *> ret;
   std::map<std::pair<ChannelId, std::string>, IChannelAggregateRoot *>::iterator it;
   for (it = _channels.begin(); it != _channels.end(); ++it) {
@@ -50,4 +50,9 @@ void InmemoryChannelDatabase::remove(const ChannelId &id, const std::string &nam
   const std::pair<ChannelId, std::string> key = std::make_pair(id, name);
   delete _channels.at(key);
   _channels.erase(key);
+}
+
+bool operator<(
+    const std::pair<ChannelId, std::string> &lhs, const std::pair<ChannelId, std::string> &rhs) {
+  return lhs.first.getChannelId() < rhs.first.getChannelId() && lhs.second < rhs.second;
 }

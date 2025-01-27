@@ -13,7 +13,7 @@ public:
   ~ChannelId();
 
   const long &getChannelId() const;
-  const std::string &getChannelIdString() const;
+  const std::string getChannelIdString() const;
   bool operator==(const ChannelId &other) const;
 
 private:
