@@ -15,6 +15,7 @@ public:
   ~Channel();
 
   const std::string &getName() const;
+  const ChannelId &getId() const;
   int getModeFlags() const;
   time_t getCreationTime() const;
   ChannelTopic &getTopic() const;
@@ -23,6 +24,8 @@ public:
 
   void setModeFlags(int modeFlags);
   void setMaxUsers(unsigned long maxusers);
+
+  Channel *clone() const;
 
   ChannelClientList &getListConnects();
   ChannelClientList &getListBans();

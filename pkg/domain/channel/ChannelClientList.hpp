@@ -9,10 +9,10 @@ class ChannelClientList {
 public:
   ChannelClientList();
   ~ChannelClientList();
-  void addClient(int clientUniqueID);
-  void removeClient(int clientUniqueID);
-  bool isClientInList(int clientUniqueID);
-  std::vector<ClientUniqueID> getClients();
+  void addClient(const ClientUniqueID &id);
+  void removeClient(const ClientUniqueID &id);
+  bool isClientInList(const ClientUniqueID &id);
+  std::vector<ClientUniqueID> &getClients();
 
 private:
   std::vector<ClientUniqueID> _clients;

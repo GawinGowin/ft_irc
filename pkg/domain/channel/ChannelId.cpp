@@ -5,13 +5,12 @@ static const int channelIdLength = 5;
 
 ChannelId::ChannelId() : _channelidInt(0) {}
 
-ChannelId::ChannelId(const std::time_t &current_time) :_channelidInt(static_cast<long>(current_time)) {}
+ChannelId::ChannelId(const std::time_t &current_time)
+    : _channelidInt(static_cast<long>(current_time)) {}
 
 ChannelId::~ChannelId() {}
 
-const long &ChannelId::getChannelId() const {
-  return this->_channelidInt;
-}
+const long &ChannelId::getChannelId() const { return this->_channelidInt; }
 
 const std::string &ChannelId::getChannelIdString() const {
   const int base_size = base.size();
