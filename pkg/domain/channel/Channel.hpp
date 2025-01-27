@@ -2,13 +2,14 @@
 #define CHANNEL_HPP
 
 #include "domain/channel/ChannelClientList.hpp"
+#include "domain/channel/ChannelId.hpp"
 #include "domain/channel/ChannelTopic.hpp"
 #include "domain/channel/IChannelAggregateRoot.hpp"
 #include "domain/shared/values/IPasswordAggregateRoot.hpp"
 #include <string>
 #include <time.h>
 
-class Channel: virtual public IChannelAggregateRoot {
+class Channel : virtual public IChannelAggregateRoot {
 public:
   Channel(const std::string &name);
   ~Channel();
@@ -30,6 +31,7 @@ public:
 
 private:
   std::string _name;               /* Name of the channel */
+  ChannelId _id;                   /* Unique channel ID */
   int _modeFlags;                  /* Channel modes */
   time_t _creation_time;           /* Channel creation time */
   ChannelTopic _topic;             /* Channel topic */
