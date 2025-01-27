@@ -36,7 +36,14 @@ jobs:
         with:
           node-version: 20
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: clone wiki
+        uses: actions/checkout@v4
+        with:
+          repository: 'GawinGowin/ft_irc.wiki'
+          path: docs
+
       - name: Run Doxygen from Doxyfile
         run: |
           doxygen Doxyfile
