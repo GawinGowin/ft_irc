@@ -16,10 +16,11 @@ public:
   ~ChannelId();
 
   const std::string &getChannelId() const;
+  const std::string &getChannelIdString() const;
   bool operator==(const ChannelId &other) const;
 
 private:
-  const std::string _channelid;
+  const std::string _channelid; // TODO: これを数値型に変更する
   const std::string createChannelId(const std::time_t &current_time);
 };
 

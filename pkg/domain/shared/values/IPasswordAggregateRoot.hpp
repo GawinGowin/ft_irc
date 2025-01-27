@@ -11,5 +11,4 @@ public:
   virtual std::string getHash() const = 0;
 };
 
-
 #endif /* IPASSWORDAGGREGATEROOT_HPP */

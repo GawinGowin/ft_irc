@@ -2,9 +2,7 @@
 
 Password::Password(const std::string &password) : _hashedPassword(_toHash(password)) {}
 
-Password::Password(const Password &other) {
-  _hashedPassword = other._hashedPassword;
-}
+Password::Password(const Password &other) { _hashedPassword = other._hashedPassword; }
 
 Password &Password::operator=(const Password &obj) {
   if (this != &obj) {

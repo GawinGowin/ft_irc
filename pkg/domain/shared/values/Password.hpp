@@ -26,5 +26,4 @@ private:
   std::string _hashedPassword;
 };
 
-
 #endif /* PASSWORD_HPP */
