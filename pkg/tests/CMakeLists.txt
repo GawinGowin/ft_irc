@@ -16,6 +16,7 @@ target_include_directories(ApplicationTest PRIVATE
 add_executable(DomainTest 
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/server/test_ServerPassword.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelId.cpp
 )
 target_link_libraries(DomainTest testftirc gtest_main)
 target_include_directories(DomainTest PRIVATE 
@@ -26,6 +27,7 @@ target_include_directories(DomainTest PRIVATE
 #..:: InfrastructureTest ::..
 add_executable(InfrastructureTest 
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryClientDatabase.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryChannelDatabase.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/test_main.cpp
 )
 target_link_libraries(InfrastructureTest testftirc gtest_main gmock_main)

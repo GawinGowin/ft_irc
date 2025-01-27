@@ -3,7 +3,16 @@
 InmemoryChannelDatabase::InmemoryChannelDatabase()
     : _channels(std::map<std::pair<ChannelId, std::string>, IChannelAggregateRoot *>()) {}
 
-InmemoryChannelDatabase::~InmemoryChannelDatabase() {}
+InmemoryChannelDatabase::~InmemoryChannelDatabase() {
+  std::map<std::pair<ChannelId, std::string>, IChannelAggregateRoot *>::iterator it;
+  for (it = _channels.begin(); it != _channels.end(); ++it) {
+    if ((*it).second != NULL) {
+      delete (*it).second;
+      (*it).second = NULL;
+    }
+  }
+  _channels.clear();
+}
 
 InmemoryChannelDatabase::InmemoryChannelDatabase(const InmemoryChannelDatabase &other) {
   *this = other;
@@ -43,12 +52,17 @@ void InmemoryChannelDatabase::update(
     const ChannelId &id, const std::string &name, const IChannelAggregateRoot &newData) {
   const std::pair<ChannelId, std::string> key = std::make_pair(id, name);
   this->remove(id, name);
-  _channels.insert(std::make_pair(key, newData.clone()));
+  const std::pair<ChannelId, std::string> newKey =
+      std::make_pair(newData.getId(), newData.getName());
+  _channels.insert(std::make_pair(newKey, newData.clone()));
 }
 
 void InmemoryChannelDatabase::remove(const ChannelId &id, const std::string &name) {
   const std::pair<ChannelId, std::string> key = std::make_pair(id, name);
-  delete _channels.at(key);
+  if (_channels.at(key) != NULL) {
+    delete _channels.at(key);
+    _channels.at(key) = NULL;
+  }
   _channels.erase(key);
 }
 
