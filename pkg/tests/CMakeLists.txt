@@ -17,6 +17,7 @@ add_executable(DomainTest
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/server/test_ServerPassword.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelId.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelTopic.cpp
 )
 target_link_libraries(DomainTest testftirc gtest_main)
 target_include_directories(DomainTest PRIVATE 

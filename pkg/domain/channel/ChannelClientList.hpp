@@ -3,7 +3,7 @@
 
 #include <vector>
 
-typedef int ClientUniqueID;
+typedef long ClientUniqueID;
 
 class ChannelClientList {
 public:

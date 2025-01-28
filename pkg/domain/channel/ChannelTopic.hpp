@@ -5,18 +5,20 @@
 #include <time.h>
 #include <vector>
 
-typedef int ClientUniqueID;
+typedef long ClientUniqueID;
 
 class ChannelTopic {
 public:
   ChannelTopic();
   ChannelTopic(const std::string &topic, const ClientUniqueID &who);
   ~ChannelTopic();
+  ChannelTopic(const ChannelTopic &other);
+  ChannelTopic &operator=(const ChannelTopic &other);
 
-  void setTopic(const std::string &topic, const ClientUniqueID &who);
+  void updateTopic(const std::string &topic, const ClientUniqueID &who);
   void clearTopic();
   const std::string &getTopic() const;
-  const std::string &getWho() const;
+  const ClientUniqueID &getWho() const;
   const time_t &getWhen() const;
 
 private:
