@@ -17,7 +17,7 @@ public:
   virtual const ChannelId &getId() const = 0;
   virtual int getModeFlags() const = 0;
   virtual time_t getCreationTime() const = 0;
-  virtual ChannelTopic &getTopic() const = 0;
+  virtual const ChannelTopic &getTopic() const = 0;
   virtual unsigned long getMaxUsers() const = 0;
   virtual IPasswordAggregateRoot *getKey() const = 0;
 

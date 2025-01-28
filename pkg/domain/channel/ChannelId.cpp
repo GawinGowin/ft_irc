@@ -10,6 +10,17 @@ ChannelId::ChannelId(const std::time_t &current_time)
 
 ChannelId::~ChannelId() {}
 
+ChannelId::ChannelId(const ChannelId &other) {
+  *this = other;
+}
+
+ChannelId &ChannelId::operator=(const ChannelId &other) {
+  if (this != &other) {
+    this->_channelidInt = other._channelidInt;
+  }
+  return *this;
+}
+
 const long &ChannelId::getChannelId() const { return this->_channelidInt; }
 
 const std::string ChannelId::getChannelIdString() const {

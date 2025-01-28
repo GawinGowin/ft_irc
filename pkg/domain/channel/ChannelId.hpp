@@ -11,13 +11,15 @@ public:
   ChannelId();
   ChannelId(const std::time_t &current_time);
   ~ChannelId();
+  ChannelId(const ChannelId &other);
+  ChannelId &operator=(const ChannelId &other);
 
   const long &getChannelId() const;
   const std::string getChannelIdString() const;
   bool operator==(const ChannelId &other) const;
 
 private:
-  const long _channelidInt;
+  long _channelidInt;
 };
 
 #endif /* CHANNELID_HPP */

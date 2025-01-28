@@ -9,6 +9,8 @@
 #include <string>
 #include <time.h>
 
+static const unsigned long DEFAULT_MAX_USERS = 5;
+
 class Channel : virtual public IChannelAggregateRoot {
 public:
   Channel(const std::string &name);
@@ -18,7 +20,7 @@ public:
   const ChannelId &getId() const;
   int getModeFlags() const;
   time_t getCreationTime() const;
-  ChannelTopic &getTopic() const;
+  const ChannelTopic &getTopic() const ;
   unsigned long getMaxUsers() const;
   IPasswordAggregateRoot *getKey() const;
 
