@@ -22,58 +22,30 @@ Channel::~Channel() {
   }
 }
 
-const std::string &Channel::getName() const {
-  return this->_name;
-}
+const std::string &Channel::getName() const { return this->_name; }
 
-const ChannelId &Channel::getId() const {
-  return this->_id;
-}
+const ChannelId &Channel::getId() const { return this->_id; }
 
-int Channel::getModeFlags() const {
-  return this->_modeFlags;
-}
+const int &Channel::getModeFlags() const { return this->_modeFlags; }
 
-time_t Channel::getCreationTime() const {
-  return this->_creation_time;
-}
+const time_t &Channel::getCreationTime() const { return this->_creation_time; }
 
-const ChannelTopic &Channel::getTopic() const {
-  return this->_topic;
-}
+const ChannelTopic &Channel::getTopic() const { return this->_topic; }
 
-unsigned long Channel::getMaxUsers() const {
-  return this->_maxusers;
-}
+const unsigned long &Channel::getMaxUsers() const { return this->_maxusers; }
 
-IPasswordAggregateRoot *Channel::getKey() const {
-  return this->_key;
-}
+IPasswordAggregateRoot *Channel::getKey() const { return this->_key; }
 
-void Channel::setModeFlags(int modeFlags) {
-  this->_modeFlags = modeFlags;
-}
+void Channel::setModeFlags(int modeFlags) { this->_modeFlags = modeFlags; }
 
-void Channel::setMaxUsers(unsigned long maxusers) {
-  this->_maxusers = maxusers;
-}
+void Channel::setMaxUsers(unsigned long maxusers) { this->_maxusers = maxusers; }
 
-Channel *Channel::clone() const {
-  return new Channel(*this);
-}
+Channel *Channel::clone() const { return new Channel(*this); }
 
-ChannelClientList &Channel::getListConnects() {
-  return this->_listConnects;
-}
+ChannelClientList &Channel::getListConnects() { return this->_listConnects; }
 
-ChannelClientList &Channel::getListBans() {
-  return this->_listBans;
-}
+ChannelClientList &Channel::getListBans() { return this->_listBans; }
 
-ChannelClientList &Channel::getListExcepts() {
-  return this->_listExcepts;
-}
+ChannelClientList &Channel::getListExcepts() { return this->_listExcepts; }
 
-ChannelClientList &Channel::getListInvites() {
-  return this->_listInvites;
-}
+ChannelClientList &Channel::getListInvites() { return this->_listInvites; }

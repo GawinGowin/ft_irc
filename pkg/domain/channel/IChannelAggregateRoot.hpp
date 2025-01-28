@@ -15,10 +15,10 @@ public:
 
   virtual const std::string &getName() const = 0;
   virtual const ChannelId &getId() const = 0;
-  virtual int getModeFlags() const = 0;
-  virtual time_t getCreationTime() const = 0;
+  virtual const int &getModeFlags() const = 0;
+  virtual const time_t &getCreationTime() const = 0;
   virtual const ChannelTopic &getTopic() const = 0;
-  virtual unsigned long getMaxUsers() const = 0;
+  virtual const unsigned long &getMaxUsers() const = 0;
   virtual IPasswordAggregateRoot *getKey() const = 0;
 
   virtual void setModeFlags(int modeFlags) = 0;

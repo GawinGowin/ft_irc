@@ -18,10 +18,11 @@ public:
 
   const std::string &getName() const;
   const ChannelId &getId() const;
-  int getModeFlags() const;
-  time_t getCreationTime() const;
-  const ChannelTopic &getTopic() const ;
-  unsigned long getMaxUsers() const;
+  const int &getModeFlags() const;
+  const time_t &getCreationTime() const;
+  const ChannelTopic &getTopic() const;
+  const unsigned long &getMaxUsers() const;
+
   IPasswordAggregateRoot *getKey() const;
 
   void setModeFlags(int modeFlags);

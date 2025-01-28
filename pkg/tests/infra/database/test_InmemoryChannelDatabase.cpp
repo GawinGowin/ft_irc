@@ -9,10 +9,10 @@ class MockChannelAggregateRoot : public IChannelAggregateRoot {
 public:
   MOCK_METHOD(const std::string &, getName, (), (const, override));
   MOCK_METHOD(const ChannelId &, getId, (), (const, override));
-  MOCK_METHOD(int, getModeFlags, (), (const, override));
-  MOCK_METHOD(time_t, getCreationTime, (), (const, override));
+  MOCK_METHOD(const int&, getModeFlags, (), (const, override));
+  MOCK_METHOD(const time_t&, getCreationTime, (), (const, override));
   MOCK_METHOD(ChannelTopic &, getTopic, (), (const, override));
-  MOCK_METHOD(unsigned long, getMaxUsers, (), (const, override));
+  MOCK_METHOD(const unsigned long&, getMaxUsers, (), (const, override));
   MOCK_METHOD(IPasswordAggregateRoot *, getKey, (), (const, override));
 
   MOCK_METHOD(void, setModeFlags, (int modeFlags), (override));
