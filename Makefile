@@ -11,8 +11,8 @@ HEADER =
 HEADER += $(shell find $(BASE_PKG_DIR)/application $(BASE_PKG_DIR)/domain $(BASE_PKG_DIR)/infra $(BASE_PKG_DIR)/presentation -name '*.h' -o -name '*.hpp')
 
 CXX := c++
-CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
-LFALGS := -lcrypto -lssl
+CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR) -I/opt/homebrew/opt/openssl@3/include
+LFALGS := -L/opt/homebrew/opt/openssl@3/lib -lcrypto -lssl
 DFLAGS := -fdiagnostics-color=always -g3 -fsanitize=address
 
 OBJS := $(SOURCE:.cpp=.o)
