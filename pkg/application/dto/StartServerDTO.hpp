@@ -8,9 +8,9 @@
 class StartServerDTO {
 public:
   StartServerDTO(int argc, char **argv);
-  ~StartServerDTO(){};
+  ~StartServerDTO() {};
   StartServerDTO(const StartServerDTO &obj)
-      : _address(obj._address), _port(obj._port), _password(obj._password){};
+      : _address(obj._address), _port(obj._port), _password(obj._password) {};
 
   StartServerDTO &operator=(const StartServerDTO &obj) {
     (void)obj;
