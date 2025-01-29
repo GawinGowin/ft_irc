@@ -1,12 +1,14 @@
 #include "application/useCases/RecieveMsgUseCase.hpp"
 
-std::string RecieveMsgUseCase::recieve(const MonitorSocketEventDTO &event) {
+RecievedMsgDTO RecieveMsgUseCase::recieve(const MonitorSocketEventDTO &event) {
+  SocketHandler *_socketHandler;
+
   std::string msg;
   try {
-    SocketHandler *_socketHandler = &SocketHandlerServiceLocator::get();
+    _socketHandler = &SocketHandlerServiceLocator::get();
     msg = _socketHandler->receiveMsg(event.getConnectionFd());
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("RecieveMsgUseCase: ") + e.what());
   }
-  return msg;
+  return (RecievedMsgDTO(msg, event.getConnectionFd()));
 }
