@@ -8,17 +8,17 @@
 #include <vector>
 
 typedef long ClientUniqueID;
-typedef std::vector<ChannelClientList*> ListofClientList;
+typedef std::vector<ChannelClientList *> ListofClientList;
 
 class ChannelService {
-  public:
-    static void purgeClient(const ListofClientList &lsts, const ClientUniqueID &id);
+public:
+  static void purgeClient(const ListofClientList &lsts, const ClientUniqueID &id);
 
-  private:
-    ChannelService();
-    ~ChannelService();
-    ChannelService(const ChannelService &other);
-    ChannelService &operator=(const ChannelService &other);
+private:
+  ChannelService();
+  ~ChannelService();
+  ChannelService(const ChannelService &other);
+  ChannelService &operator=(const ChannelService &other);
 };
 
 #endif /* CHANNELSERVICE_HPP */

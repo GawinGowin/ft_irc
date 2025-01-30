@@ -1,8 +1,8 @@
 #ifndef CHANNELCLIENTLIST_HPP
 #define CHANNELCLIENTLIST_HPP
 
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 typedef long ClientUniqueID;
 

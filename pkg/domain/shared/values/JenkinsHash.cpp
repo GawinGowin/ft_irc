@@ -95,27 +95,27 @@ static int jenkins_hash(char *k, int length, int initval) {
   }
   switch (length) {
   case 12:
-    c += ((int)k[11]) << 24;  // fall through
+    c += ((int)k[11]) << 24; // fall through
   case 11:
-    c += ((int)k[10] << 16);  // fall through
+    c += ((int)k[10] << 16); // fall through
   case 10:
-    c += ((int)k[9] << 8);  // fall through
+    c += ((int)k[9] << 8); // fall through
   case 9:
-    c += k[8];  // fall through
+    c += k[8]; // fall through
   case 8:
-    b += ((int)k[7] << 24);  // fall through
+    b += ((int)k[7] << 24); // fall through
   case 7:
-    b += ((int)k[6] << 16);  // fall through
+    b += ((int)k[6] << 16); // fall through
   case 6:
-    b += ((int)k[5] << 8);  // fall through
+    b += ((int)k[5] << 8); // fall through
   case 5:
-    b += k[4];  // fall through
+    b += k[4]; // fall through
   case 4:
-    a += ((int)k[3] << 24);  // fall through
+    a += ((int)k[3] << 24); // fall through
   case 3:
-    a += ((int)k[2] << 16);  // fall through
+    a += ((int)k[2] << 16); // fall through
   case 2:
-    a += ((int)k[1] << 8);  // fall through
+    a += ((int)k[1] << 8); // fall through
   case 1:
     a += k[0];
     break;

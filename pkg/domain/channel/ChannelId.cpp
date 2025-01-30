@@ -10,9 +10,7 @@ ChannelId::ChannelId(const std::time_t &current_time)
 
 ChannelId::~ChannelId() {}
 
-ChannelId::ChannelId(const ChannelId &other) {
-  *this = other;
-}
+ChannelId::ChannelId(const ChannelId &other) { *this = other; }
 
 ChannelId &ChannelId::operator=(const ChannelId &other) {
   if (this != &other) {

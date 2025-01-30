@@ -14,9 +14,7 @@ ChannelTopic::ChannelTopic(const std::string &topic, const ClientUniqueID &who) 
 
 ChannelTopic::~ChannelTopic() {}
 
-ChannelTopic::ChannelTopic(const ChannelTopic &other) {
-  *this = other;
-}
+ChannelTopic::ChannelTopic(const ChannelTopic &other) { *this = other; }
 
 ChannelTopic &ChannelTopic::operator=(const ChannelTopic &other) {
   if (this != &other) {
@@ -33,18 +31,10 @@ void ChannelTopic::updateTopic(const std::string &topic, const ClientUniqueID &w
   this->_topic_who = who;
 }
 
-void ChannelTopic::clearTopic() {
-  *this = ChannelTopic();
-}
+void ChannelTopic::clearTopic() { *this = ChannelTopic(); }
 
-const std::string &ChannelTopic::getTopic() const {
-  return this->_topic;
-}
+const std::string &ChannelTopic::getTopic() const { return this->_topic; }
 
-const ClientUniqueID &ChannelTopic::getWho() const {
-  return this->_topic_who;
-}
+const ClientUniqueID &ChannelTopic::getWho() const { return this->_topic_who; }
 
-const time_t &ChannelTopic::getWhen() const {
-  return this->_topic_time;
-}
+const time_t &ChannelTopic::getWhen() const { return this->_topic_time; }

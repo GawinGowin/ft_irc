@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "domain/channel/ChannelTopic.hpp"
+#include <gtest/gtest.h>
 
 TEST(ChannelTopicTest, DefaultConstructor) {
   ChannelTopic topic;
