@@ -20,6 +20,7 @@ add_executable(DomainTest
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelId.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelTopic.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_SHAHash.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_RFCChannelHash.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_JenkinsHash.cpp
 )
 target_link_libraries(DomainTest testftirc gtest_main)
