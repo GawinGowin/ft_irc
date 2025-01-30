@@ -2,13 +2,13 @@
 
 ChannelTopic::ChannelTopic() {
   this->_topic = "";
-  this->_topic_time = time(nullptr);
+  this->_topic_time = time(NULL);
   this->_topic_who = 0;
 }
 
 ChannelTopic::ChannelTopic(const std::string &topic, const ClientUniqueID &who) {
   this->_topic = topic;
-  this->_topic_time = time(nullptr);
+  this->_topic_time = time(NULL);
   this->_topic_who = who;
 }
 
@@ -29,7 +29,7 @@ ChannelTopic &ChannelTopic::operator=(const ChannelTopic &other) {
 
 void ChannelTopic::updateTopic(const std::string &topic, const ClientUniqueID &who) {
   this->_topic = topic;
-  this->_topic_time = time(nullptr);
+  this->_topic_time = time(NULL);
   this->_topic_who = who;
 }
 

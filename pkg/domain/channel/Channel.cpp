@@ -34,7 +34,7 @@ const ChannelTopic &Channel::getTopic() const { return this->_topic; }
 
 const unsigned long &Channel::getMaxUsers() const { return this->_maxusers; }
 
-IPasswordAggregateRoot *Channel::getKey() const { return this->_key; }
+IHashAggregateRoot *Channel::getKey() const { return this->_key; }
 
 void Channel::setModeFlags(int modeFlags) { this->_modeFlags = modeFlags; }
 

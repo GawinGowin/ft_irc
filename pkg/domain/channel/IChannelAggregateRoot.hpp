@@ -4,7 +4,7 @@
 #include "domain/channel/ChannelClientList.hpp"
 #include "domain/channel/ChannelId.hpp"
 #include "domain/channel/ChannelTopic.hpp"
-#include "domain/shared/values/IPasswordAggregateRoot.hpp"
+#include "domain/shared/values/IHashAggregateRoot.hpp"
 
 #include <string>
 #include <time.h>
@@ -19,7 +19,7 @@ public:
   virtual const time_t &getCreationTime() const = 0;
   virtual const ChannelTopic &getTopic() const = 0;
   virtual const unsigned long &getMaxUsers() const = 0;
-  virtual IPasswordAggregateRoot *getKey() const = 0;
+  virtual IHashAggregateRoot *getKey() const = 0;
 
   virtual void setModeFlags(int modeFlags) = 0;
   virtual void setMaxUsers(unsigned long maxusers) = 0;
