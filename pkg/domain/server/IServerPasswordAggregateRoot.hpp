@@ -6,7 +6,7 @@
 
 class IServerPasswordAggregateRoot {
 public:
-  virtual ~IServerPasswordAggregateRoot() {};
+  virtual ~IServerPasswordAggregateRoot(){};
 
   virtual std::string getHash() const = 0;
 };

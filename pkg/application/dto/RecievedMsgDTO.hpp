@@ -7,7 +7,7 @@ class RecievedMsgDTO {
 public:
   RecievedMsgDTO();
   RecievedMsgDTO(const std::string &message, const int &senderId);
-  ~RecievedMsgDTO() {};
+  ~RecievedMsgDTO(){};
   RecievedMsgDTO(const RecievedMsgDTO &obj);
   RecievedMsgDTO &operator=(const RecievedMsgDTO &obj);
 

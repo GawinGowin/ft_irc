@@ -5,7 +5,7 @@
 
 class IClientAggregateRoot {
 public:
-  virtual ~IClientAggregateRoot() {};
+  virtual ~IClientAggregateRoot(){};
 
   virtual const int &getId() const = 0;
   virtual const int &getSocketFd() const = 0;
