@@ -2,8 +2,8 @@
 #define SIGNAL_HPP
 
 #include <csignal>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 void setSignal();
 

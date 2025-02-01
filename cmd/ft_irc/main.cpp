@@ -1,7 +1,7 @@
 #include "presentation/entrypoint.hpp"
 #include <iostream>
 
-volatile sig_atomic_t	g_signal = 0;
+volatile sig_atomic_t g_signal = 0;
 
 int main(int argc, char **argv) {
   try {
