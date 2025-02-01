@@ -3,6 +3,7 @@
 void entrypoint(int argc, char **argv) {
   StartServerDTO dto(argc, argv);
   StartServerUseCase startServerUseCase(dto);
+  setSignal();
   try {
     startServerUseCase.execute();
   } catch (const std::runtime_error &e) {
@@ -22,6 +23,12 @@ void entrypoint(int argc, char **argv) {
       break;
     case MonitorSocketEventDTO::MessageReceived:
       msg = RecieveMsgUseCase::recieve(eventDto);
+      if (msg.size() == 0) {
+        int clientFd = eventDto.getConnectionFd();
+        RemoveConnectionUseCase::remove(clientFd);
+        std::cout << "Connection closed" << std::endl;
+        break;
+      }
       std::cout << "Message received: " << msg << std::endl;
       break;
     default:

@@ -23,6 +23,7 @@ public:
   void update(const int id, const IClientAggregateRoot &newData);
   void remove(const int id);
   void clear();
+  void removeFdsByFd(const int fd);
   size_t size() const;
 
 private:
