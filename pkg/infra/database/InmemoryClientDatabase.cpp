@@ -93,4 +93,18 @@ void InmemoryClientDatabase::clear() {
   this->_isPollfdsCached = false;
 }
 
+void InmemoryClientDatabase::removeFdsByFd(const int fd) {
+  std::vector<IClientAggregateRoot *>::iterator it;
+  for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
+    if (fd == (*it)->getPollfd().fd) {
+      delete *it;
+      this->_clients.erase(it);
+      this->_isPollfdsCached = false;
+      return;
+    }
+  }
+  this->_isPollfdsCached = false;
+  throw std::runtime_error("Not found");
+}
+
 size_t InmemoryClientDatabase::size() const { return this->_clients.size(); }
