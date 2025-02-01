@@ -1,4 +1,5 @@
 #include "signal.hpp"
+#include "entrypoint.hpp"
 
 static void sigHandler(int signum);
 
@@ -9,5 +10,5 @@ void setSignal() {
 
 static void sigHandler(int signum) {
   std::cout << "\nInterrupt signal (" << signum << ") received.\nStop server..." << std::endl;
-  exit(0);
+  g_signal = signum;
 }

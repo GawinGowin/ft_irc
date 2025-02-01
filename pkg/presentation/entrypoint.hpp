@@ -10,6 +10,8 @@
 #include "application/useCases/StartServerUseCase.hpp"
 #include "signal.hpp"
 
+extern volatile sig_atomic_t	g_signal;
+
 void entrypoint(int argc, char **argv);
 
 #endif /* ENTRYPOINT_HPP */
