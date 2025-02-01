@@ -8,6 +8,7 @@
 #include "application/useCases/MonitorSocketEventsUseCase.hpp"
 #include "application/useCases/RecieveMsgUseCase.hpp"
 #include "application/useCases/StartServerUseCase.hpp"
+#include "signal.hpp"
 
 void entrypoint(int argc, char **argv);
 

@@ -3,6 +3,7 @@
 void entrypoint(int argc, char **argv) {
   StartServerDTO dto(argc, argv);
   StartServerUseCase startServerUseCase(dto);
+  setSignal();
   try {
     startServerUseCase.execute();
   } catch (const std::runtime_error &e) {
