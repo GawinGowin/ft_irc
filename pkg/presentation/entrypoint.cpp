@@ -22,6 +22,12 @@ void entrypoint(int argc, char **argv) {
       break;
     case MonitorSocketEventDTO::MessageReceived:
       msg = RecieveMsgUseCase::recieve(eventDto);
+      if (msg.size() == 0) {
+        int clientFd = eventDto.getConnectionFd();
+        RemoveConnectionUseCase::remove(clientFd);
+        std::cout << "Connection closed" << std::endl;
+        break;
+      }
       std::cout << "Message received: " << msg << std::endl;
       break;
     default:
