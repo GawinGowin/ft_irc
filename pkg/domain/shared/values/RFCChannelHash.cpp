@@ -3,6 +3,8 @@
 static const std::string base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 static const int channelIdLength = 5;
 
+RFCChannelHash::RFCChannelHash() : _hashedValue(0) {}
+
 RFCChannelHash::RFCChannelHash(const std::time_t &current_time) {
   this->_hashedValue = static_cast<long>(current_time);
 }
@@ -35,9 +37,7 @@ std::string RFCChannelHash::getHash() const {
 
 long RFCChannelHash::getHashLong() const { return this->_hashedValue; }
 
-int RFCChannelHash::getHashInt() const {
-  return this->_toHash(this->_hashedValue);
-}
+int RFCChannelHash::getHashInt() const { return this->_toHash(this->_hashedValue); }
 
 int RFCChannelHash::_toHash(const std::time_t &current_time) const {
   const int base_size = static_cast<int>(base.size());

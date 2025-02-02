@@ -1,5 +1,7 @@
 #include "domain/shared/values/SHAHash.hpp"
 
+SHAHash::SHAHash() : _hashedValue("A") {}
+
 SHAHash::SHAHash(const std::string &rawPassword) : _hashedValue(_toHash(rawPassword)) {}
 
 SHAHash::SHAHash(const SHAHash &other) { _hashedValue = other._hashedValue; }

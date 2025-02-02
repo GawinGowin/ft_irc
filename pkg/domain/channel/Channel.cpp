@@ -3,7 +3,7 @@
 Channel::Channel(const std::string &name) {
   time_t now = time(NULL);
   this->_name = name;
-  this->_id = ChannelId(now);
+  this->_id = JenkinsHash(name);
   this->_modeFlags = 0;
   this->_creation_time = now;
   this->_topic = ChannelTopic();
@@ -24,7 +24,7 @@ Channel::~Channel() {
 
 const std::string &Channel::getName() const { return this->_name; }
 
-const ChannelId &Channel::getId() const { return this->_id; }
+const JenkinsHash &Channel::getId() const { return this->_id; }
 
 const int &Channel::getModeFlags() const { return this->_modeFlags; }
 
@@ -34,7 +34,7 @@ const ChannelTopic &Channel::getTopic() const { return this->_topic; }
 
 const unsigned long &Channel::getMaxUsers() const { return this->_maxusers; }
 
-IHashAggregateRoot *Channel::getKey() const { return this->_key; }
+const SHAHash *Channel::getKey() const { return this->_key; }
 
 void Channel::setModeFlags(int modeFlags) { this->_modeFlags = modeFlags; }
 

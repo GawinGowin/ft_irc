@@ -7,6 +7,7 @@
 
 class JenkinsHash : virtual public IHashAggregateRoot {
 public:
+  JenkinsHash();
   JenkinsHash(const std::string &rawString);
   JenkinsHash(const JenkinsHash &obj);
   JenkinsHash &operator=(const JenkinsHash &obj);
@@ -18,7 +19,6 @@ public:
   int getHashInt() const;
 
 private:
-  JenkinsHash();
   int _toHash(const std::string &src);
   int _hashedValue;
 };

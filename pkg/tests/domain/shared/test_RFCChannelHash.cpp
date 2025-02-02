@@ -1,6 +1,6 @@
 #include "domain/shared/values/RFCChannelHash.hpp"
-#include <gtest/gtest.h>
 #include <ctime>
+#include <gtest/gtest.h>
 
 TEST(RFCChannelHashTest, ConstructorTest) {
   std::time_t current_time = std::time(NULL);

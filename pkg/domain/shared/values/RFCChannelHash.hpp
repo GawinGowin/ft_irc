@@ -9,6 +9,7 @@
 
 class RFCChannelHash : virtual public IHashAggregateRoot {
 public:
+  RFCChannelHash();
   RFCChannelHash(const std::time_t &current_time);
   RFCChannelHash(const RFCChannelHash &obj);
   RFCChannelHash &operator=(const RFCChannelHash &obj);
@@ -20,7 +21,6 @@ public:
   int getHashInt() const;
 
 private:
-  RFCChannelHash();
   int _toHash(const std::time_t &current_time) const;
   long _hashedValue;
 };

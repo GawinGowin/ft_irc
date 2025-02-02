@@ -1,8 +1,8 @@
 #ifndef ICHANNELREPOSITORY_HPP
 #define ICHANNELREPOSITORY_HPP
 
-#include "domain/channel/ChannelId.hpp"
 #include "domain/channel/IChannelAggregateRoot.hpp"
+#include "domain/shared/values/IHashAggregateRoot.hpp"
 
 #include <vector>
 
@@ -33,7 +33,8 @@ public:
  * 
  * id(ハッシュ化した値)とNameで検索を行うのはngircdの内部実装に従ったものです。
  */
-  virtual const IChannelAggregateRoot *get(const ChannelId &id, const std::string &name) = 0;
+  virtual const IChannelAggregateRoot *
+  get(const IHashAggregateRoot &id, const std::string &name) = 0;
   /**
  * @brief 指定されたIDと名前のチャンネルを更新する
  * @param id チャンネルのID
@@ -42,8 +43,10 @@ public:
  * 
  * この関数は例外をスローしないため、事前にgetメソッドを用いてチャンネルの存在確認を行う必要があります。
  */
-  virtual void
-  update(const ChannelId &id, const std::string &name, const IChannelAggregateRoot &newData) = 0;
+  virtual void update(
+      const IHashAggregateRoot &id,
+      const std::string &name,
+      const IChannelAggregateRoot &newData) = 0;
   /**
    * @brief 指定されたIDと名前のチャンネルを削除する
    * @param id チャンネルのID
@@ -51,7 +54,7 @@ public:
    * 
    * この関数は例外をスローしないため、事前にgetメソッドを用いてチャンネルの存在確認を行う必要があります。
    */
-  virtual void remove(const ChannelId &id, const std::string &name) = 0;
+  virtual void remove(const IHashAggregateRoot &id, const std::string &name) = 0;
 };
 
 #endif /* ICHANNELREPOSITORY_HPP */

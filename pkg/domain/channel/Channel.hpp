@@ -2,10 +2,10 @@
 #define CHANNEL_HPP
 
 #include "domain/channel/ChannelClientList.hpp"
-#include "domain/channel/ChannelId.hpp"
 #include "domain/channel/ChannelTopic.hpp"
 #include "domain/channel/IChannelAggregateRoot.hpp"
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/shared/values/JenkinsHash.hpp"
+#include "domain/shared/values/SHAHash.hpp"
 #include <string>
 #include <time.h>
 
@@ -17,13 +17,13 @@ public:
   ~Channel();
 
   const std::string &getName() const;
-  const ChannelId &getId() const;
+  const JenkinsHash &getId() const;
   const int &getModeFlags() const;
   const time_t &getCreationTime() const;
   const ChannelTopic &getTopic() const;
   const unsigned long &getMaxUsers() const;
 
-  IHashAggregateRoot *getKey() const;
+  const SHAHash *getKey() const;
 
   void setModeFlags(int modeFlags);
   void setMaxUsers(unsigned long maxusers);
@@ -37,11 +37,11 @@ public:
 
 private:
   std::string _name;               /* Name of the channel */
-  ChannelId _id;                   /* Unique channel ID */
+  JenkinsHash _id;                 /* Unique channel ID */
   int _modeFlags;                  /* Channel modes */
   time_t _creation_time;           /* Channel creation time */
   ChannelTopic _topic;             /* Channel topic */
-  IHashAggregateRoot *_key;        /* Channel key ("password", mode "k" ) */
+  SHAHash *_key;                   /* Channel key ("password", mode "k" ) */
   unsigned long _maxusers;         /* Maximum number of members (mode "l") */
   ChannelClientList _listConnects; /* list head of connected users */
   ChannelClientList _listBans;     /* list head of banned users */

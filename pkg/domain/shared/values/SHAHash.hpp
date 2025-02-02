@@ -11,6 +11,7 @@
 
 class SHAHash : virtual public IHashAggregateRoot {
 public:
+  SHAHash();
   SHAHash(const std::string &rawPassword);
   SHAHash(const SHAHash &obj);
   ~SHAHash();
@@ -22,7 +23,6 @@ public:
   int getHashInt() const;
 
 private:
-  SHAHash();
   std::string _toHex(const unsigned char *hash, size_t length);
   std::string _toHash(const std::string &src);
   std::string _hashedValue;

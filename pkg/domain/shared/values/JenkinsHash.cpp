@@ -2,6 +2,8 @@
 
 static int jenkins_hash(char *k, int length, int initval);
 
+JenkinsHash::JenkinsHash() : _hashedValue(0) {}
+
 JenkinsHash::JenkinsHash(const std::string &rawString) : _hashedValue(_toHash(rawString)) {}
 
 JenkinsHash::JenkinsHash(const JenkinsHash &obj) { *this = obj; }
