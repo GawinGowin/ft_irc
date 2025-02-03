@@ -25,54 +25,25 @@ InmemoryChannelDatabase &InmemoryChannelDatabase::operator=(const InmemoryChanne
 }
 
 void InmemoryChannelDatabase::add(const IChannelAggregateRoot &channel) {
-  JenkinsHash id;
-  try {
-    id = dynamic_cast<const JenkinsHash &>(channel.getId());
-  } catch (const std::exception &e) {
-    std::cerr << "ChannelDatabase: add: " << e.what() << std::endl;
-  }
-  this->_database.insert(std::make_pair(id, channel.clone()));
+  this->_database.insert(std::make_pair(channel.getName(), channel.clone()));
 }
 
-const IChannelAggregateRoot *
-InmemoryChannelDatabase::get(const IHashAggregateRoot &id, const std::string &name) {
-  JenkinsHash hash;
-  try {
-    hash = dynamic_cast<const JenkinsHash &>(id);
-  } catch (const std::exception &e) {
-    std::cerr << "ChannelDatabase: get: " << e.what() << std::endl;
-  }
-  std::pair<IdToChannelMap::const_iterator, IdToChannelMap::const_iterator> range =
-      this->_database.equal_range(hash);
-  for (IdToChannelMap::const_iterator it = range.first; it != range.second; ++it) {
-    if (it->second->getName() == name) {
-      return it->second;
-    }
-  }
-  return NULL;
+const IChannelAggregateRoot *InmemoryChannelDatabase::get(const std::string &name) {
+  IdToChannelMap::iterator ret = this->_database.find(name);
+  return ret == this->_database.end() ? NULL : ret->second;
 }
 
 void InmemoryChannelDatabase::update(
-    const IHashAggregateRoot &id, const std::string &name, const IChannelAggregateRoot &newData) {
-  this->remove(id, name);
+    const std::string &name, const IChannelAggregateRoot &newData) {
+  this->remove(name);
   this->add(newData);
 }
 
-void InmemoryChannelDatabase::remove(const IHashAggregateRoot &id, const std::string &name) {
-  JenkinsHash hash;
-  try {
-    hash = dynamic_cast<const JenkinsHash &>(id);
-  } catch (const std::exception &e) {
-    std::cerr << "ChannelDatabase: remove: " << e.what() << std::endl;
-  }
-  std::pair<IdToChannelMap::iterator, IdToChannelMap::iterator> range =
-      this->_database.equal_range(hash);
-  for (IdToChannelMap::iterator it = range.first; it != range.second; ++it) {
-    if (it->second->getName() == name) {
-      delete it->second;
-      this->_database.erase(it);
-      break;
-    }
+void InmemoryChannelDatabase::remove(const std::string &name) {
+  IdToChannelMap::iterator ret = this->_database.find(name);
+  if (ret != this->_database.end()) {
+    delete ret->second;
+    this->_database.erase(ret);
   }
 }
 

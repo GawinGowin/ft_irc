@@ -7,9 +7,10 @@
 
 #include <iostream>
 #include <map>
+#include <string>
 #include <utility>
 
-typedef std::multimap<JenkinsHash, IChannelAggregateRoot *> IdToChannelMap;
+typedef std::map<std::string, IChannelAggregateRoot *> IdToChannelMap;
 
 class InmemoryChannelDatabase : public IChannelRepository {
 public:
@@ -19,10 +20,9 @@ public:
   InmemoryChannelDatabase &operator=(const InmemoryChannelDatabase &other);
 
   void add(const IChannelAggregateRoot &channel);
-  const IChannelAggregateRoot *get(const IHashAggregateRoot &id, const std::string &name);
-  void update(
-      const IHashAggregateRoot &id, const std::string &name, const IChannelAggregateRoot &newData);
-  void remove(const IHashAggregateRoot &id, const std::string &name);
+  const IChannelAggregateRoot *get(const std::string &name);
+  void update(const std::string &name, const IChannelAggregateRoot &newData);
+  void remove(const std::string &name);
 
   const IdToChannelMap &getDatabase();
 

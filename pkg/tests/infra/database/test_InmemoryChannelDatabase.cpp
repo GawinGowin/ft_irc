@@ -52,10 +52,10 @@ TEST_F(InmemoryChannelDatabaseTest, AddAndList) {
 
   auto db = database.getDatabase();
   ASSERT_EQ(db.size(), 1);
-  EXPECT_EQ(db.begin()->first, id);
+  EXPECT_EQ(db.begin()->first, this->channelName);
   EXPECT_EQ(db.begin()->second->getName(), this->channelName);
 
-  auto result = this->database.get(id, this->channelName);
+  auto result = this->database.get(this->channelName);
   ASSERT_NE(result, nullptr);
   EXPECT_EQ(result, copyChannel);
 }
@@ -87,10 +87,10 @@ TEST_F(InmemoryChannelDatabaseTest, UpdateChannel) {
   database.add(this->mockChannel);
 
   // 更新
-  database.update(id, this->channelName, mockChannelNew);
+  database.update(this->channelName, mockChannelNew);
 
   // 更新後の確認
-  auto result = database.get(idNew, channelNameNew);
+  auto result = database.get(channelNameNew);
   ASSERT_NE(result, nullptr);
   EXPECT_EQ(result->getName(), channelNameNew);
 }
@@ -107,15 +107,27 @@ TEST_F(InmemoryChannelDatabaseTest, RemoveChannel) {
   EXPECT_CALL(*copyChannel, getName()).WillRepeatedly(::testing::ReturnRef(this->channelName));
   EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
 
-  // データベースに追加
-  database.add(mockChannel);
+  for (int i = 0; i < 10000; i++) {
+    std::string channelName = "#Channel" + std::to_string(i);
+    JenkinsHash id(channelName);
 
-  // 削除
-  database.remove(id, this->channelName);
+    MockChannelAggregateRoot mockChannel;
+    MockChannelAggregateRoot *copyChannel;
+    copyChannel = new MockChannelAggregateRoot();
+
+    EXPECT_CALL(mockChannel, getName()).WillRepeatedly(::testing::ReturnRef(channelName));
+    EXPECT_CALL(mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
+    EXPECT_CALL(mockChannel, clone()).WillRepeatedly(::testing::Return(copyChannel));
+    EXPECT_CALL(*copyChannel, getName()).WillRepeatedly(::testing::ReturnRef(channelName));
+    EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
+
+    database.add(mockChannel);
+    database.remove(channelName);
+  }
 
   // 削除後の確認
   auto db = database.getDatabase();
   EXPECT_EQ(db.size(), 0);
-  auto result = this->database.get(id, this->channelName);
+  auto result = this->database.get(this->channelName);
   EXPECT_EQ(result, nullptr);
 }
