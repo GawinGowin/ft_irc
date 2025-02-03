@@ -1,6 +1,6 @@
 #include "domain/channel/IChannelAggregateRoot.hpp"
-#include "infra/database/InmemoryChannelDatabase.hpp"
 #include "domain/shared/values/JenkinsHash.hpp"
+#include "infra/database/InmemoryChannelDatabase.hpp"
 #include <ctime>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -36,7 +36,8 @@ protected:
 
 TEST_F(InmemoryChannelDatabaseTest, AddAndList) {
   MockChannelAggregateRoot *copyChannel;
-  copyChannel = new MockChannelAggregateRoot(); // delete は不要 (InmemoryChannelDatabaseのデストラクタでdeleteされる)
+  copyChannel =
+      new MockChannelAggregateRoot(); // delete は不要 (InmemoryChannelDatabaseのデストラクタでdeleteされる)
 
   JenkinsHash id(this->channelName);
 
@@ -75,7 +76,6 @@ TEST_F(InmemoryChannelDatabaseTest, UpdateChannel) {
   MockChannelAggregateRoot *copyNewChannel;
   copyNewChannel = new MockChannelAggregateRoot();
   JenkinsHash idNew(channelNameNew);
-
 
   EXPECT_CALL(mockChannelNew, getName()).WillRepeatedly(::testing::ReturnRef(channelNameNew));
   EXPECT_CALL(mockChannelNew, getId()).WillRepeatedly(::testing::ReturnRef(idNew));
