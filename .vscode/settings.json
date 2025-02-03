@@ -92,6 +92,6 @@
     "thread": "cpp",
     "typeinfo": "cpp",
     "cinttypes": "cpp",
-    "a": "cpp"
+    "csignal": "cpp"
   }
 }

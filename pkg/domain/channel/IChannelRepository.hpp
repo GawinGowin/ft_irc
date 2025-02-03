@@ -21,11 +21,6 @@ public:
  */
   virtual void add(const IChannelAggregateRoot &channel) = 0;
   /**
- * @brief すべてのチャンネルを一覧取得する
- * @return チャンネルのアグリゲートルートのポインタのベクター
- */
-  virtual const std::vector<IChannelAggregateRoot *> list() = 0;
-  /**
  * @brief 指定されたIDと名前のチャンネルを取得する
  * @param id チャンネルのID
  * @param name チャンネルの名前
