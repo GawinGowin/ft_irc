@@ -21,7 +21,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Test-Logs
-        path: build/tests/Testing/Temporary/LastTest.log
+        path: build/pkg/tests/Testing/Temporary/LastTest.log
 
   format:
     runs-on: ubuntu-latest

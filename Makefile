@@ -10,6 +10,9 @@ SOURCE += $(shell find $(BASE_PKG_DIR)/application $(BASE_PKG_DIR)/domain $(BASE
 HEADER =
 HEADER += $(shell find $(BASE_PKG_DIR)/application $(BASE_PKG_DIR)/domain $(BASE_PKG_DIR)/infra $(BASE_PKG_DIR)/presentation -name '*.h' -o -name '*.hpp')
 
+TESTS =
+TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
+
 CXX := c++
 CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR) -I/opt/homebrew/opt/openssl@3/include
 LFALGS := -L/opt/homebrew/opt/openssl@3/lib -lcrypto -lssl
@@ -54,7 +57,7 @@ re: fclean all
 
 .PHONY: fmt
 fmt:
-	clang-format -i --style=file $(SOURCE) $(HEADER)
+	clang-format -i --style=file $(SOURCE) $(HEADER) $(TESTS)
 
 .PHONY: build
 build:
