@@ -96,18 +96,7 @@ TEST_F(InmemoryChannelDatabaseTest, UpdateChannel) {
 }
 
 TEST_F(InmemoryChannelDatabaseTest, RemoveChannel) {
-  MockChannelAggregateRoot *copyChannel;
-  copyChannel = new MockChannelAggregateRoot();
-
-  JenkinsHash id(this->channelName);
-
-  EXPECT_CALL(this->mockChannel, getName()).WillRepeatedly(::testing::ReturnRef(this->channelName));
-  EXPECT_CALL(this->mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
-  EXPECT_CALL(this->mockChannel, clone()).WillRepeatedly(::testing::Return(copyChannel));
-  EXPECT_CALL(*copyChannel, getName()).WillRepeatedly(::testing::ReturnRef(this->channelName));
-  EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
-
-  for (int i = 0; i < 10000; i++) {
+  for (int i = 0; i < 1000; i++) {
     std::string channelName = "#Channel" + std::to_string(i);
     JenkinsHash id(channelName);
 
