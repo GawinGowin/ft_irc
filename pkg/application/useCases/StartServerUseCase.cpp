@@ -5,10 +5,10 @@ const int maxBufferSize = 1024;
 
 StartServerUseCase::StartServerUseCase(const StartServerDTO &dto) {
   try {
-    ServerPassword *password = new ServerPassword(dto.getPassword());
+    SHAHash *password = new SHAHash(dto.getPassword());
     SocketHandlerServiceLocator::init(
         dto.getAddress(), dto.getPort(), maxConnections, maxBufferSize,
-        static_cast<IServerPasswordAggregateRoot *>(password));
+        static_cast<IHashAggregateRoot *>(password));
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("init SocketHandler: ") + e.what());
   }
