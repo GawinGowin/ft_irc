@@ -21,6 +21,10 @@ bool JenkinsHash::operator==(const IHashAggregateRoot &other) const {
   return this->_hashedValue == other.getHashInt();
 }
 
+bool JenkinsHash::operator<(const IHashAggregateRoot &other) const {
+  return this->_hashedValue < other.getHashInt();
+}
+
 std::string JenkinsHash::getHash() const {
   std::stringstream ss;
   ss << std::hex << this->_hashedValue;

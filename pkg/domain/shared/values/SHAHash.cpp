@@ -19,6 +19,10 @@ bool SHAHash::operator==(const IHashAggregateRoot &other) const {
   return _hashedValue == other.getHash();
 };
 
+bool SHAHash::operator<(const IHashAggregateRoot &other) const {
+  return _hashedValue < other.getHash();
+}
+
 std::string SHAHash::getHash() const { return this->_hashedValue; }
 
 long SHAHash::getHashLong() const {

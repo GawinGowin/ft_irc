@@ -24,6 +24,10 @@ bool RFCChannelHash::operator==(const IHashAggregateRoot &other) const {
   return this->_hashedValue == other.getHashLong();
 }
 
+bool RFCChannelHash::operator<(const IHashAggregateRoot &other) const {
+  return this->_hashedValue < other.getHashLong();
+}
+
 std::string RFCChannelHash::getHash() const {
   int raw_id = this->_toHash(this->_hashedValue);
   size_t base_size = base.size();

@@ -16,6 +16,8 @@ public:
   ~RFCChannelHash();
 
   bool operator==(const IHashAggregateRoot &other) const;
+  bool operator<(const IHashAggregateRoot &other) const;
+
   std::string getHash() const;
   long getHashLong() const;
   int getHashInt() const;
