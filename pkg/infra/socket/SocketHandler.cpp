@@ -5,7 +5,7 @@ SocketHandler::SocketHandler(
     const int port,
     const int maxConnections,
     const int maxBufferSize,
-    IServerPasswordAggregateRoot *password)
+    IHashAggregateRoot *password)
     : _socket(-1), _port(port), _maxBufferSize(maxBufferSize), _maxConnections(maxConnections),
       _currentConnections(0), _isListening(false), _password(password) {
   this->_addr.sin_family = AF_INET;

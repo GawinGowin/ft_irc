@@ -1,7 +1,7 @@
 #ifndef SOCKETHANDLERSERVICELOCATOR_HPP
 #define SOCKETHANDLERSERVICELOCATOR_HPP
 
-#include "domain/server/IServerPasswordAggregateRoot.hpp"
+#include "domain/shared/values/IHashAggregateRoot.hpp"
 #include "infra/socket/SocketHandler.hpp"
 #include <stdexcept>
 
@@ -12,7 +12,7 @@ public:
       const int port,
       const int maxConnections,
       const int maxBufferSize,
-      IServerPasswordAggregateRoot *password) {
+      IHashAggregateRoot *password) {
     if (_service != NULL) {
       throw std::runtime_error("already initialized");
     }

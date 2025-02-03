@@ -7,8 +7,9 @@
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include "domain/client/Client.hpp"
-#include "domain/server/ServerPassword.hpp"
 #include "domain/shared/ISocketHandler.hpp"
+#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/shared/values/SHAHash.hpp"
 
 class StartServerUseCase {
 public:
