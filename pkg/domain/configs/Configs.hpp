@@ -6,7 +6,6 @@
 #include "domain/configs/LimitsConfig.hpp"
 #include "domain/configs/OperatorConfig.hpp"
 #include "domain/configs/OptionsConfig.hpp"
-#include "domain/shared/values/IHashAggregateRoot.hpp"
 
 #include <string>
 #include <vector>
@@ -24,7 +23,7 @@ struct Configs {
   const ChannelConfig &getChannel() const;
 
   void setPort(const int port);
-  void setPassword(const std::string password);
+  void setPassword(const std::string &password);
 
   GlobalConfig Global;
   LimitsConfig Limits;

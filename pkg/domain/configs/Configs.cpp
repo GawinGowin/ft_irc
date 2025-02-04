@@ -18,30 +18,16 @@ Configs &Configs::operator=(const Configs &obj) {
   return *this;
 }
 
-const GlobalConfig &Configs::getGlobal() const {
-  return this->Global;
-}
+const GlobalConfig &Configs::getGlobal() const { return this->Global; }
 
-const LimitsConfig &Configs::getLimits() const {
-  return this->Limits;
-}
+const LimitsConfig &Configs::getLimits() const { return this->Limits; }
 
-const OptionsConfig &Configs::getOptions() const {
-  return this->Options;
-}
+const OptionsConfig &Configs::getOptions() const { return this->Options; }
 
-const OperatorConfig &Configs::getOperator() const {
-  return this->Operator;
-}
+const OperatorConfig &Configs::getOperator() const { return this->Operator; }
 
-const ChannelConfig &Configs::getChannel() const {
-  return this->Channel;
-}
+const ChannelConfig &Configs::getChannel() const { return this->Channel; }
 
-void Configs::setPort(const int port) {
-  this->Global.Port = port;
-}
+void Configs::setPort(const int port) { this->Global.Port = port; }
 
-void Configs::setPassword(const std::string password) {
-  this->Global.Password = password;
-}
+void Configs::setPassword(const std::string &password) { this->Global.Password = password; }
