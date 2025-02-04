@@ -12,8 +12,8 @@ Configs &Configs::operator=(const Configs &obj) {
     this->Global = obj.Global;
     this->Limits = obj.Limits;
     this->Options = obj.Options;
-    this->Operator = obj.Operator;
-    this->Channel = obj.Channel;
+    this->Operators = obj.Operators;
+    this->Channels = obj.Channels;
   }
   return *this;
 }
@@ -24,10 +24,6 @@ const LimitsConfig &Configs::getLimits() const { return this->Limits; }
 
 const OptionsConfig &Configs::getOptions() const { return this->Options; }
 
-const OperatorConfig &Configs::getOperator() const { return this->Operator; }
+const std::vector<OperatorConfig> &Configs::getOperators() const { return this->Operators; }
 
-const ChannelConfig &Configs::getChannel() const { return this->Channel; }
-
-void Configs::setPort(const int port) { this->Global.Port = port; }
-
-void Configs::setPassword(const std::string &password) { this->Global.Password = password; }
+const std::vector<ChannelConfig> &Configs::getChannels() const { return this->Channels; }

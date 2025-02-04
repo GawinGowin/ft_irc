@@ -7,6 +7,13 @@ struct OperatorConfig {
   std::string Name;
   std::string Password;
   std::string Mask;
+
+  OperatorConfig() {}
+  OperatorConfig(const std::string &Name, const std::string &Password, const std::string &Mask) {
+    this->Name = Name;
+    this->Password = Password;
+    this->Mask = Mask;
+  }
 };
 
 #endif /* OPERATORCONFIG_HPP */

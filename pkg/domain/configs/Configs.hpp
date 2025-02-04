@@ -22,14 +22,14 @@ struct Configs {
   const OperatorConfig &getOperator() const;
   const ChannelConfig &getChannel() const;
 
-  void setPort(const int port);
-  void setPassword(const std::string &password);
+  const std::vector<OperatorConfig> &getOperators() const;
+  const std::vector<ChannelConfig> &getChannels() const;
 
   GlobalConfig Global;
   LimitsConfig Limits;
   OptionsConfig Options;
-  OperatorConfig Operator;
-  ChannelConfig Channel;
+  std::vector<OperatorConfig> Operators;
+  std::vector<ChannelConfig> Channels;
 };
 
 #endif /* CONFIGS_HPP */

@@ -61,15 +61,11 @@ ConfigsLoader::ConfigsLoader() {
   conf.Options.WebircPassword = "xyz";
 
   // [Operator]
-  conf.Operator.Name = "TheOper";
-  conf.Operator.Password = "ThePwd";
-  conf.Operator.Mask = "*!ident@somewhere.example.com";
+  conf.Operators.push_back(OperatorConfig("TheOper", "ThePwd", "*!ident@somewhere.example.com"));
 
   // [Channel]
-  conf.Channel.Name = "#ngircd";
-  conf.Channel.Topic = "Our ngircd testing channel";
-  conf.Channel.Modes = "+tnk mykey +l 5";
-  conf.Channel.KeyFile = "/etc/ngircd/#chan.key";
+  conf.Channels.push_back(ChannelConfig(
+      "#ngircd", "Our ngircd testing channel", "+tnk mykey +l 5", "/etc/ngircd/#chan.key"));
 }
 
 ConfigsLoader::~ConfigsLoader() {}
