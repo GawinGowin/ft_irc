@@ -17,7 +17,9 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/ft_irc_debug",
-			"args": [],
+			"args": [
+        "8080" , "pass"
+      ],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

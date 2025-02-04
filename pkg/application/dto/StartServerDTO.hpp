@@ -9,20 +9,20 @@ class StartServerDTO {
 public:
   StartServerDTO(int argc, char **argv);
   ~StartServerDTO(){};
-  StartServerDTO(const StartServerDTO &obj)
-      : _address(obj._address), _port(obj._port), _password(obj._password){};
+  StartServerDTO(const StartServerDTO &obj) : _port(obj._port), _password(obj._password){};
 
   StartServerDTO &operator=(const StartServerDTO &obj) {
-    (void)obj;
+    if (this != &obj) {
+      this->_port = obj._port;
+      this->_password = obj._password;
+    }
     return *this;
   }
 
-  const std::string &getAddress() const { return this->_address; }
   const int &getPort() const { return this->_port; }
   const std::string &getPassword() const { return this->_password; }
 
 private:
-  std::string _address;
   int _port;
   std::string _password;
 };

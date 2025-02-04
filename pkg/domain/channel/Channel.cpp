@@ -7,7 +7,7 @@ Channel::Channel(const std::string &name) {
   this->_modeFlags = 0;
   this->_creation_time = now;
   this->_topic = ChannelTopic();
-  this->_key = NULL;
+  this->_key = "";
   this->_maxusers = DEFAULT_MAX_USERS;
   this->_listConnects = ChannelClientList();
   this->_listBans = ChannelClientList();
@@ -15,12 +15,7 @@ Channel::Channel(const std::string &name) {
   this->_listInvites = ChannelClientList();
 }
 
-Channel::~Channel() {
-  if (this->_key != NULL) {
-    delete this->_key;
-    this->_key = NULL;
-  }
-}
+Channel::~Channel() {}
 
 const std::string &Channel::getName() const { return this->_name; }
 
@@ -34,7 +29,7 @@ const ChannelTopic &Channel::getTopic() const { return this->_topic; }
 
 const unsigned long &Channel::getMaxUsers() const { return this->_maxusers; }
 
-const SHAHash *Channel::getKey() const { return this->_key; }
+const std::string &Channel::getKey() const { return this->_key; }
 
 void Channel::setModeFlags(int modeFlags) { this->_modeFlags = modeFlags; }
 

@@ -4,12 +4,13 @@
 #include <stdexcept>
 
 #include "application/dto/StartServerDTO.hpp"
+#include "application/serviceLocator/ConfigsServiceLocator.hpp"
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include "domain/client/Client.hpp"
 #include "domain/shared/ISocketHandler.hpp"
 #include "domain/shared/values/IHashAggregateRoot.hpp"
-#include "domain/shared/values/SHAHash.hpp"
+#include "infra/configs/ConfigsLoader.hpp"
 
 class StartServerUseCase {
 public:
