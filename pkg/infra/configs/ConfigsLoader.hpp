@@ -14,6 +14,9 @@ public:
   const Configs &getConfigs(void) const;
   void setConfigs(const Configs &configs);
 
+  void setPort(const int &port);
+  void setPassword(const std::string &password);
+
 private:
   Configs _configs;
 };

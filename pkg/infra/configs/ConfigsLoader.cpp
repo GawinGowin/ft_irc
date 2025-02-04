@@ -1,5 +1,6 @@
 #include "infra/configs/ConfigsLoader.hpp"
 
+// TODO: 使用していない値は削除する
 ConfigsLoader::ConfigsLoader() {
   Configs &conf = this->_configs;
   // [Global]
@@ -30,6 +31,7 @@ ConfigsLoader::ConfigsLoader() {
   conf.Limits.MaxListSize = 100;
   conf.Limits.PingTimeout = 120;
   conf.Limits.PongTimeout = 20;
+  conf.Limits.MaxBufferSize = 1024;
 
   // [Options]
   conf.Options.AllowedChannelTypes = "#&+";
@@ -84,3 +86,9 @@ ConfigsLoader &ConfigsLoader::operator=(const ConfigsLoader &other) {
 const Configs &ConfigsLoader::getConfigs(void) const { return this->_configs; }
 
 void ConfigsLoader::setConfigs(const Configs &configs) { this->_configs = configs; }
+
+void ConfigsLoader::setPort(const int &port) { this->_configs.Global.Port = port; }
+
+void ConfigsLoader::setPassword(const std::string &password) {
+  this->_configs.Global.Password = password;
+}

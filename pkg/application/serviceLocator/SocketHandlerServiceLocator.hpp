@@ -7,16 +7,12 @@
 
 class SocketHandlerServiceLocator {
 public:
-  static void init(
-      std::string address,
-      const int port,
-      const int maxConnections,
-      const int maxBufferSize,
-      IHashAggregateRoot *password) {
+  static void
+  init(std::string address, const int port, const int maxConnections, const int maxBufferSize) {
     if (_service != NULL) {
       throw std::runtime_error("already initialized");
     }
-    _service = new SocketHandler(address, port, maxConnections, maxBufferSize, password);
+    _service = new SocketHandler(address, port, maxConnections, maxBufferSize);
   }
 
   static SocketHandler &get() {

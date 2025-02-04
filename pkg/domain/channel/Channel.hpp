@@ -5,7 +5,6 @@
 #include "domain/channel/ChannelTopic.hpp"
 #include "domain/channel/IChannelAggregateRoot.hpp"
 #include "domain/shared/values/JenkinsHash.hpp"
-#include "domain/shared/values/SHAHash.hpp"
 #include <string>
 #include <time.h>
 
@@ -23,7 +22,7 @@ public:
   const ChannelTopic &getTopic() const;
   const unsigned long &getMaxUsers() const;
 
-  const SHAHash *getKey() const;
+  const std::string &getKey() const;
 
   void setModeFlags(int modeFlags);
   void setMaxUsers(unsigned long maxusers);
@@ -41,7 +40,7 @@ private:
   int _modeFlags;                  /* Channel modes */
   time_t _creation_time;           /* Channel creation time */
   ChannelTopic _topic;             /* Channel topic */
-  SHAHash *_key;                   /* Channel key ("password", mode "k" ) */
+  std::string _key;                /* Channel key ("password", mode "k" ) */
   unsigned long _maxusers;         /* Maximum number of members (mode "l") */
   ChannelClientList _listConnects; /* list head of connected users */
   ChannelClientList _listBans;     /* list head of banned users */

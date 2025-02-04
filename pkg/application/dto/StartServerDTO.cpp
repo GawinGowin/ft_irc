@@ -21,5 +21,4 @@ StartServerDTO::StartServerDTO(int argc, char **argv) {
   }
   this->_port = port;
   this->_password = password;
-  this->_address = std::string("127.0.0.1");
 }

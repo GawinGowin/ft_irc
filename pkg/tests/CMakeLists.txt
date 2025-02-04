@@ -18,7 +18,6 @@ add_executable(DomainTest
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_Channel.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelClientList.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelTopic.cpp
- ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_SHAHash.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_RFCChannelHash.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_JenkinsHash.cpp
 )

@@ -2,7 +2,6 @@
 #define SOCKETHANDLER_HPP
 
 #include "domain/shared/ISocketHandler.hpp"
-#include "domain/shared/values/IHashAggregateRoot.hpp"
 #include <arpa/inet.h>
 #include <poll.h>
 #include <stdexcept>
@@ -13,11 +12,7 @@
 class SocketHandler : virtual public ISocketHandler {
 public:
   SocketHandler(
-      std::string address,
-      const int port,
-      const int maxConnections,
-      const int maxBufferSize,
-      IHashAggregateRoot *password);
+      std::string address, const int port, const int maxConnections, const int maxBufferSize);
   ~SocketHandler();
   SocketHandler(const SocketHandler &other);
   SocketHandler &operator=(const SocketHandler &other);
@@ -50,8 +45,6 @@ private:
 
   pollfd _serverPollfd;
   struct sockaddr_in _addr;
-
-  IHashAggregateRoot *_password;
 
   SocketHandler();
 };

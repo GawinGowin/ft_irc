@@ -12,6 +12,7 @@ struct LimitsConfig {
   int MaxListSize;
   int PingTimeout;
   int PongTimeout;
+  int MaxBufferSize;
 };
 
 #endif /* LIMITSCONFIG_HPP */
