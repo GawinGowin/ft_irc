@@ -22,8 +22,12 @@ jobs:
       with:
         name: Test-Logs
         path: build/pkg/tests/Testing/Temporary/LastTest.log
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
     - name: Upload coverage reports to Codecov
-      if: always()
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
