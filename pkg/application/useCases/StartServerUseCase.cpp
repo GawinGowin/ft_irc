@@ -1,14 +1,14 @@
 #include "application/useCases/StartServerUseCase.hpp"
 
-const int maxConnections = 10;
-const int maxBufferSize = 1024;
-
 StartServerUseCase::StartServerUseCase(const StartServerDTO &dto) {
+  ConfigsLoader &loader = ConfigsServiceLocator::get();
+  loader.setPort(dto.getPort());
+  loader.setPassword(dto.getPassword());
+  const Configs &conf = loader.getConfigs();
   try {
-    SHAHash *password = new SHAHash(dto.getPassword());
     SocketHandlerServiceLocator::init(
-        dto.getAddress(), dto.getPort(), maxConnections, maxBufferSize,
-        static_cast<IHashAggregateRoot *>(password));
+        conf.Global.Listen, conf.Global.Port, conf.Limits.MaxConnections,
+        conf.Limits.MaxBufferSize);
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("init SocketHandler: ") + e.what());
   }

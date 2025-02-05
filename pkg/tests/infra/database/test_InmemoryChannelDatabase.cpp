@@ -13,7 +13,7 @@ public:
   MOCK_METHOD(const time_t &, getCreationTime, (), (const, override));
   MOCK_METHOD(ChannelTopic &, getTopic, (), (const, override));
   MOCK_METHOD(const unsigned long &, getMaxUsers, (), (const, override));
-  MOCK_METHOD(IHashAggregateRoot *, getKey, (), (const, override));
+  MOCK_METHOD(const std::string &, getKey, (), (const, override));
 
   MOCK_METHOD(void, setModeFlags, (int modeFlags), (override));
   MOCK_METHOD(void, setMaxUsers, (unsigned long maxusers), (override));
