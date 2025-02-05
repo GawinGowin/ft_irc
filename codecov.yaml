@@ -1,5 +1,5 @@
 comment:
-  layout: "header, diff, flags, components, files, footer"  # show component info in the PR comment
+  layout: "header, reach, diff, flags, components, files"  # show component info in the PR comment
   
 component_management:
   default_rules:  # default rules that will be inherited by all components
