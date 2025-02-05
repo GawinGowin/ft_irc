@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.14)
 project(ft_irc)
 
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
-set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address -fprofile-arcs -ftest-coverage -O0")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address -fprofile-arcs -ftest-coverage -O0")
 
 ## Sources
 file(GLOB_RECURSE SOURCES

@@ -22,6 +22,12 @@ jobs:
       with:
         name: Test-Logs
         path: build/pkg/tests/Testing/Temporary/LastTest.log
+    - name: Upload coverage reports to Codecov
+      if: always()
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        gcov: true
 
   format:
     runs-on: ubuntu-latest
