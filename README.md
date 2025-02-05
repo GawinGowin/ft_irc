@@ -1,5 +1,6 @@
 [![C/C++ CI](https://github.com/GawinGowin/ft_irc/actions/workflows/cpp_ci.yml/badge.svg)](https://github.com/GawinGowin/ft_irc/actions/workflows/cpp_ci.yml)
 [![Deploy static content to Pages](https://github.com/GawinGowin/ft_irc/actions/workflows/site_deploy.yml/badge.svg)](https://github.com/GawinGowin/ft_irc/actions/workflows/site_deploy.yml)
+[![codecov](https://codecov.io/gh/GawinGowin/ft_irc/graph/badge.svg?token=BXEPD68ZQQ)](https://codecov.io/gh/GawinGowin/ft_irc)
 <p align="center">
 <a href="https://github.com/ayogun/42-project-badges">
 <img src="https://raw.githubusercontent.com/ayogun/42-project-badges/refs/heads/main/badges/ft_irce.png">
