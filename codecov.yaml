@@ -9,7 +9,7 @@ coverage:
   status:
     project:
       default:
-        informational: true
+        informational: true      
     patch:
       default:
         informational: true
@@ -21,6 +21,8 @@ component_management:
         target: auto
         branches:
           - "!main"
+        informational: true
+
   individual_components:
     - component_id: module_application  # this is an identifier that should not be changed
       name: application  # this is a display name, and can be changed freely
