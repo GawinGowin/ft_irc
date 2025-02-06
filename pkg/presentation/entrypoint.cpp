@@ -11,11 +11,13 @@ void entrypoint(int argc, char **argv) {
   }
   MonitorSocketEventsUseCase monitorSocketEventsUseCase;
   MonitorSocketEventDTO eventDto;
+  RecievedMsgDTO msgDto;
+  int status;
+
   std::cout << "Start Listening..." << std::endl;
   while (true) {
     eventDto = monitorSocketEventsUseCase.monitor();
     // handle dto
-    RecievedMsgDTO msgDto;
     switch (eventDto.getEvent()) {
     case MonitorSocketEventDTO::NewConnection:
       AcceptConnectionUseCase::accept();
@@ -29,11 +31,14 @@ void entrypoint(int argc, char **argv) {
         std::cout << "Connection closed: " << clientFd << std::endl;
         break;
       }
+      status = RunCommandsUseCase::execute(msgDto);
+      std::cout << "Run command status: " << status << std::endl;
       std::cout << "Message received (fd/" << msgDto.getSenderId() << "): " << msgDto.getMessage()
                 << std::endl;
       break;
-    default:
+    case MonitorSocketEventDTO::Error:
       throw std::runtime_error("Failed to monitor socket events");
+      break;
     }
   }
 }

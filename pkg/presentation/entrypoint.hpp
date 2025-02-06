@@ -7,6 +7,7 @@
 #include "application/useCases/MonitorSocketEventsUseCase.hpp"
 #include "application/useCases/RecieveMsgUseCase.hpp"
 #include "application/useCases/RemoveConnectionUseCase.hpp"
+#include "application/useCases/RunCommandsUseCase.hpp"
 #include "application/useCases/StartServerUseCase.hpp"
 #include "signal.hpp"
 
