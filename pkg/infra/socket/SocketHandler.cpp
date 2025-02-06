@@ -1,9 +1,20 @@
 #include "infra/socket/SocketHandler.hpp"
 
+static bool isValidIPAddress(const std::string &ipStr);
+
 SocketHandler::SocketHandler(
     const std::string address, const int port, const int maxConnections, const int maxBufferSize)
     : _socket(-1), _port(port), _maxBufferSize(maxBufferSize), _maxConnections(maxConnections),
       _currentConnections(0), _isListening(false) {
+  if (!isValidIPAddress(address)) {
+    throw std::runtime_error("invalid address");
+  } else if (port < 0 || port > 65535) {
+    throw std::runtime_error("invalid port");
+  } else if (maxConnections < 0 || maxConnections > SOMAXCONN) {
+    throw std::runtime_error("invalid max connections");
+  } else if (maxBufferSize < 0 || maxBufferSize > 65535) {
+    throw std::runtime_error("invalid max buffer size (<= 65535)");
+  }
   this->_addr.sin_family = AF_INET;
   this->_addr.sin_port = htons(port);
   this->_addr.sin_addr.s_addr = inet_addr(address.c_str());
@@ -144,4 +155,17 @@ std::string SocketHandler::getClientIp(const struct sockaddr_in &clientAddr) con
   char clientIP[INET_ADDRSTRLEN];
   inet_ntop(AF_INET, &clientAddr.sin_addr, clientIP, sizeof(clientIP));
   return std::string(clientIP);
+}
+
+static bool isValidIPAddress(const std::string &ipStr) {
+  struct in_addr ipv4;
+  struct in6_addr ipv6;
+
+  if (inet_pton(AF_INET, ipStr.c_str(), &ipv4) == 1) {
+    return true;
+  }
+  if (inet_pton(AF_INET6, ipStr.c_str(), &ipv6) == 1) {
+    return false; // IPv6 is not supported
+  }
+  return false;
 }
