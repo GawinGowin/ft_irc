@@ -77,14 +77,21 @@ void SocketHandler::closeConnection(int &targetSocket) {
   this->_currentConnections--;
 }
 
-int SocketHandler::acceptConnection() {
+int SocketHandler::acceptConnection(struct sockaddr_in *clientAddr) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
   if (this->_currentConnections >= this->_maxConnections) {
     throw std::runtime_error("max connections reached");
   }
-  int clientSocket = accept(this->_socket, NULL, NULL);
+  int clientSocket = -1;
+  if (clientAddr == NULL) {
+    clientSocket = accept(this->_socket, NULL, NULL);
+  } else {
+    socklen_t clientAddrLen = sizeof(clientAddr);
+    clientSocket =
+        accept(this->_socket, reinterpret_cast<struct sockaddr *>(clientAddr), &clientAddrLen);
+  }
   if (clientSocket == -1) {
     throw std::runtime_error("accept failed");
   }
@@ -132,3 +139,9 @@ const int &SocketHandler::getMaxBufferSize() const { return this->_maxBufferSize
 const bool &SocketHandler::isListening() const { return this->_isListening; }
 
 const pollfd &SocketHandler::getServerPollfd() const { return this->_serverPollfd; }
+
+std::string SocketHandler::getClientIp(const struct sockaddr_in &clientAddr) const {
+  char clientIP[INET_ADDRSTRLEN];
+  inet_ntop(AF_INET, &clientAddr.sin_addr, clientIP, sizeof(clientIP));
+  return std::string(clientIP);
+}

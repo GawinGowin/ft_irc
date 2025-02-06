@@ -1,10 +1,15 @@
 #include "application/useCases/AcceptConnectionUseCase.hpp"
 
+#include <iostream>
+
 void AcceptConnectionUseCase::accept() {
   SocketHandler *_socketHandler = &SocketHandlerServiceLocator::get();
   InmemoryClientDatabase *db = &InmemoryClientDBServiceLocator::get();
+  struct sockaddr_in clientAddr;
   try {
-    int clientSocket = _socketHandler->acceptConnection();
+    int clientSocket = _socketHandler->acceptConnection(&clientAddr);
+    std::string clientIp = _socketHandler->getClientIp(clientAddr);
+    std::cout << "New connection from " << clientIp << std::endl;
     pollfd pollfd = {clientSocket, POLLIN, 0};
     Client client = Client(clientSocket, pollfd);
     db->add(client);
