@@ -14,8 +14,8 @@ TESTS =
 TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
 
 CXX := c++
-CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR) -I/opt/homebrew/opt/openssl@3/include
-LFALGS := -L/opt/homebrew/opt/openssl@3/lib -lcrypto -lssl
+CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
+LFALGS := -lsentry -Wl,-rpath,/usr/local/lib
 DFLAGS := -fdiagnostics-color=always -g3 -fsanitize=address
 
 OBJS := $(SOURCE:.cpp=.o)
