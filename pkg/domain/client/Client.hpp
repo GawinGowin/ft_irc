@@ -1,6 +1,7 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
+#include "domain/client/ConnectionInfo.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
 #include <poll.h>
 #include <stdexcept>
@@ -20,10 +21,14 @@ public:
   const pollfd &getPollfd() const;
   bool operator==(const IClientAggregateRoot &other) const;
 
+  void setConnectionInfo(const ConnectionInfo &connectionInfo);
+
 private:
   int _id;
   int _socketFd;
   pollfd _pollfd;
+
+  ConnectionInfo _connectionInfo;
 };
 
 #endif /* CLIENT_HPP */

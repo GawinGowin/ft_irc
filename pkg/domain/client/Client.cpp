@@ -1,8 +1,9 @@
 #include "domain/client/Client.hpp"
 
-Client::Client() : _id(0), _socketFd(0) {}
+Client::Client() : _id(0), _socketFd(0), _connectionInfo() {}
 
-Client::Client(int id, pollfd pollfd) : _id(id), _socketFd(pollfd.fd), _pollfd(pollfd) {}
+Client::Client(int id, pollfd pollfd)
+    : _id(id), _socketFd(pollfd.fd), _pollfd(pollfd), _connectionInfo() {}
 
 Client::~Client() {}
 
@@ -13,6 +14,7 @@ Client &Client::operator=(const Client &other) {
     this->_id = other._id;
     this->_socketFd = other._socketFd;
     this->_pollfd = other._pollfd;
+    this->_connectionInfo = other._connectionInfo;
   }
   return *this;
 }
@@ -31,4 +33,8 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
     return false;
   }
   return this->_id == otherClient->_id && this->_socketFd == otherClient->_socketFd;
+}
+
+void Client::setConnectionInfo(const ConnectionInfo &connectionInfo) {
+  this->_connectionInfo = connectionInfo;
 }
