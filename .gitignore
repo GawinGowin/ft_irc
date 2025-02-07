@@ -43,3 +43,4 @@ ft_irc_debug
 .sentry-native/
 
 *.env
+*.debug

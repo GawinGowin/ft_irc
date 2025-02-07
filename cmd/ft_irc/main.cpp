@@ -1,5 +1,5 @@
 #include "presentation/entrypoint.hpp"
-#include "sentry.h"
+#include <sentry.h>
 #include <iostream>
 
 volatile sig_atomic_t g_signal = 0;
@@ -15,22 +15,25 @@ int main(int argc, char **argv) {
     sentry_options_set_database_path(options, ".sentry-native");
     sentry_options_set_release(options, "my-project-name@2.3.12");
     sentry_options_set_debug(options, 1);
+    sentry_options_set_sample_rate(options, 1);
     sentry_init(options);
     sentry_capture_event(sentry_value_new_message_event(
         /*   level */ SENTRY_LEVEL_INFO,
         /*  logger */ "custom",
-        /* message */ "It works!"));
+        /* message */ "Server started"));
   }
   try {
     entrypoint(argc, argv);
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e) {
+    int statusCode = 1;
+    if (e.what() == std::string("Monitoring Socket: poll failed") && g_signal != 0) {
+      statusCode = 0;
+    }
+    std::cerr << "Error: " << e.what() << std::endl;
     if (sentryDsn != NULL) {
       sentry_close();
     }
-    if (e.what() == std::string("Monitoring Socket: poll failed") && g_signal != 0) {
-      return (0);
-    }
-    std::cerr << "Error: " << e.what() << std::endl;
-    return (1);
+    return (statusCode);
   }
 }
