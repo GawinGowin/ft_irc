@@ -32,3 +32,7 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
   }
   return this->_id == otherClient->_id && this->_socketFd == otherClient->_socketFd;
 }
+
+const std::string &Client::getNickName() const { return this->_nickName; }
+
+void Client::setNickName(const std::string &nickName) { this->_nickName = nickName; }
