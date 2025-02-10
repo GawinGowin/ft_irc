@@ -88,3 +88,7 @@ list:
 .PHONY: login
 login: 
 	env `cat .env | xargs` sh -c 'sentry-cli login --auth-token $$SENTRY_CLI_AUTH_TOKEN'
+
+.PHONY: run
+run: build
+	env `cat .env | xargs` $(BUILD_DIR)/$(NAME) || $(BUILD_DIR)/$(NAME)
