@@ -15,7 +15,7 @@ TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -nam
 
 CXX := c++
 CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
-LFALGS := -lsentry -Wl,-rpath,/usr/local/lib
+LFALGS := 
 DFLAGS := -fdiagnostics-color=always -g3 -fsanitize=address
 
 OBJS := $(SOURCE:.cpp=.o)
@@ -91,4 +91,4 @@ login:
 
 .PHONY: run
 run: build
-	env `cat .env | xargs` $(BUILD_DIR)/$(NAME) || $(BUILD_DIR)/$(NAME)
+	env `cat .env | xargs` $(BUILD_DIR)/$(NAME)
