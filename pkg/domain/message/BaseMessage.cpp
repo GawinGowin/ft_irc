@@ -1,4 +1,5 @@
 #include "domain/message/BaseMessage.hpp"
+#include "Parser.hpp"
 
 BaseMessage::BaseMessage() {
   this->_prefix = "";
@@ -7,10 +8,10 @@ BaseMessage::BaseMessage() {
 }
 
 BaseMessage::BaseMessage(const std::string &message) {
-  (void)message;
-  this->_prefix = "";
-  this->_command = IMessageAggregateRoot::UNKNOWN;
-  this->_params = std::vector<std::string>();
+  Parser parser(message);
+  this->_prefix = parser.getPrefix();
+  this->_command = parser.getCommand();
+  this->_params = parser.getParams();
 }
 
 BaseMessage::~BaseMessage() {}
