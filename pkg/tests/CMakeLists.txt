@@ -34,13 +34,13 @@ add_executable(InfrastructureTest
 ${CMAKE_CURRENT_SOURCE_DIR}/infra/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryClientDatabase.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryChannelDatabase.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_ConsoleLogger.cpp
 )
 target_link_libraries(InfrastructureTest testftirc gtest_main gmock_main)
 target_include_directories(InfrastructureTest PRIVATE 
   ${CMAKE_SOURCE_DIR}/pkg
   ${gtest_SOURCE_DIR}
 )
-
 
 # ..:: PresentationTest ::..
 # add_executable(PresentationTest 
