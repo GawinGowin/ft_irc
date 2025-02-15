@@ -34,10 +34,7 @@ Parser::Parser(std::string message) {
     throw std::runtime_error("Parse error: Command is required");
   }
 
-  size_t pos = message.find(' ');
-  if (pos == std::string::npos) {
-    throw std::runtime_error("Parse error: Command is required");
-  }
+  size_t pos = std::min(message.find(' '), message.find("\r\n"));
   std::string command = message.substr(0, pos);
   if (command == "PASS") {
     this->_command = IMessageAggregateRoot::PASS;

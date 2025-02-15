@@ -35,7 +35,7 @@ TEST(ParserTest, testCommand) {
   Parser invite("INVITE user #channel\r\n");
   Parser topic("TOPIC #channel :new topic\r\n");
   Parser mode("MODE #channel +o user\r\n");
-  Parser error("ERROR  \r\n");
+  Parser error("ERROR\r\n");
   Parser unknown("hoge huge\r\n");
 
   EXPECT_EQ(pass.getCommand(), IMessageAggregateRoot::PASS);
@@ -49,4 +49,16 @@ TEST(ParserTest, testCommand) {
   EXPECT_EQ(mode.getCommand(), IMessageAggregateRoot::MODE);
   EXPECT_EQ(error.getCommand(), IMessageAggregateRoot::ERROR);
   EXPECT_EQ(unknown.getCommand(), IMessageAggregateRoot::UNKNOWN);
+}
+
+TEST(ParserTest, testParams) {
+  Parser noParams("PASS\r\n");
+  Parser noParamsAndSpace("PASS   \r\n");
+  Parser trailingParams("PRIVMSG #channel :Hello, world!\r\n");
+  Parser multipleParams("MODE #channel +o user  \r\n");
+
+  EXPECT_EQ(noParams.getParams().size(), 0);
+  EXPECT_EQ(noParamsAndSpace.getParams().size(), 0);
+  EXPECT_EQ(trailingParams.getParams().size(), 2);
+  EXPECT_EQ(multipleParams.getParams().size(), 3);
 }
