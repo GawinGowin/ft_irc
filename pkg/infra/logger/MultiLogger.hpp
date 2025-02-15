@@ -4,15 +4,11 @@
 #include "ILogger.hpp"
 #include <vector>
 
-class MultiLogger : public ILogger {
+class MultiLogger : virtual public ILogger {
 public:
   MultiLogger(): _loggers(std::vector<ILogger *>()) {}
   ~MultiLogger() {
-    std::vector<ILogger *>::iterator it;
-    for (it = _loggers.begin(); it != _loggers.end(); it++) {
-      if (*it != NULL)
-        delete *it;
-    }
+    this->clear();
   }
 
   void addLogger(ILogger *logger) { _loggers.push_back(logger); }
@@ -50,6 +46,19 @@ public:
     for (it = _loggers.begin(); it != _loggers.end(); it++) {
       (*it)->error(msg);
     }
+  }
+
+  std::size_t size() { return _loggers.size(); }
+
+  void clear() { 
+    std::vector<ILogger *>::iterator it;
+    for (it = _loggers.begin(); it != _loggers.end(); it++) {
+      if (*it != NULL) {
+        delete *it;
+        *it = NULL;
+      }
+    }
+    _loggers.clear();
   }
 
 private:
