@@ -20,6 +20,9 @@ TEST(ParserTest, testPrefix) {
   Parser noprefix("PRIVMSG #channel :Hello, world!\r\n");
 
   EXPECT_EQ(prefix.getPrefix(), "prefix");
+  EXPECT_EQ(prefix.getCommand(), IMessageAggregateRoot::PRIVMSG);
+  EXPECT_EQ(prefix.getParams()[0], "#channel");
+  EXPECT_EQ(prefix.getParams()[1], "Hello, world!");
   EXPECT_EQ(noprefix.getPrefix(), "");
   EXPECT_THROW(Parser(":prefix\r\n"), std::runtime_error);
   EXPECT_THROW(Parser(":prefix \r\n"), std::runtime_error);
