@@ -5,6 +5,12 @@ const std::string TEST_NICKNAME = "TestNickName";
 const int TEST_ID = 42;
 const pollfd TEST_POLLFD = {42, POLLIN, 0};
 
+TEST(ClientTest, ConstructorInitialization) {
+  Client client();
+  EXPECT_EQ(client.getId(), 0);
+  EXPECT_EQ(client.getSocketFd(), 0);
+}
+
 TEST(ClientTest, SetAndGetTest) {
   Client client(TEST_ID, TEST_POLLFD);
   client.setNickName(TEST_NICKNAME);
