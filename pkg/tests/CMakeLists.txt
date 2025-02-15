@@ -5,6 +5,7 @@ add_executable(ApplicationTest
  ${CMAKE_CURRENT_SOURCE_DIR}/application/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/application/useCases/test_StartServerUseCase.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/application/dto/test_StartServerDTO.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/application/serviceLocator/test_LoggerServiceLocator.cpp
 )
 target_link_libraries(ApplicationTest testftirc gtest_main)
 target_include_directories(ApplicationTest PRIVATE 
