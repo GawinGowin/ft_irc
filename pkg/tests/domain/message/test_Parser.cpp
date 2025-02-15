@@ -35,7 +35,7 @@ TEST(ParserTest, testCommand) {
   Parser invite("INVITE user #channel\r\n");
   Parser topic("TOPIC #channel :new topic\r\n");
   Parser mode("MODE #channel +o user\r\n");
-  Parser error("ERROR :error message\r\n");
+  Parser error("ERROR  \r\n");
   Parser unknown("hoge huge\r\n");
 
   EXPECT_EQ(pass.getCommand(), IMessageAggregateRoot::PASS);
