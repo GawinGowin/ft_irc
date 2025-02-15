@@ -4,7 +4,6 @@
 #include "domain/client/IClientAggregateRoot.hpp"
 #include <poll.h>
 #include <stdexcept>
-#include <map>
 
 class Client : virtual public IClientAggregateRoot {
 public:
@@ -28,7 +27,6 @@ private:
   int _socketFd;
   pollfd _pollfd;
   std::string _nickName;
-
 };
 
 #endif /* CLIENT_HPP */
