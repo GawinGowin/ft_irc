@@ -22,7 +22,6 @@ TEST_F(LoggerServiceLocatorTest, NoLogger) {
   logger->trace("Trace message");
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_EQ(output, "");
-  
 }
 
 TEST_F(LoggerServiceLocatorTest, ConsoleLogger) {
