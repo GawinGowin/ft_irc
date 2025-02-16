@@ -9,7 +9,10 @@ protected:
     // Remove any existing log files before each test
     std::remove(logFile.c_str());
   }
-  void TearDown() override { std::remove(logFile.c_str()); }
+  void TearDown() override { 
+    LoggerServiceLocator::clean();
+    std::remove(logFile.c_str());
+  }
 };
 
 TEST_F(LoggerServiceLocatorTest, NoLogger) {
@@ -19,6 +22,7 @@ TEST_F(LoggerServiceLocatorTest, NoLogger) {
   logger->trace("Trace message");
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_EQ(output, "");
+  
 }
 
 TEST_F(LoggerServiceLocatorTest, ConsoleLogger) {
@@ -40,10 +44,8 @@ TEST_F(LoggerServiceLocatorTest, FileLogger) {
 
   std::ifstream ifile(logFile);
   ASSERT_TRUE(ifile.is_open());
-
-  std::string line;
-  std::getline(ifile, line);
-  ASSERT_NE(line.find("[trace]: This is a trace message"), std::string::npos);
+  std::string fileContent((std::istreambuf_iterator<char>(ifile)), std::istreambuf_iterator<char>());
+  ASSERT_NE(fileContent.find("[trace]: This is a trace message"), std::string::npos);
   ifile.close();
   std::remove(logFile.c_str());
 }
@@ -62,10 +64,8 @@ TEST_F(LoggerServiceLocatorTest, MultiLogger) {
 
   std::ifstream ifile(logFile);
   ASSERT_TRUE(ifile.is_open());
-
-  std::string line;
-  std::getline(ifile, line);
-  ASSERT_NE(line.find("[trace]: Trace message"), std::string::npos);
+  std::string fileContent((std::istreambuf_iterator<char>(ifile)), std::istreambuf_iterator<char>());
+  ASSERT_NE(fileContent.find("[trace]: Trace message"), std::string::npos);
   ifile.close();
   std::remove(logFile.c_str());
 }

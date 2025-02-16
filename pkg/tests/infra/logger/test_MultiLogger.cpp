@@ -11,6 +11,7 @@ public:
   MOCK_METHOD(void, info, (std::string msg));
   MOCK_METHOD(void, warning, (std::string msg));
   MOCK_METHOD(void, error, (std::string msg));
+  MOCK_METHOD(void, log, (LogLevel level, const std::string &msg));
 };
 
 class MultiLoggerTest : public ::testing::Test {};

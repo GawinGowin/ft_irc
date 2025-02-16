@@ -2,7 +2,7 @@
 #define FILELOGGER_HPP
 
 #include "infra/logger/ILogger.hpp"
-#include "infra/logger/ILoggerStream.hpp"
+#include "infra/logger/StreamLogger.hpp"
 
 #include <ctime>
 #include <fstream>
@@ -10,9 +10,9 @@
 #include <stdexcept>
 #include <string>
 
-class FileLogger : virtual public ILogger, virtual public ILoggerStream {
+class FileLogger : virtual public ILogger, virtual public StreamLogger {
 public:
-  FileLogger(std::string logFile) {
+  FileLogger(std::string logFile): StreamLogger(this) {
     this->_ofile.open(logFile.c_str(), std::ios::out | std::ios::app);
     if (!this->_ofile.is_open()) {
       throw std::runtime_error("Failed to open log file: " + logFile);
@@ -54,36 +54,6 @@ public:
       this->_ofile << this->getTime() << " [error]: " << msg << std::endl;
     }
   }
-
-  void log(LogLevel level, const std::string &msg) {
-    switch (level) {
-    case TRACE:
-      trace(msg);
-      break;
-    case DEBUG:
-      debug(msg);
-      break;
-    case INFO:
-      info(msg);
-      break;
-    case WARNING:
-      warning(msg);
-      break;
-    case ERROR:
-      error(msg);
-      break;
-    }
-  }
-
-  LogStream tracess(void) { return LogStream(this, TRACE); }
-
-  LogStream debugss(void) { return LogStream(this, DEBUG); }
-
-  LogStream infoss(void) { return LogStream(this, INFO); }
-
-  LogStream warningss(void) { return LogStream(this, WARNING); }
-
-  LogStream errorss(void) { return LogStream(this, ERROR); }
 
 private:
   std::fstream _ofile;

@@ -2,14 +2,14 @@
 #define MULTILOGGER_HPP
 
 #include "infra/logger/ILogger.hpp"
-#include "infra/logger/ILoggerStream.hpp"
+#include "infra/logger/StreamLogger.hpp"
 #include <vector>
 
-class MultiLogger : virtual public ILogger, virtual public ILoggerStream {
+class MultiLogger : virtual public ILogger, virtual public StreamLogger {
 public:
-  MultiLogger() : _loggers(std::vector<ILogger *>()) {}
+  MultiLogger() : StreamLogger(this), _loggers(std::vector<ILogger *>()) {}
   ~MultiLogger() { this->clear(); }
-  MultiLogger(const MultiLogger &other) { _loggers = other._loggers; }
+  MultiLogger(const MultiLogger &other): StreamLogger(this) { _loggers = other._loggers; }
   MultiLogger &operator=(const MultiLogger &other) {
     if (this != &other) {
       this->clear();
@@ -54,36 +54,6 @@ public:
       (*it)->error(msg);
     }
   }
-
-  void log(LogLevel level, const std::string &msg) {
-    switch (level) {
-    case TRACE:
-      trace(msg);
-      break;
-    case DEBUG:
-      debug(msg);
-      break;
-    case INFO:
-      info(msg);
-      break;
-    case WARNING:
-      warning(msg);
-      break;
-    case ERROR:
-      error(msg);
-      break;
-    }
-  }
-
-  LogStream tracess(void) { return LogStream(this, TRACE); }
-
-  LogStream debugss(void) { return LogStream(this, DEBUG); }
-
-  LogStream infoss(void) { return LogStream(this, INFO); }
-
-  LogStream warningss(void) { return LogStream(this, WARNING); }
-
-  LogStream errorss(void) { return LogStream(this, ERROR); }
 
   std::size_t size() { return _loggers.size(); }
 
