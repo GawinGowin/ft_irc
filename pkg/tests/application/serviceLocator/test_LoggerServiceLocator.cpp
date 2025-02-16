@@ -9,7 +9,7 @@ protected:
     // Remove any existing log files before each test
     std::remove(logFile.c_str());
   }
-  void TearDown() override { 
+  void TearDown() override {
     LoggerServiceLocator::clean();
     std::remove(logFile.c_str());
   }
@@ -43,7 +43,8 @@ TEST_F(LoggerServiceLocatorTest, FileLogger) {
 
   std::ifstream ifile(logFile);
   ASSERT_TRUE(ifile.is_open());
-  std::string fileContent((std::istreambuf_iterator<char>(ifile)), std::istreambuf_iterator<char>());
+  std::string fileContent(
+      (std::istreambuf_iterator<char>(ifile)), std::istreambuf_iterator<char>());
   ASSERT_NE(fileContent.find("[trace]: This is a trace message"), std::string::npos);
   ifile.close();
   std::remove(logFile.c_str());
@@ -63,7 +64,8 @@ TEST_F(LoggerServiceLocatorTest, MultiLogger) {
 
   std::ifstream ifile(logFile);
   ASSERT_TRUE(ifile.is_open());
-  std::string fileContent((std::istreambuf_iterator<char>(ifile)), std::istreambuf_iterator<char>());
+  std::string fileContent(
+      (std::istreambuf_iterator<char>(ifile)), std::istreambuf_iterator<char>());
   ASSERT_NE(fileContent.find("[trace]: Trace message"), std::string::npos);
   ifile.close();
   std::remove(logFile.c_str());

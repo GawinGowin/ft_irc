@@ -12,7 +12,7 @@
 
 class FileLogger : virtual public ILogger, virtual public StreamLogger {
 public:
-  FileLogger(std::string logFile): StreamLogger(this) {
+  FileLogger(std::string logFile) : StreamLogger(this) {
     this->_ofile.open(logFile.c_str(), std::ios::out | std::ios::app);
     if (!this->_ofile.is_open()) {
       throw std::runtime_error("Failed to open log file: " + logFile);

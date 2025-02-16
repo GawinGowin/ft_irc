@@ -9,7 +9,7 @@ class MultiLogger : virtual public ILogger, virtual public StreamLogger {
 public:
   MultiLogger() : StreamLogger(this), _loggers(std::vector<ILogger *>()) {}
   ~MultiLogger() { this->clear(); }
-  MultiLogger(const MultiLogger &other): StreamLogger(this) { _loggers = other._loggers; }
+  MultiLogger(const MultiLogger &other) : StreamLogger(this) { _loggers = other._loggers; }
   MultiLogger &operator=(const MultiLogger &other) {
     if (this != &other) {
       this->clear();
