@@ -30,13 +30,13 @@ void entrypoint(int argc, char **argv) {
       if (msgDto.getMessage().size() == 0) {
         int clientFd = eventDto.getConnectionFd();
         RemoveConnectionUseCase::remove(clientFd);
-        std::cout << "Connection closed: " << clientFd << std::endl;
+        logger->debugss() << "Connection closed: " << clientFd;
         break;
       }
       status = RunCommandsUseCase::execute(msgDto);
-      std::cout << "Run command status: " << status << std::endl;
-      std::cout << "Message received (fd/" << msgDto.getSenderId() << "): " << msgDto.getMessage()
-                << std::endl;
+      logger->debugss() << "Run command status: " << status;
+      logger->debugss() << "Message received (fd/" << msgDto.getSenderId()
+                        << "): " << msgDto.getMessage();
       break;
     case MonitorSocketEventDTO::Error:
       throw std::runtime_error("Failed to monitor socket events");
