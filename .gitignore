@@ -40,3 +40,5 @@ build/
 ft_irc
 !cmd/ft_irc/
 ft_irc_debug
+
+*.log
