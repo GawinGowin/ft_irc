@@ -1,17 +1,17 @@
 #include "infra/logger/ILogger.hpp"
 #include "infra/logger/MultiLogger.hpp"
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 class MockLogger : public ILogger {
-  public:
-    MOCK_METHOD(void, trace, (std::string msg));
-    MOCK_METHOD(void, debug, (std::string msg));
-    MOCK_METHOD(void, info, (std::string msg));
-    MOCK_METHOD(void, warning, (std::string msg));
-    MOCK_METHOD(void, error, (std::string msg));
-  };
+public:
+  MOCK_METHOD(void, trace, (std::string msg));
+  MOCK_METHOD(void, debug, (std::string msg));
+  MOCK_METHOD(void, info, (std::string msg));
+  MOCK_METHOD(void, warning, (std::string msg));
+  MOCK_METHOD(void, error, (std::string msg));
+};
 
 class MultiLoggerTest : public ::testing::Test {};
 

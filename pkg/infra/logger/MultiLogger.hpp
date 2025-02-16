@@ -6,9 +6,17 @@
 
 class MultiLogger : virtual public ILogger {
 public:
-  MultiLogger(): _loggers(std::vector<ILogger *>()) {}
+  MultiLogger() : _loggers(std::vector<ILogger *>()) {}
   ~MultiLogger() {
-    this->clear();
+    this->clear(); // TODO: ここにclearかつdeleteする処理を加えない
+  }
+  MultiLogger(const MultiLogger &other) { _loggers = other._loggers; }
+  MultiLogger &operator=(const MultiLogger &other) {
+    if (this != &other) {
+      this->clear();
+      _loggers = other._loggers;
+    }
+    return *this;
   }
 
   void addLogger(ILogger *logger) { _loggers.push_back(logger); }
@@ -50,7 +58,7 @@ public:
 
   std::size_t size() { return _loggers.size(); }
 
-  void clear() { 
+  void clear() {
     std::vector<ILogger *>::iterator it;
     for (it = _loggers.begin(); it != _loggers.end(); it++) {
       if (*it != NULL) {
@@ -62,8 +70,6 @@ public:
   }
 
 private:
-  MultiLogger(const MultiLogger &other);
-  MultiLogger &operator=(const MultiLogger &other);
   std::vector<ILogger *> _loggers;
 };
 

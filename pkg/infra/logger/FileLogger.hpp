@@ -25,31 +25,31 @@ public:
 
   void trace(std::string msg) {
     if (this->_ofile.is_open()) {
-      this->_ofile << this->getTime() <<" [trace]: " << msg << std::endl;
+      this->_ofile << this->getTime() << " [trace]: " << msg << std::endl;
     }
   }
 
   void debug(std::string msg) {
     if (this->_ofile.is_open()) {
-      this->_ofile << this->getTime() <<" [debug]: " << msg << std::endl;
+      this->_ofile << this->getTime() << " [debug]: " << msg << std::endl;
     }
   }
 
   void info(std::string msg) {
     if (this->_ofile.is_open()) {
-      this->_ofile << this->getTime() <<" [info]: " << msg << std::endl;
+      this->_ofile << this->getTime() << " [info]: " << msg << std::endl;
     }
   }
 
   void warning(std::string msg) {
     if (this->_ofile.is_open()) {
-      this->_ofile << this->getTime() <<" [warning]: " << msg << std::endl;
+      this->_ofile << this->getTime() << " [warning]: " << msg << std::endl;
     }
   }
 
   void error(std::string msg) {
     if (this->_ofile.is_open()) {
-      this->_ofile << this->getTime() <<" [error]: " << msg << std::endl;
+      this->_ofile << this->getTime() << " [error]: " << msg << std::endl;
     }
   }
 

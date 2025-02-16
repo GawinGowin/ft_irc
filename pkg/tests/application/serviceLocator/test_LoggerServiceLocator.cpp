@@ -9,9 +9,7 @@ protected:
     // Remove any existing log files before each test
     std::remove(logFile.c_str());
   }
-  void TearDown() override {
-    std::remove(logFile.c_str());
-  }
+  void TearDown() override { std::remove(logFile.c_str()); }
 };
 
 TEST_F(LoggerServiceLocatorTest, NoLogger) {

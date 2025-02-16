@@ -1,6 +1,9 @@
 #include "presentation/entrypoint.hpp"
 
 void entrypoint(int argc, char **argv) {
+  LoggerServiceLocator::init(loggerType::CONSOLE | loggerType::FILE, "ft_irc.log");
+  MultiLogger logger = LoggerServiceLocator::get();
+
   StartServerDTO dto(argc, argv);
   StartServerUseCase startServerUseCase(dto);
   setSignal();
@@ -14,7 +17,7 @@ void entrypoint(int argc, char **argv) {
   RecievedMsgDTO msgDto;
   int status;
 
-  std::cout << "Start Listening..." << std::endl;
+  logger.info("Start Listening...");
   while (true) {
     eventDto = monitorSocketEventsUseCase.monitor();
     // handle dto

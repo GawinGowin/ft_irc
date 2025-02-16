@@ -2,11 +2,11 @@
 #define LOGGERSERVICELOCATOR_HPP
 
 #include "infra/logger/ConsoleLogger.hpp"
-#include "infra/logger/FileLogger.hpp" 
+#include "infra/logger/FileLogger.hpp"
 #include "infra/logger/ILogger.hpp"
 #include "infra/logger/MultiLogger.hpp"
-#include <string>
 #include <stdexcept>
+#include <string>
 
 class LoggerServiceLocator {
 public:
