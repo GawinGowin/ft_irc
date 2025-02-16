@@ -44,5 +44,12 @@ jobs:
       - name: Check for changes
         run: |
           if ! git diff --quiet ; then
+            git diff > unformatted.patch
             exit 1
           fi
+      - name: upload unformatted files
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Formatted-Files
+          path: ./unformatted.patch
