@@ -16,24 +16,39 @@ public:
   };
 
   static void init(int type, std::string logFile = "") {
-    if (_logger.size() > 0) {
-      _logger.clear();
+    if (_logger != NULL) {
+      throw std::runtime_error("LoggerServiceLocator is already initialized");
     }
+    _logger = new MultiLogger();
     if (type & CONSOLE) {
-      _logger.addLogger(new ConsoleLogger());
+      _logger->addLogger(new ConsoleLogger());
     }
     if (type & FILE) {
       if (logFile.empty()) {
         throw std::runtime_error("logFile is empty");
       }
-      _logger.addLogger(new FileLogger(logFile));
+      _logger->addLogger(new FileLogger(logFile));
+    }
+    _logger->trace("Logger initialized");
+  }
+
+  static MultiLogger *get() {
+    if (_logger == NULL) {
+      throw std::runtime_error("LoggerServiceLocator is not initialized");
+    }
+    return _logger;
+  }
+
+  static void clean() {
+    _logger->trace("Logger cleaned");
+    if (_logger != NULL) {
+      delete _logger;
+      _logger = NULL;
     }
   }
 
-  static MultiLogger &get() { return _logger; }
-
 private:
-  static MultiLogger _logger;
+  static MultiLogger *_logger;
 };
 
 #endif /* LOGGERSERVICELOCATOR_HPP */

@@ -11,9 +11,8 @@
 #include "application/useCases/RunCommandsUseCase.hpp"
 #include "application/useCases/StartServerUseCase.hpp"
 
-#include "signal.hpp"
-
-typedef LoggerServiceLocator::loggerType loggerType;
+#include "presentation/LogggerWrapper.hpp"
+#include "presentation/signal.hpp"
 
 extern volatile sig_atomic_t g_signal;
 

@@ -14,27 +14,27 @@ protected:
 
 TEST_F(LoggerServiceLocatorTest, NoLogger) {
   LoggerServiceLocator::init(0);
-  MultiLogger &logger = LoggerServiceLocator::get();
+  MultiLogger *logger = LoggerServiceLocator::get();
   testing::internal::CaptureStdout();
-  logger.trace("Trace message");
+  logger->trace("Trace message");
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_EQ(output, "");
 }
 
 TEST_F(LoggerServiceLocatorTest, ConsoleLogger) {
   LoggerServiceLocator::init(LoggerServiceLocator::CONSOLE);
-  MultiLogger &logger = LoggerServiceLocator::get();
+  MultiLogger *logger = LoggerServiceLocator::get();
   testing::internal::CaptureStdout();
-  logger.trace("Trace message");
+  logger->trace("Trace message");
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_EQ(output, "\e[30m[trace]: Trace message\e[m\n");
 }
 
 TEST_F(LoggerServiceLocatorTest, FileLogger) {
   LoggerServiceLocator::init(LoggerServiceLocator::FILE, logFile);
-  MultiLogger &logger = LoggerServiceLocator::get();
+  MultiLogger *logger = LoggerServiceLocator::get();
   testing::internal::CaptureStdout();
-  logger.trace("This is a trace message");
+  logger->trace("This is a trace message");
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_EQ(output, "");
 
@@ -54,9 +54,9 @@ TEST_F(LoggerServiceLocatorTest, ErrorFileLogger) {
 
 TEST_F(LoggerServiceLocatorTest, MultiLogger) {
   LoggerServiceLocator::init(LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE, logFile);
-  MultiLogger &logger = LoggerServiceLocator::get();
+  MultiLogger *logger = LoggerServiceLocator::get();
   testing::internal::CaptureStdout();
-  logger.trace("Trace message");
+  logger->trace("Trace message");
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_EQ(output, "\e[30m[trace]: Trace message\e[m\n");
 

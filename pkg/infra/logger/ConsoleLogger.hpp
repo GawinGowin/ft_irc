@@ -1,7 +1,7 @@
 #ifndef CONSOLELOGGER_HPP
 #define CONSOLELOGGER_HPP
 
-#include "ILogger.hpp"
+#include "infra/logger/ILogger.hpp"
 
 #include <iostream>
 #include <string>

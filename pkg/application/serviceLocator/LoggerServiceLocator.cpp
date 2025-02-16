@@ -1,3 +1,3 @@
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 
-MultiLogger LoggerServiceLocator::_logger;
+MultiLogger *LoggerServiceLocator::_logger = NULL;

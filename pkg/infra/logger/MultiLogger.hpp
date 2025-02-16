@@ -7,9 +7,7 @@
 class MultiLogger : virtual public ILogger {
 public:
   MultiLogger() : _loggers(std::vector<ILogger *>()) {}
-  ~MultiLogger() {
-    this->clear(); // TODO: ここにclearかつdeleteする処理を加えない
-  }
+  ~MultiLogger() { this->clear(); }
   MultiLogger(const MultiLogger &other) { _loggers = other._loggers; }
   MultiLogger &operator=(const MultiLogger &other) {
     if (this != &other) {
