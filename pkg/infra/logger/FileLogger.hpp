@@ -1,14 +1,16 @@
 #ifndef FILELOGGER_HPP
 #define FILELOGGER_HPP
 
-#include "ILogger.hpp"
+#include "infra/logger/ILogger.hpp"
+#include "infra/logger/ILoggerStream.hpp"
+
 #include <ctime>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
-class FileLogger : virtual public ILogger {
+class FileLogger : virtual public ILogger, virtual public ILoggerStream {
 public:
   FileLogger(std::string logFile) {
     this->_ofile.open(logFile.c_str(), std::ios::out | std::ios::app);

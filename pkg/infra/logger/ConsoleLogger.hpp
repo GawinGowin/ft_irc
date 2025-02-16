@@ -2,11 +2,12 @@
 #define CONSOLELOGGER_HPP
 
 #include "infra/logger/ILogger.hpp"
+#include "infra/logger/ILoggerStream.hpp"
 
 #include <iostream>
 #include <string>
 
-class ConsoleLogger : virtual public ILogger {
+class ConsoleLogger : virtual public ILogger, virtual public ILoggerStream {
 public:
   void trace(std::string msg) { std::cout << "\e[30m[trace]: " << msg << "\e[m" << std::endl; }
 

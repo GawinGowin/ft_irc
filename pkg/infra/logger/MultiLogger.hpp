@@ -1,10 +1,11 @@
 #ifndef MULTILOGGER_HPP
 #define MULTILOGGER_HPP
 
-#include "ILogger.hpp"
+#include "infra/logger/ILogger.hpp"
+#include "infra/logger/ILoggerStream.hpp"
 #include <vector>
 
-class MultiLogger : virtual public ILogger {
+class MultiLogger : virtual public ILogger, virtual public ILoggerStream {
 public:
   MultiLogger() : _loggers(std::vector<ILogger *>()) {}
   ~MultiLogger() { this->clear(); }
