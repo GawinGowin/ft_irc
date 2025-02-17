@@ -1,6 +1,9 @@
 #include "presentation/entrypoint.hpp"
 
 void entrypoint(int argc, char **argv) {
+  LogggerWrapper loggerWrapper(
+      LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE, "ft_irc.log");
+  MultiLogger *logger = LoggerServiceLocator::get();
   StartServerDTO dto(argc, argv);
   StartServerUseCase startServerUseCase(dto);
   setSignal();
@@ -13,28 +16,27 @@ void entrypoint(int argc, char **argv) {
   MonitorSocketEventDTO eventDto;
   RecievedMsgDTO msgDto;
   int status;
-
-  std::cout << "Start Listening..." << std::endl;
+  logger->info("Start Listening...");
   while (true) {
     eventDto = monitorSocketEventsUseCase.monitor();
     // handle dto
     switch (eventDto.getEvent()) {
     case MonitorSocketEventDTO::NewConnection:
       AcceptConnectionUseCase::accept();
-      std::cout << "New connection" << std::endl;
+      logger->debug("New connection");
       break;
     case MonitorSocketEventDTO::MessageReceived:
       msgDto = RecieveMsgUseCase::recieve(eventDto);
       if (msgDto.getMessage().size() == 0) {
         int clientFd = eventDto.getConnectionFd();
         RemoveConnectionUseCase::remove(clientFd);
-        std::cout << "Connection closed: " << clientFd << std::endl;
+        logger->debugss() << "Connection closed: " << clientFd;
         break;
       }
       status = RunCommandsUseCase::execute(msgDto);
-      std::cout << "Run command status: " << status << std::endl;
-      std::cout << "Message received (fd/" << msgDto.getSenderId() << "): " << msgDto.getMessage()
-                << std::endl;
+      logger->debugss() << "Run command status: " << status;
+      logger->debugss() << "Message received (fd/" << msgDto.getSenderId()
+                        << "): " << msgDto.getMessage();
       break;
     case MonitorSocketEventDTO::Error:
       throw std::runtime_error("Failed to monitor socket events");
