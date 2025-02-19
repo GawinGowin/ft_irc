@@ -44,3 +44,4 @@ ft_irc_debug
 
 *.env
 *.debug
+*.log

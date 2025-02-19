@@ -1,6 +1,19 @@
 comment:
   layout: "header, reach, diff, flags, components, files"  # show component info in the PR comment
-  
+  behavior: default
+  require_changes: false
+  require_base: true
+  require_head: true
+
+coverage:
+  status:
+    project:
+      default:
+        informational: true      
+    patch:
+      default:
+        informational: true
+
 component_management:
   default_rules:  # default rules that will be inherited by all components
     statuses:
@@ -8,6 +21,8 @@ component_management:
         target: auto
         branches:
           - "!main"
+        informational: true
+
   individual_components:
     - component_id: module_application  # this is an identifier that should not be changed
       name: application  # this is a display name, and can be changed freely
