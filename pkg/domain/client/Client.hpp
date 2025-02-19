@@ -20,6 +20,8 @@ public:
   const int &getSocketFd() const;
   const pollfd &getPollfd() const;
   bool operator==(const IClientAggregateRoot &other) const;
+  const std::string &getNickName() const;
+  void setNickName(const std::string &nickName);
 
   void setConnectionInfo(const ConnectionInfo &connectionInfo);
 
@@ -29,6 +31,7 @@ private:
   pollfd _pollfd;
 
   ConnectionInfo _connectionInfo;
+  std::string _nickName;
 };
 
 #endif /* CLIENT_HPP */

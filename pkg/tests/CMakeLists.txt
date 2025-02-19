@@ -5,6 +5,7 @@ add_executable(ApplicationTest
  ${CMAKE_CURRENT_SOURCE_DIR}/application/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/application/useCases/test_StartServerUseCase.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/application/dto/test_StartServerDTO.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/application/serviceLocator/test_LoggerServiceLocator.cpp
 )
 target_link_libraries(ApplicationTest testftirc gtest_main)
 target_include_directories(ApplicationTest PRIVATE 
@@ -20,6 +21,8 @@ add_executable(DomainTest
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/channel/test_ChannelTopic.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_RFCChannelHash.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_JenkinsHash.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_Parser.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_BaseMessage.cpp
 )
 target_link_libraries(DomainTest testftirc gtest_main)
 target_include_directories(DomainTest PRIVATE 
@@ -33,13 +36,15 @@ ${CMAKE_CURRENT_SOURCE_DIR}/infra/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryClientDatabase.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryChannelDatabase.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/socket/test_SocketHandler.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_ConsoleLogger.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_MultiLogger.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_FileLogger.cpp
 )
 target_link_libraries(InfrastructureTest testftirc gtest_main gmock_main)
 target_include_directories(InfrastructureTest PRIVATE 
   ${CMAKE_SOURCE_DIR}/pkg
   ${gtest_SOURCE_DIR}
 )
-
 
 # ..:: PresentationTest ::..
 # add_executable(PresentationTest 

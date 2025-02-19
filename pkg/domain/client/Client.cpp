@@ -38,3 +38,6 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
 void Client::setConnectionInfo(const ConnectionInfo &connectionInfo) {
   this->_connectionInfo = connectionInfo;
 }
+const std::string &Client::getNickName() const { return this->_nickName; }
+
+void Client::setNickName(const std::string &nickName) { this->_nickName = nickName; }
