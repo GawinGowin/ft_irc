@@ -1,6 +1,7 @@
 #ifndef CHANNELSERVICE_HPP
 #define CHANNELSERVICE_HPP
 
+#include "application/serviceLocator/InmemoryChannelDBServiceLocator.hpp"
 #include "domain/channel/ChannelClientList.hpp"
 #include "domain/channel/IChannelRepository.hpp"
 // #include "domain/client/IClientRepository.hpp"
@@ -13,6 +14,7 @@ typedef std::vector<ChannelClientList *> ListofClientList;
 class ChannelService {
 public:
   static void purgeClient(const ListofClientList &lsts, const ClientUniqueID &id);
+  static void removeClientFromAllChannels(const ClientUniqueID &id);
 
 private:
   ChannelService();
