@@ -14,7 +14,7 @@ public:
 
   virtual int acceptConnection(struct sockaddr_in *clientAddr) = 0;
   virtual void closeConnection(int &targetSocket) = 0;
-  virtual void sendMsg(const std::string &message, int &targetSocket) = 0;
+  virtual int sendMsg(const std::string &message, int &targetSocket) = 0;
   virtual std::string receiveMsg(const int &targetSocket) = 0;
 
   virtual const int &getServerSocket() const = 0;
