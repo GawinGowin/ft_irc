@@ -26,8 +26,7 @@ void StartServerUseCase::execute() {
   }
   ConfigsLoader &loader = ConfigsServiceLocator::get();
   pollfd serverPollfd = socketHandler->getServerPollfd();
-  ConnectionInfo conn(socketHandler->getServerSocket(), loader.getConfigs().getGlobal().Listen);
-  Client client(serverPollfd.fd, serverPollfd, conn);
+  Client client(loader.getConfigs().getGlobal().Listen, serverPollfd);
   InmemoryClientDatabase *db = &InmemoryClientDBServiceLocator::get();
   db->add(client);
 }
