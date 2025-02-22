@@ -2,12 +2,13 @@
 #define CONNECTIONINFO_HPP
 
 #include "domain/shared/values/IHashAggregateRoot.hpp"
+#include <poll.h>
 #include <string>
 
 class ConnectionInfo {
 public:
   ConnectionInfo();
-  ConnectionInfo(int sock, std::string addr);
+  ConnectionInfo(std::string addr, pollfd pollfd);
   ~ConnectionInfo();
   ConnectionInfo(const ConnectionInfo &other);
   ConnectionInfo &operator=(const ConnectionInfo &other);
@@ -16,12 +17,12 @@ public:
 
   const int &getSocketFd() const;
   const std::string &getAddress() const;
-  const std::string &getPassword() const;
+  const pollfd &getPollfd() const;
 
 private:
   int _sock;
   std::string _addr;
-  std::string _pwd;
+  pollfd _pollfd;
 };
 
 #endif /* CONNECTIONINFO_HPP */

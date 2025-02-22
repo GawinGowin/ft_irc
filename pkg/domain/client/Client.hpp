@@ -10,29 +10,30 @@
 class Client : virtual public IClientAggregateRoot {
 public:
   Client();
-  Client(int id, pollfd pollfd, const ConnectionInfo connectionInfo);
+  Client(std::string addr, pollfd pollfd);
   ~Client();
   Client(const Client &other);
   Client &operator=(const Client &other);
 
   Client *clone() const;
 
-  const int &getId() const;
   const int &getSocketFd() const;
   const pollfd &getPollfd() const;
-  bool operator==(const IClientAggregateRoot &other) const;
+  const int &getId() const;
   const std::string &getNickName() const;
+  const std::string &getPassword() const;
+  void setId(const int &id);
   void setNickName(const std::string &nickName);
+  void setPassword(const std::string &password);
 
-  void setConnectionInfo(const ConnectionInfo &connectionInfo);
+  bool operator==(const IClientAggregateRoot &other) const;
 
 private:
   int _id;
-  int _socketFd;
-  pollfd _pollfd;
+  std::string _nickName;
+  std::string _password;
 
   ConnectionInfo _connectionInfo;
-  std::string _nickName;
 };
 
 #endif /* CLIENT_HPP */
