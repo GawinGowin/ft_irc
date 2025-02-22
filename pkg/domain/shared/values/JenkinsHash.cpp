@@ -45,8 +45,6 @@ int JenkinsHash::_toHash(const std::string &src) {
 /* The following code include lookup3.c, by Bob Jenkins, May 2006, Public Domain. */
 /* (URL: <http://burtleburtle.net/bob/c/lookup3.c>) */
 
-static inline int hashsize(int n) { return ((int)1 << (n)); }
-
 static inline int rot(int x, int k) { return (((x) << (k)) | ((x) >> (32 - (k)))); }
 
 static inline void mix(int &a, int &b, int &c) {

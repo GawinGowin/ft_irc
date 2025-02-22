@@ -5,6 +5,7 @@
 #include "domain/client/IClientAggregateRoot.hpp"
 #include <poll.h>
 #include <stdexcept>
+#include <string>
 
 class Client : virtual public IClientAggregateRoot {
 public:
