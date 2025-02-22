@@ -11,21 +11,26 @@ TEST(ParserTest, testLongMessage) {
 }
 
 TEST(ParserTest, testNoCRLF) {
-  EXPECT_THROW(Parser("PRIVMSG #channel :Hello, world!"), std::runtime_error);
-  EXPECT_THROW(Parser("\n"), std::runtime_error);
+  Parser noCRLF("PRIVMSG #channel :Hello, world!");
+  Parser onlyLF("\n");
+
+  EXPECT_EQ(noCRLF.getCommand(), IMessageAggregateRoot::UNKNOWN);
+  EXPECT_EQ(onlyLF.getCommand(), IMessageAggregateRoot::UNKNOWN);
 }
 
 TEST(ParserTest, testPrefix) {
   Parser prefix(":prefix PRIVMSG #channel :Hello, world!\r\n");
   Parser noprefix("PRIVMSG #channel :Hello, world!\r\n");
+  Parser onlyPrefix(":prefix\r\n");
+  Parser onlyPrefixAndSpace(":prefix \r\n");
 
   EXPECT_EQ(prefix.getPrefix(), "prefix");
   EXPECT_EQ(prefix.getCommand(), IMessageAggregateRoot::PRIVMSG);
   EXPECT_EQ(prefix.getParams()[0], "#channel");
   EXPECT_EQ(prefix.getParams()[1], "Hello, world!");
   EXPECT_EQ(noprefix.getPrefix(), "");
-  EXPECT_THROW(Parser(":prefix\r\n"), std::runtime_error);
-  EXPECT_THROW(Parser(":prefix \r\n"), std::runtime_error);
+  EXPECT_EQ(onlyPrefix.getCommand(), IMessageAggregateRoot::UNKNOWN);
+  EXPECT_EQ(onlyPrefixAndSpace.getCommand(), IMessageAggregateRoot::UNKNOWN);
 }
 
 TEST(ParserTest, testCommand) {
@@ -40,6 +45,7 @@ TEST(ParserTest, testCommand) {
   Parser mode("MODE #channel +o user\r\n");
   Parser error("ERROR\r\n");
   Parser unknown("hoge huge\r\n");
+  Parser partialMatch("MODECHANGE #channel +o user\r\n");
 
   EXPECT_EQ(pass.getCommand(), IMessageAggregateRoot::PASS);
   EXPECT_EQ(nick.getCommand(), IMessageAggregateRoot::NICK);
@@ -52,6 +58,7 @@ TEST(ParserTest, testCommand) {
   EXPECT_EQ(mode.getCommand(), IMessageAggregateRoot::MODE);
   EXPECT_EQ(error.getCommand(), IMessageAggregateRoot::ERROR);
   EXPECT_EQ(unknown.getCommand(), IMessageAggregateRoot::UNKNOWN);
+  EXPECT_EQ(partialMatch.getCommand(), IMessageAggregateRoot::UNKNOWN);
 }
 
 TEST(ParserTest, testParams) {
