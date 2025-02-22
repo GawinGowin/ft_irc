@@ -110,7 +110,7 @@ int SocketHandler::acceptConnection(struct sockaddr_in *clientAddr) {
   return clientSocket;
 }
 
-int SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
+ssize_t SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
   if (!this->_isListening) {
     return (-1);
   }

@@ -23,7 +23,7 @@ public:
 
   int acceptConnection(struct sockaddr_in *clientAddr = NULL);
   void closeConnection(int &targetSocket);
-  int sendMsg(const std::string &message, int &targetSocket);
+  ssize_t sendMsg(const std::string &message, int &targetSocket);
   std::string receiveMsg(const int &targetSocket);
 
   void setMaxConnections(const int maxConnections);
