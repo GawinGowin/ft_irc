@@ -16,13 +16,15 @@ Parser::Parser(std::string message) {
   eraseSpace(&message);
 
   if (message.length() < 2 || message.substr(message.length() - 2) != "\r\n") {
-    throw std::runtime_error("Parse error: Does not end with CRLF");
+    this->_command = IMessageAggregateRoot::UNKNOWN;
+    return;
   }
 
   if (message[0] == ':') {
     size_t pos = message.find(' ');
     if (pos == std::string::npos) {
-      throw std::runtime_error("Parse error: Command is required");
+      this->_command = IMessageAggregateRoot::UNKNOWN;
+      return;
     }
     this->_prefix = message.substr(1, pos - 1);
     message.erase(0, pos + 1);
@@ -31,7 +33,8 @@ Parser::Parser(std::string message) {
   }
   eraseSpace(&message);
   if (message.length() == 2) {
-    throw std::runtime_error("Parse error: Command is required");
+    this->_command = IMessageAggregateRoot::UNKNOWN;
+    return;
   }
 
   size_t pos = std::min(message.find(' '), message.find("\r\n"));
