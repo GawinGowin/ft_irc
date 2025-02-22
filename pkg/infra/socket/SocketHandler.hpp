@@ -21,7 +21,7 @@ public:
 
   void createPoll(pollfd *fds, nfds_t nfds);
 
-  int acceptConnection();
+  int acceptConnection(struct sockaddr_in *clientAddr = NULL);
   void closeConnection(int &targetSocket);
   void sendMsg(const std::string &message, int &targetSocket);
   std::string receiveMsg(const int &targetSocket);
@@ -34,6 +34,8 @@ public:
   const int &getMaxBufferSize() const;
   const bool &isListening() const;
   const pollfd &getServerPollfd() const;
+
+  std::string getClientIp(const struct sockaddr_in &clientAddr) const;
 
 private:
   int _socket;

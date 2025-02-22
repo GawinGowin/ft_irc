@@ -6,6 +6,8 @@
 #include "domain/client/Client.hpp"
 #include <stdexcept>
 
+// TODO: 接続情報分離により修正がある
+
 class RemoveConnectionUseCase {
 public:
   static void remove(int clientFd);

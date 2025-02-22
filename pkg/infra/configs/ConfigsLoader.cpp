@@ -10,7 +10,7 @@ ConfigsLoader::ConfigsLoader() {
   conf.Global.AdminEMail = "irc@irc.example.com";
   conf.Global.HelpFile = "/usr/share/doc/ngircd/Commands.txt";
   conf.Global.Info = "Yet another IRC Server running on Debian GNU/Linux";
-  conf.Global.Listen = "127.0.0.1";
+  conf.Global.Listen = "0.0.0.0";
   conf.Global.MotdFile = "/etc/ngircd/ngircd.motd";
   conf.Global.MotdPhrase = "Hello. This is the Debian default MOTD sentence";
   conf.Global.Network = "aIRCnetwork";
