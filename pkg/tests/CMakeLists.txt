@@ -35,6 +35,7 @@ add_executable(InfrastructureTest
 ${CMAKE_CURRENT_SOURCE_DIR}/infra/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryClientDatabase.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/database/test_InmemoryChannelDatabase.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/infra/socket/test_SocketHandler.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_ConsoleLogger.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_MultiLogger.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_FileLogger.cpp

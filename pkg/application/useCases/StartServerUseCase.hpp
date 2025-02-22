@@ -1,6 +1,7 @@
 #ifndef STARTSERVERUSECASE_HPP
 #define STARTSERVERUSECASE_HPP
 
+#include <cassert>
 #include <stdexcept>
 
 #include "application/dto/StartServerDTO.hpp"
@@ -11,6 +12,8 @@
 #include "domain/shared/ISocketHandler.hpp"
 #include "domain/shared/values/IHashAggregateRoot.hpp"
 #include "infra/configs/ConfigsLoader.hpp"
+
+// TODO: 接続情報分離により修正がある
 
 class StartServerUseCase {
 public:
