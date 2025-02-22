@@ -7,8 +7,15 @@ class MockClient : public IClientAggregateRoot {
 public:
   MockClient(int id, pollfd pfd) : _id(id), _pfd(pfd) {}
   MOCK_METHOD(const int &, getId, (), (const));
+  MOCK_METHOD(const std::string &, getNickName, (), (const));
+  MOCK_METHOD(const std::string &, getPassword, (), (const));
   MOCK_METHOD(const int &, getSocketFd, (), (const));
   MOCK_METHOD(const pollfd &, getPollfd, (), (const));
+
+  MOCK_METHOD(void, setId, (const int &id), ());
+  MOCK_METHOD(void, setNickName, (const std::string &nickName), ());
+  MOCK_METHOD(void, setPassword, (const std::string &password), ());
+
   bool operator==(const IClientAggregateRoot &other) const override {
     return _id == other.getId() && _pfd.fd == other.getPollfd().fd &&
            _pfd.events == other.getPollfd().events && _pfd.revents == other.getPollfd().revents;

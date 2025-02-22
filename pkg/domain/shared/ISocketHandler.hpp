@@ -12,7 +12,7 @@ public:
 
   virtual void createPoll(pollfd *fds, nfds_t nfds) = 0;
 
-  virtual int acceptConnection() = 0;
+  virtual int acceptConnection(struct sockaddr_in *clientAddr) = 0;
   virtual void closeConnection(int &targetSocket) = 0;
   virtual void sendMsg(const std::string &message, int &targetSocket) = 0;
   virtual std::string receiveMsg(const int &targetSocket) = 0;
@@ -25,6 +25,8 @@ public:
   virtual const int &getMaxBufferSize() const = 0;
   virtual const bool &isListening() const = 0;
   virtual const pollfd &getServerPollfd() const = 0;
+
+  virtual std::string getClientIp(const struct sockaddr_in &clientAddr) const = 0;
 };
 
 #endif /* ISOCKETHANDLER_HPP */

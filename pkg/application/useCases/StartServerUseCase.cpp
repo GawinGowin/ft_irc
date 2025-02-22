@@ -17,13 +17,16 @@ StartServerUseCase::StartServerUseCase(const StartServerDTO &dto) {
 StartServerUseCase::~StartServerUseCase() { SocketHandlerServiceLocator::cleanup(); }
 
 void StartServerUseCase::execute() {
+  SocketHandler *socketHandler = &SocketHandlerServiceLocator::get();
   try {
-    SocketHandlerServiceLocator::get().initializeSocket();
+    socketHandler->initializeSocket();
+    assert(socketHandler->isListening() == true);
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("init socket: ") + e.what());
   }
-  pollfd serverPollfd = SocketHandlerServiceLocator::get().getServerPollfd();
-  Client client(serverPollfd.fd, serverPollfd);
+  ConfigsLoader &loader = ConfigsServiceLocator::get();
+  pollfd serverPollfd = socketHandler->getServerPollfd();
+  Client client(loader.getConfigs().getGlobal().Listen, serverPollfd);
   InmemoryClientDatabase *db = &InmemoryClientDBServiceLocator::get();
   db->add(client);
 }
