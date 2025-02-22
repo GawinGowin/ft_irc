@@ -2,8 +2,8 @@
 
 Client::Client() : _id(0), _socketFd(0), _connectionInfo() {}
 
-Client::Client(int id, pollfd pollfd)
-    : _id(id), _socketFd(pollfd.fd), _pollfd(pollfd), _connectionInfo() {}
+Client::Client(int id, pollfd pollfd, const ConnectionInfo connectionInfo)
+    : _id(id), _socketFd(pollfd.fd), _pollfd(pollfd), _connectionInfo(connectionInfo) {}
 
 Client::~Client() {}
 

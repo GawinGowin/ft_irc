@@ -13,7 +13,7 @@ void AcceptConnectionUseCase::accept() {
     ConnectionInfo conn(clientSocket, clientIp);
 
     pollfd pollfd = {clientSocket, POLLIN, 0};
-    Client client = Client(clientSocket, pollfd);
+    Client client = Client(clientSocket, pollfd, conn);
     db->add(client);
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("Accept connection: ") + e.what());

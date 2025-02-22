@@ -1,6 +1,7 @@
 #ifndef STARTSERVERUSECASE_HPP
 #define STARTSERVERUSECASE_HPP
 
+#include <cassert>
 #include <stdexcept>
 
 #include "application/dto/StartServerDTO.hpp"

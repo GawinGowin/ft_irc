@@ -10,7 +10,7 @@
 class Client : virtual public IClientAggregateRoot {
 public:
   Client();
-  Client(int id, pollfd pollfd);
+  Client(int id, pollfd pollfd, const ConnectionInfo connectionInfo);
   ~Client();
   Client(const Client &other);
   Client &operator=(const Client &other);
