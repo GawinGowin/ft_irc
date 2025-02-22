@@ -2,8 +2,10 @@
 #define RUNCOMMANDSUSECASE_HPP
 
 #include "application/dto/RecievedMsgDTO.hpp"
-#include "domain/message/Message.hpp"
+#include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
+#include "domain/message/Message.hpp"
+#include "infra/logger/MultiLogger.hpp"
 
 #include <stdexcept>
 #include <string>

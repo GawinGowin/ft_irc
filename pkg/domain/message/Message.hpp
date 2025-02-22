@@ -23,4 +23,6 @@ private:
   std::vector<std::string> _params;
 };
 
+std::ostream &operator<<(std::ostream &os, const Message &msg);
+
 #endif /* MESSAGE_HPP */

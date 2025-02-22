@@ -1,7 +1,7 @@
 #include "presentation/entrypoint.hpp"
 
 void entrypoint(int argc, char **argv) {
-  LogggerWrapper loggerWrapper(
+  LogggerUseCase loggerWrapper(
       LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE, "ft_irc.log");
   MultiLogger *logger = LoggerServiceLocator::get();
   StartServerDTO dto(argc, argv);

@@ -1,9 +1,26 @@
 #include "domain/message/Message.hpp"
 #include "Parser.hpp"
 
+std::ostream &operator<<(std::ostream &os, const Message &msg) {
+  std::vector<std::string>::const_iterator it;
+  os << "{"
+     << "prefix: \"" << msg.getPrefix()
+     << "\", "
+        "command: "
+     << msg.getCommand() << ", "
+     << "params: [";
+  for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
+    os << "\"" << (*it) << "\"";
+    if (it + 1 != msg.getParams().end())
+      os << ", ";
+  }
+  os << "]}";
+  return os;
+}
+
 Message::Message() {
   this->_prefix = "";
-  this->_command = IMessageAggregateRoot::UNKNOWN;
+  this->_command = IMessageAggregateRoot::UNDEFINED;
   this->_params = std::vector<std::string>();
 }
 

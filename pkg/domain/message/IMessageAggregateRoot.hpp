@@ -6,7 +6,7 @@
 
 class IMessageAggregateRoot {
 public:
-  enum CommandType { PASS, NICK, USER, JOIN, PRIVMSG, KICK, INVITE, TOPIC, MODE, ERROR, UNKNOWN };
+  enum CommandType { PASS, NICK, USER, JOIN, PRIVMSG, KICK, INVITE, TOPIC, MODE, ERROR, UNKNOWN, UNDEFINED };
 
   virtual ~IMessageAggregateRoot(){};
 

@@ -1,11 +1,15 @@
 #include "application/useCases/RunCommandsUseCase.hpp"
 
 int RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
+  MultiLogger *logger = LoggerServiceLocator::get();
   if (recieved.getMessage().empty()) {
+    logger->error("Recieved message is empty");
     throw std::invalid_argument("Recieved message is empty");
   }
-  Message msg(recieved.getMessage());
-  switch (msg.getCommand()) {
+  Message clientMsg(recieved.getMessage());
+  Message serverResp;
+  logger->tracess() << "clientMsg: " << clientMsg;
+  switch (clientMsg.getCommand()) {
   case (IMessageAggregateRoot::PASS):
     /* code */
     break;
@@ -40,5 +44,6 @@ int RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
   default:
     break;
   }
+  logger->tracess() << "serverResp: " << serverResp;
   return (0);
 }
