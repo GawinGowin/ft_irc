@@ -4,7 +4,7 @@ int RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
   if (recieved.getMessage().empty()) {
     throw std::invalid_argument("Recieved message is empty");
   }
-  BaseMessage msg(recieved.getMessage());
+  Message msg(recieved.getMessage());
   switch (msg.getCommand()) {
   case (IMessageAggregateRoot::PASS):
     /* code */

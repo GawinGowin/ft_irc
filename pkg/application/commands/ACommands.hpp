@@ -3,8 +3,8 @@
 
 #include "application/dto/RecievedMsgDTO.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
-#include "domain/message/BaseMessage.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
+#include "domain/message/Message.hpp"
 
 #include <string>
 
@@ -19,11 +19,11 @@ public:
   virtual void execute(IClientAggregateRoot &client) = 0;
 
 protected:
-  const BaseMessage &getMessage() const;
+  const Message &getMessage() const;
 
 private:
-  BaseMessage *_parseMessage(const RecievedMsgDTO &message);
-  BaseMessage *_message;
+  Message *_parseMessage(const RecievedMsgDTO &message);
+  Message *_message;
 };
 
 #endif /* ACOMMANDS_HPP */

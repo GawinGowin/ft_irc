@@ -1,16 +1,16 @@
-#include "domain/message/BaseMessage.hpp"
+#include "domain/message/Message.hpp"
 #include <gtest/gtest.h>
 
-TEST(BaseMessageTest, DefaultConstructor) {
-  BaseMessage message;
+TEST(MessageTest, DefaultConstructor) {
+  Message message;
 
   EXPECT_EQ(message.getPrefix(), "");
   EXPECT_EQ(message.getCommand(), IMessageAggregateRoot::UNKNOWN);
   EXPECT_EQ(message.getParams().size(), 0);
 }
 
-TEST(BaseMessageTest, Constructor) {
-  BaseMessage message(":prefix PRIVMSG #channel :Hello, world!\r\n");
+TEST(MessageTest, Constructor) {
+  Message message(":prefix PRIVMSG #channel :Hello, world!\r\n");
 
   EXPECT_EQ(message.getPrefix(), "prefix");
   EXPECT_EQ(message.getCommand(), IMessageAggregateRoot::PRIVMSG);

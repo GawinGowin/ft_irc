@@ -2,7 +2,7 @@
 #define RUNCOMMANDSUSECASE_HPP
 
 #include "application/dto/RecievedMsgDTO.hpp"
-#include "domain/message/BaseMessage.hpp"
+#include "domain/message/Message.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
 
 #include <stdexcept>
