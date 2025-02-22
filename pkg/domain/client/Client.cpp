@@ -19,12 +19,6 @@ Client &Client::operator=(const Client &other) {
   return *this;
 }
 
-Client *Client::clone() const { return new Client(*this); }
-
-const int &Client::getSocketFd() const { return this->_connectionInfo.getSocketFd(); }
-
-const pollfd &Client::getPollfd() const { return this->_connectionInfo.getPollfd(); }
-
 bool Client::operator==(const IClientAggregateRoot &other) const {
   const Client *otherClient = dynamic_cast<const Client *>(&other);
   if (otherClient == NULL) {
@@ -35,11 +29,17 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
          this->_connectionInfo == otherClient->_connectionInfo;
 }
 
+Client *Client::clone() const { return new Client(*this); }
+
 const int &Client::getId() const { return this->_id; }
 
 const std::string &Client::getNickName() const { return this->_nickName; }
 
 const std::string &Client::getPassword() const { return this->_password; }
+
+const int &Client::getSocketFd() const { return this->_connectionInfo.getSocketFd(); }
+
+const pollfd &Client::getPollfd() const { return this->_connectionInfo.getPollfd(); }
 
 void Client::setId(const int &id) { this->_id = id; }
 

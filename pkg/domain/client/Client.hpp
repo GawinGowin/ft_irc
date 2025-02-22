@@ -15,18 +15,19 @@ public:
   Client(const Client &other);
   Client &operator=(const Client &other);
 
+  bool operator==(const IClientAggregateRoot &other) const;
+
   Client *clone() const;
 
-  const int &getSocketFd() const;
-  const pollfd &getPollfd() const;
   const int &getId() const;
   const std::string &getNickName() const;
   const std::string &getPassword() const;
+  const int &getSocketFd() const;
+  const pollfd &getPollfd() const;
+
   void setId(const int &id);
   void setNickName(const std::string &nickName);
   void setPassword(const std::string &password);
-
-  bool operator==(const IClientAggregateRoot &other) const;
 
 private:
   int _id;
