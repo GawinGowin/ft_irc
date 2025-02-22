@@ -1,7 +1,7 @@
 #ifndef SOCKETHANDLER_HPP
 #define SOCKETHANDLER_HPP
 
-#include "domain/shared/ISocketHandler.hpp"
+#include "infra/socket/ISocketHandler.hpp"
 #include <arpa/inet.h>
 #include <poll.h>
 #include <stdexcept>
