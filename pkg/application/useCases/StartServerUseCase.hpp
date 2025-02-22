@@ -12,6 +12,8 @@
 #include "domain/shared/values/IHashAggregateRoot.hpp"
 #include "infra/configs/ConfigsLoader.hpp"
 
+// TODO: 接続情報分離により修正がある
+
 class StartServerUseCase {
 public:
   StartServerUseCase(const StartServerDTO &dto);

@@ -10,6 +10,8 @@
 
 #include <stdexcept>
 
+// TODO: 接続情報分離により修正がある
+
 class AcceptConnectionUseCase {
 public:
   static void accept();
