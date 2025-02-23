@@ -5,6 +5,8 @@ RecievedMsgDTO::RecievedMsgDTO() : _message(""), _senderFd(0), _client(NULL) {}
 RecievedMsgDTO::RecievedMsgDTO(const std::string &message, IClientAggregateRoot *client)
     : _message(message), _senderFd(client->getSocketFd()), _client(client) {}
 
+RecievedMsgDTO::~RecievedMsgDTO() {}
+
 RecievedMsgDTO::RecievedMsgDTO(const RecievedMsgDTO &obj) { *this = obj; }
 
 RecievedMsgDTO &RecievedMsgDTO::operator=(const RecievedMsgDTO &obj) {

@@ -8,7 +8,7 @@ class RecievedMsgDTO {
 public:
   RecievedMsgDTO();
   RecievedMsgDTO(const std::string &message, IClientAggregateRoot *client);
-  ~RecievedMsgDTO(){};
+  ~RecievedMsgDTO();
   RecievedMsgDTO(const RecievedMsgDTO &obj);
   RecievedMsgDTO &operator=(const RecievedMsgDTO &obj);
 
