@@ -19,18 +19,15 @@ void entrypoint(int argc, char **argv) {
   logger->info("Start Listening...");
   while (true) {
     eventDto = monitorSocketEventsUseCase.monitor();
-    // handle dto
     switch (eventDto.getEvent()) {
     case MonitorSocketEventDTO::NewConnection:
       AcceptConnectionUseCase::accept();
-      logger->debug("New connection");
       break;
     case MonitorSocketEventDTO::MessageReceived:
       msgDto = RecieveMsgUseCase::recieve(eventDto);
       if (msgDto.getMessage().size() == 0) {
         int clientFd = eventDto.getConnectionFd();
         RemoveConnectionUseCase::remove(clientFd);
-        logger->debugss() << "Connection closed: " << clientFd;
         break;
       }
       status = RunCommandsUseCase::execute(msgDto);
