@@ -33,19 +33,19 @@ public:
     }
     std::string msg = this->_stream.str();
     ssize_t sent = this->_socketHandler->sendMsg(msg, fd);
-    if (sent != msg.size()) {
+    if (sent != static_cast<ssize_t>(msg.size())) {
       return (-1);
     }
     return (0);
   }
 
   MessageStream(const MessageStream &other)
-      : _client(other._client), _socketHandler(other._socketHandler), _stream(other._stream.str()) {
+      : _socketHandler(other._socketHandler), _client(other._client),  _stream(other._stream.str()) {
   }
 
 private:
-  IClientAggregateRoot *_client;
   ISocketHandler *_socketHandler;
+  IClientAggregateRoot *_client;
   std::ostringstream _stream;
 };
 
