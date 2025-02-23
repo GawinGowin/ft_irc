@@ -14,8 +14,9 @@ void entrypoint(int argc, char **argv) {
   }
   MonitorSocketEventsUseCase monitorSocketEventsUseCase;
   MonitorSocketEventDTO eventDto;
-  RecievedMsgDTO msgDto;
-  int status;
+  RecievedMsgDTO recievedMsgDto;
+  SendMsgDTO sendMsgDto;
+
   logger->info("Start Listening...");
   while (true) {
     eventDto = monitorSocketEventsUseCase.monitor();
@@ -24,16 +25,14 @@ void entrypoint(int argc, char **argv) {
       AcceptConnectionUseCase::accept();
       break;
     case MonitorSocketEventDTO::MessageReceived:
-      msgDto = RecieveMsgUseCase::recieve(eventDto);
-      if (msgDto.getMessage().size() == 0) {
+      recievedMsgDto = RecieveMsgUseCase::recieve(eventDto);
+      if (recievedMsgDto.getMessage().size() == 0) {
         int clientFd = eventDto.getConnectionFd();
         RemoveConnectionUseCase::remove(clientFd);
         break;
       }
-      status = RunCommandsUseCase::execute(msgDto);
-      logger->debugss() << "Run command status: " << status;
-      logger->debugss() << "Message received (fd/" << msgDto.getSenderId()
-                        << "): " << msgDto.getMessage();
+      sendMsgDto = RunCommandsUseCase::execute(recievedMsgDto);
+      SendMsgFromServerUseCase::send(recievedMsgDto.getClient(), sendMsgDto);
       break;
     case MonitorSocketEventDTO::Error:
       throw std::runtime_error("Failed to monitor socket events");

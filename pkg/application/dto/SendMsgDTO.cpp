@@ -4,7 +4,7 @@ std::ostream &operator<<(std::ostream &os, const SendMsgDTO &msgDTO) {
   Message msg = msgDTO.getMessage();
   std::vector<std::string>::const_iterator it;
 
-  os << ":" << msg.getPrefix() << " " << msg.getCommand() << " ";
+  os << msg.getPrefix() << " " << msg.getCommand() << " ";
   for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
     os << *it;
     if (it + 1 != msg.getParams().end()) {
@@ -13,6 +13,8 @@ std::ostream &operator<<(std::ostream &os, const SendMsgDTO &msgDTO) {
   }
   return os;
 }
+
+SendMsgDTO::SendMsgDTO() {}
 
 SendMsgDTO::SendMsgDTO(const Message &message) : _message(message) {}
 
@@ -28,3 +30,9 @@ SendMsgDTO &SendMsgDTO::operator=(const SendMsgDTO &obj) {
 }
 
 const Message &SendMsgDTO::getMessage() const { return this->_message; }
+
+const int &SendMsgDTO::getStatus() const { return _status; }
+
+void SendMsgDTO::setMessage(const Message &message) { this->_message = message; }
+
+void SendMsgDTO::setStatus(int status) { this->_status = status; }

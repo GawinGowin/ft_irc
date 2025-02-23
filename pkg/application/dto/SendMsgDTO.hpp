@@ -5,16 +5,22 @@
 #include <iostream>
 
 class SendMsgDTO {
-  public:
+public:
+  SendMsgDTO();
   SendMsgDTO(const Message &message);
   ~SendMsgDTO();
   SendMsgDTO(const SendMsgDTO &obj);
   SendMsgDTO &operator=(const SendMsgDTO &obj);
-  
+
   const Message &getMessage() const;
-  
-  private:
+  const int &getStatus() const;
+
+  void setMessage(const Message &message);
+  void setStatus(const int status);
+
+private:
   Message _message;
+  int _status;
 };
 
 std::ostream &operator<<(std::ostream &os, const SendMsgDTO &msg);

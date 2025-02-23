@@ -5,7 +5,7 @@ TEST(MessageTest, DefaultConstructor) {
   Message message;
 
   EXPECT_EQ(message.getPrefix(), "");
-  EXPECT_EQ(message.getCommand(), IMessageAggregateRoot::UNKNOWN);
+  EXPECT_EQ(message.getCommand(), IMessageAggregateRoot::UNDEFINED);
   EXPECT_EQ(message.getParams().size(), 0);
 }
 

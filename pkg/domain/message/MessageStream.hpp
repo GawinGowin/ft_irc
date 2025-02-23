@@ -24,7 +24,7 @@ public:
   ~MessageStream() {}
 
   int send() {
-    if (this->_socketHandler->isListening() == false) {
+    if (this->_socketHandler->isListening() == false || this->_client == NULL) {
       return (-1);
     }
     int fd = this->_client->getSocketFd();
@@ -40,7 +40,7 @@ public:
   }
 
   MessageStream(const MessageStream &other)
-      : _socketHandler(other._socketHandler), _client(other._client),  _stream(other._stream.str()) {
+      : _socketHandler(other._socketHandler), _client(other._client), _stream(other._stream.str()) {
   }
 
 private:

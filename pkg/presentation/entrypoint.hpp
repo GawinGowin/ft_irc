@@ -2,6 +2,7 @@
 #define ENTRYPOINT_HPP
 
 #include "application/dto/MonitorSocketEventDTO.hpp"
+#include "application/dto/SendMsgDTO.hpp"
 #include "application/dto/StartServerDTO.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "application/useCases/AcceptConnectionUseCase.hpp"
@@ -10,6 +11,7 @@
 #include "application/useCases/RecieveMsgUseCase.hpp"
 #include "application/useCases/RemoveConnectionUseCase.hpp"
 #include "application/useCases/RunCommandsUseCase.hpp"
+#include "application/useCases/SendMsgFromServerUseCase.hpp"
 #include "application/useCases/StartServerUseCase.hpp"
 
 #include "presentation/signal.hpp"

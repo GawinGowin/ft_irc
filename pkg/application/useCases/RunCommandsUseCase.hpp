@@ -2,6 +2,7 @@
 #define RUNCOMMANDSUSECASE_HPP
 
 #include "application/dto/RecievedMsgDTO.hpp"
+#include "application/dto/SendMsgDTO.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/Message.hpp"
@@ -12,7 +13,7 @@
 
 class RunCommandsUseCase {
 public:
-  static int execute(const RecievedMsgDTO &recieved);
+  static SendMsgDTO execute(const RecievedMsgDTO &recieved);
 
 private:
   RunCommandsUseCase();

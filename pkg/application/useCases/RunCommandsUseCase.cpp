@@ -1,6 +1,6 @@
 #include "application/useCases/RunCommandsUseCase.hpp"
 
-int RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
+SendMsgDTO RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
   MultiLogger *logger = LoggerServiceLocator::get();
   if (recieved.getMessage().empty()) {
     logger->error("Recieved message is empty");
@@ -9,41 +9,46 @@ int RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
   Message clientMsg(recieved.getMessage());
   Message serverResp;
   logger->tracess() << "clientMsg: " << clientMsg;
+
+  SendMsgDTO dto;
   switch (clientMsg.getCommand()) {
   case (IMessageAggregateRoot::PASS):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::NICK):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::USER):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::JOIN):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::PRIVMSG):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::KICK):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::INVITE):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::TOPIC):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::MODE):
-    /* code */
+    // serverResp = ..
     break;
   case (IMessageAggregateRoot::ERROR):
-    return (1);
+    dto.setStatus(1);
+    return (dto);
   case (IMessageAggregateRoot::UNKNOWN):
     break;
   default:
     break;
   }
+  serverResp = Message(recieved.getMessage());
   logger->tracess() << "serverResp: " << serverResp;
-  return (0);
+  dto.setMessage(serverResp);
+  return (dto);
 }

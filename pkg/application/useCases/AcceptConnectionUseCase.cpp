@@ -3,11 +3,11 @@
 #include <iostream>
 
 void AcceptConnectionUseCase::accept() {
+  MultiLogger *logger = LoggerServiceLocator::get();
   InmemoryClientDatabase *db = &InmemoryClientDBServiceLocator::get();
   SocketHandler *_socketHandler = &SocketHandlerServiceLocator::get();
   struct sockaddr_in clientAddr;
   try {
-    MultiLogger *logger = LoggerServiceLocator::get();
     int clientSocket = _socketHandler->acceptConnection(&clientAddr);
     std::string clientIp = _socketHandler->getClientIp(clientAddr);
 

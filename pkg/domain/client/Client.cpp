@@ -41,7 +41,7 @@ const int &Client::getSocketFd() const { return this->_connectionInfo.getSocketF
 
 const pollfd &Client::getPollfd() const { return this->_connectionInfo.getPollfd(); }
 
-const std::string &Client::getAddress() const {return this->_connectionInfo.getAddress(); }
+const std::string &Client::getAddress() const { return this->_connectionInfo.getAddress(); }
 
 void Client::setId(const int &id) { this->_id = id; }
 

@@ -34,7 +34,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/build/ft_irc",
 			"args": [
-
+        "8081" , "pass"
       ],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
