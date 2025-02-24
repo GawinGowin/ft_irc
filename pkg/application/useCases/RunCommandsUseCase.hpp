@@ -13,7 +13,7 @@
 
 class RunCommandsUseCase {
 public:
-  static SendMsgDTO execute(const RecievedMsgDTO &recieved);
+  static SendMsgDTO execute(RecievedMsgDTO &recieved);
 
 private:
   RunCommandsUseCase();

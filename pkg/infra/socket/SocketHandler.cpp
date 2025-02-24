@@ -123,6 +123,7 @@ std::string SocketHandler::receiveMsg(const int &targetSocket) {
   }
 
   std::string recieved;
+  std::string delimiter = "\r\n";
   char recv_buf[this->_maxBufferSize];
   ssize_t bytes_received;
 
@@ -130,8 +131,8 @@ std::string SocketHandler::receiveMsg(const int &targetSocket) {
     recv_buf[bytes_received] = '\0';
     std::string recv_string = std::string(recv_buf);
     size_t pos;
-    while ((pos = recv_string.find("\r\n")) != std::string::npos) {
-      recieved += recv_string.substr(0, pos);
+    while ((pos = recv_string.find(delimiter)) != std::string::npos) {
+      recieved += recv_string.substr(0, pos + delimiter.size());
       return recieved;
     }
     recieved += recv_string;

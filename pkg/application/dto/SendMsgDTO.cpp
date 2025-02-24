@@ -16,7 +16,7 @@ std::ostream &operator<<(std::ostream &os, const SendMsgDTO &msgDTO) {
 
 SendMsgDTO::SendMsgDTO() {}
 
-SendMsgDTO::SendMsgDTO(const Message &message) : _message(message) {}
+SendMsgDTO::SendMsgDTO(const Message &message) : _message(message), _status(0) {}
 
 SendMsgDTO::~SendMsgDTO() {}
 

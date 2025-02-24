@@ -1,6 +1,6 @@
 #include "application/useCases/RunCommandsUseCase.hpp"
 
-SendMsgDTO RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
+SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   MultiLogger *logger = LoggerServiceLocator::get();
   if (recieved.getMessage().empty()) {
     logger->error("Recieved message is empty");
@@ -47,10 +47,6 @@ SendMsgDTO RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
   default:
     break;
   }
-  /* 以下の内容は仮置き */
-  serverResp = Message(recieved.getMessage());
-  logger->tracess() << "serverResp: " << serverResp;
-  dto.setMessage(serverResp);
-  /* 仮置き終わり */
+  logger->tracess() << "serverResp: " << dto;
   return (dto);
 }
