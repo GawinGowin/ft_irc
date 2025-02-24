@@ -15,7 +15,7 @@ RecievedMsgDTO RecieveMsgUseCase::recieve(const MonitorSocketEventDTO &event) {
   } catch (const std::runtime_error &e) {
     throw std::runtime_error(std::string("RecieveMsgUseCase: ") + e.what());
   }
-  logger->tracess() << "Message recieved from client: " << client->getAddress()
-                    << " (fd: " << client->getSocketFd() << ")";
+  logger->tracess() << "Message from client: " << client->getAddress()
+                    << " (fd: " << client->getSocketFd() << ") " << msg;
   return (RecievedMsgDTO(msg, client));
 }
