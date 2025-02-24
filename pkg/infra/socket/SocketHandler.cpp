@@ -110,25 +110,33 @@ int SocketHandler::acceptConnection(struct sockaddr_in *clientAddr) {
   return clientSocket;
 }
 
-void SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
+ssize_t SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
   if (!this->_isListening) {
-    throw std::runtime_error("socket is not listening");
+    return (-1);
   }
-  if (send(targetSocket, message.c_str(), message.size(), 0) == -1) {
-    throw std::runtime_error("send failed");
-  }
+  return send(targetSocket, message.c_str(), message.size(), 0);
 }
 
 std::string SocketHandler::receiveMsg(const int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
+
+  std::string recieved;
   char recv_buf[this->_maxBufferSize];
-  ssize_t recv_size = recv(targetSocket, recv_buf, this->_maxBufferSize, 0);
-  if (recv_size == -1) {
-    throw std::runtime_error("recieve msg failed");
+  ssize_t bytes_received;
+
+  while ((bytes_received = recv(targetSocket, recv_buf, this->_maxBufferSize - 1, 0)) > 0) {
+    recv_buf[bytes_received] = '\0';
+    std::string recv_string = std::string(recv_buf);
+    size_t pos;
+    while ((pos = recv_string.find("\r\n")) != std::string::npos) {
+      recieved += recv_string.substr(0, pos);
+      return recieved;
+    }
+    recieved += recv_string;
   }
-  return std::string(recv_buf, recv_size);
+  return recieved;
 }
 
 void SocketHandler::setMaxConnections(const int maxConnections) {

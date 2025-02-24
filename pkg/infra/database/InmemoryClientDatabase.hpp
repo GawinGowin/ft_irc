@@ -20,6 +20,7 @@ public:
   const std::vector<IClientAggregateRoot *> &list();
   const std::vector<pollfd> &listPollfds();
   const IClientAggregateRoot &getById(const int id);
+  IClientAggregateRoot *getByFd(const int fd);
   void update(const int id, const IClientAggregateRoot &newData);
   void remove(const int id);
   void clear();

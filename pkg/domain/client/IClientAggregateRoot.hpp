@@ -17,6 +17,7 @@ public:
   virtual const std::string &getPassword() const = 0;
   virtual const int &getSocketFd() const = 0;
   virtual const pollfd &getPollfd() const = 0;
+  virtual const std::string &getAddress() const = 0;
 
   virtual void setId(const int &id) = 0;
   virtual void setNickName(const std::string &nickName) = 0;

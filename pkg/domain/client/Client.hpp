@@ -24,6 +24,7 @@ public:
   const std::string &getPassword() const;
   const int &getSocketFd() const;
   const pollfd &getPollfd() const;
+  const std::string &getAddress() const;
 
   void setId(const int &id);
   void setNickName(const std::string &nickName);
