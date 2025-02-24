@@ -24,8 +24,8 @@ protected:
   IClientAggregateRoot *getClient() const;
 
 private:
-  IClientAggregateRoot *_client;
   IMessageAggregateRoot *_message;
+  IClientAggregateRoot *_client;
 };
 
 #endif /* ACOMMANDS_HPP */
