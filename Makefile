@@ -67,3 +67,7 @@ build:
 .PHONY: test
 test: build
 	cd $(BUILD_DIR)/pkg/tests && make test
+
+.PHONY: locust
+locust: debug
+	locust -f tools/locustfile.py

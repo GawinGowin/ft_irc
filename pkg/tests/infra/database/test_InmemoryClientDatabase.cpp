@@ -11,6 +11,7 @@ public:
   MOCK_METHOD(const std::string &, getPassword, (), (const));
   MOCK_METHOD(const int &, getSocketFd, (), (const));
   MOCK_METHOD(const pollfd &, getPollfd, (), (const));
+  MOCK_METHOD(const std::string &, getAddress, (), (const));
 
   MOCK_METHOD(void, setId, (const int &id), ());
   MOCK_METHOD(void, setNickName, (const std::string &nickName), ());

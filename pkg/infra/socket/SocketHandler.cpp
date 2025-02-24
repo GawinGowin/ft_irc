@@ -110,13 +110,11 @@ int SocketHandler::acceptConnection(struct sockaddr_in *clientAddr) {
   return clientSocket;
 }
 
-void SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
+ssize_t SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
   if (!this->_isListening) {
-    throw std::runtime_error("socket is not listening");
+    return (-1);
   }
-  if (send(targetSocket, message.c_str(), message.size(), 0) == -1) {
-    throw std::runtime_error("send failed");
-  }
+  return send(targetSocket, message.c_str(), message.size(), 0);
 }
 
 std::string SocketHandler::receiveMsg(const int &targetSocket) {

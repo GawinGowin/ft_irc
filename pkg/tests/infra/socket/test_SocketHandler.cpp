@@ -129,7 +129,8 @@ TEST(SocketHandlerTest, SendAndReceiveMessage) {
     connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
     std::string message = "Hello from client";
-    server.sendMsg(message, client_socket);
+    ssize_t status = server.sendMsg(message, client_socket);
+    EXPECT_EQ(message.size(), status);
     std::string received_message = server.receiveMsg(client_socket);
     EXPECT_EQ(received_message, "Hello from server");
     close(client_socket);

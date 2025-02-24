@@ -1,7 +1,7 @@
 #ifndef SOCKETHANDLER_HPP
 #define SOCKETHANDLER_HPP
 
-#include "domain/shared/ISocketHandler.hpp"
+#include "infra/socket/ISocketHandler.hpp"
 #include <arpa/inet.h>
 #include <poll.h>
 #include <stdexcept>
@@ -23,7 +23,7 @@ public:
 
   int acceptConnection(struct sockaddr_in *clientAddr = NULL);
   void closeConnection(int &targetSocket);
-  void sendMsg(const std::string &message, int &targetSocket);
+  ssize_t sendMsg(const std::string &message, int &targetSocket);
   std::string receiveMsg(const int &targetSocket);
 
   void setMaxConnections(const int maxConnections);
