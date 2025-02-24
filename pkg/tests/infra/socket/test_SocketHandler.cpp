@@ -120,8 +120,8 @@ TEST(SocketHandlerTest, SendAndReceiveMessage) {
   SocketHandler server("127.0.0.1", 8083, 10, 1024);
   server.initializeSocket();
 
-  std::string clientMsg = "Hello from client";
-  std::string serverMsg = "Hello from server";
+  std::string clientMsg = "Hello from client\r\n";
+  std::string serverMsg = "Hello from server\r\n";
 
   std::thread client_thread([&server, &clientMsg, &serverMsg]() {
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -131,8 +131,8 @@ TEST(SocketHandlerTest, SendAndReceiveMessage) {
     server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
-    ssize_t status = server.sendMsg(clientMsg + "\r\n", client_socket);
-    EXPECT_EQ(clientMsg.size() + 2, status);
+    ssize_t status = server.sendMsg(clientMsg, client_socket);
+    EXPECT_EQ(clientMsg.size(), status);
     std::string received_message = server.receiveMsg(client_socket);
     EXPECT_EQ(received_message, serverMsg);
     close(client_socket);
@@ -144,7 +144,7 @@ TEST(SocketHandlerTest, SendAndReceiveMessage) {
   std::string received_message = server.receiveMsg(client_socket);
   EXPECT_EQ(received_message, clientMsg);
 
-  server.sendMsg(serverMsg + "\r\n", client_socket);
+  server.sendMsg(serverMsg, client_socket);
 
   client_thread.join();
   close(client_socket);
