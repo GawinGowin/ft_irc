@@ -18,7 +18,7 @@ class MyLocustUser(HttpUser):
       with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host, port))
         time.sleep(2)
-        message = "PASS pass\n"
+        message = "PASS pass\r\n"
         print(f"send: {message}")
         s.send(message.encode("utf-8"))
 
