@@ -12,19 +12,20 @@
 class ACommands {
 public:
   ACommands();
-  ACommands(const RecievedMsgDTO &message);
+  ACommands(IMessageAggregateRoot *msg, IClientAggregateRoot *client);
   virtual ~ACommands();
   ACommands(const ACommands &obj);
   ACommands &operator=(const ACommands &obj);
 
-  virtual SendMsgDTO execute(IClientAggregateRoot &client) = 0;
+  virtual SendMsgDTO execute() = 0;
 
 protected:
-  const Message &getMessage() const;
+  IMessageAggregateRoot *getMessage() const;
+  IClientAggregateRoot *getClient() const;
 
 private:
-  Message *_parseMessage(const RecievedMsgDTO &message);
-  Message *_message;
+  IClientAggregateRoot *_client;
+  IMessageAggregateRoot *_message;
 };
 
 #endif /* ACOMMANDS_HPP */
