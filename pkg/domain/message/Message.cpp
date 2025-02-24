@@ -3,12 +3,10 @@
 
 std::ostream &operator<<(std::ostream &os, const Message &msg) {
   std::vector<std::string>::const_iterator it;
-  os << "{"
-     << "prefix: \"" << msg.getPrefix()
+  os << "{prefix: \"" << msg.getPrefix()
      << "\", "
         "command: "
-     << msg.getCommand() << ", "
-     << "params: [";
+     << msg.getCommand() << ", params: [";
   for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
     os << "\"" << (*it) << "\"";
     if (it + 1 != msg.getParams().end())

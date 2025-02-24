@@ -10,12 +10,12 @@ void SendMsgFromServerUseCase::send(IClientAggregateRoot *client, const SendMsgD
   MessageStream ss = MessageService::generateMessageStream(_socketHandler, client);
   ss << message << std::endl;
   int status = ss.send();
+  int fd = client->getSocketFd();
   if (status == -1) {
     logger->errorss() << "Failed to send message to client: " << client->getAddress()
-                      << " (fd: " << client->getSocketFd() << ")";
+                      << " (fd: " << fd << ")";
   } else {
-    logger->tracess() << "Message sent to client: " << client->getAddress()
-                      << " (fd: " << client->getSocketFd() << ")"
-                      << " \"" << message << "\"";
+    logger->tracess() << "Message sent to client: " << client->getAddress() << " (fd: " << fd << ")"
+                      << message;
   }
 }
