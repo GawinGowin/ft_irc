@@ -2,11 +2,14 @@
 #define PASSCOMMAND_HPP
 
 #include "application/commands/ACommands.hpp"
+#include "domain/client/IClientAggregateRoot.hpp"
+#include "domain/message/IMessageAggregateRoot.hpp"
+#include "application/serviceLocator/LoggerServiceLocator.hpp"
 
 class PassCommand : public ACommands {
 public:
-  PassCommand(const RecievedMsgDTO &message);
-  virtual void execute(IClientAggregateRoot &client) override;
+  PassCommand(IMessageAggregateRoot *msg, IClientAggregateRoot *client);
+  SendMsgDTO execute();
 };
 
 #endif /* PASSCOMMAND_HPP */
