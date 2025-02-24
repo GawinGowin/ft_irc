@@ -15,7 +15,7 @@ void SendMsgFromServerUseCase::send(IClientAggregateRoot *client, const SendMsgD
     logger->errorss() << "Failed to send message to client: " << client->getAddress()
                       << " (fd: " << fd << ")";
   } else {
-    logger->tracess() << "Message sent to client: " << client->getAddress() << " (fd: " << fd << ")"
+    logger->tracess() << "Message to client: " << client->getAddress() << " (fd: " << fd << ")"
                       << message;
   }
 }
