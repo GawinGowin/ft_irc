@@ -13,31 +13,31 @@ SendMsgDTO RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
   SendMsgDTO dto;
   switch (clientMsg.getCommand()) {
   case (IMessageAggregateRoot::PASS):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::NICK):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::USER):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::JOIN):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::PRIVMSG):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::KICK):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::INVITE):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::TOPIC):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::MODE):
-    // serverResp = ..
+    // dto = ..
     break;
   case (IMessageAggregateRoot::ERROR):
     dto.setStatus(1);
@@ -47,8 +47,10 @@ SendMsgDTO RunCommandsUseCase::execute(const RecievedMsgDTO &recieved) {
   default:
     break;
   }
+  /* 以下の内容は仮置き */
   serverResp = Message(recieved.getMessage());
   logger->tracess() << "serverResp: " << serverResp;
   dto.setMessage(serverResp);
+  /* 仮置き終わり */
   return (dto);
 }
