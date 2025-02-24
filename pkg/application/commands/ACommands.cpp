@@ -22,8 +22,8 @@ ACommands &ACommands::operator=(const ACommands &obj) {
   return *this;
 }
 
-const BaseMessage &ACommands::getMessage() const { return *_message; }
+const Message &ACommands::getMessage() const { return *_message; }
 
-BaseMessage *ACommands::_parseMessage(const RecievedMsgDTO &message) {
-  return new BaseMessage(message.getMessage());
+Message *ACommands::_parseMessage(const RecievedMsgDTO &message) {
+  return new Message(message.getMessage());
 }

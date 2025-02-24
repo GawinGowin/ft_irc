@@ -46,6 +46,16 @@ const std::vector<pollfd> &InmemoryClientDatabase::listPollfds() {
   return this->_cachedPollfds;
 }
 
+IClientAggregateRoot *InmemoryClientDatabase::getByFd(const int fd) {
+  std::vector<IClientAggregateRoot *>::iterator it;
+  for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
+    if (fd == (*it)->getSocketFd()) {
+      return *it;
+    }
+  }
+  throw std::runtime_error("Not found");
+}
+
 const IClientAggregateRoot &InmemoryClientDatabase::getById(const int id) {
   std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {

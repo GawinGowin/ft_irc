@@ -22,7 +22,7 @@ add_executable(DomainTest
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_RFCChannelHash.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_JenkinsHash.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_Parser.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_BaseMessage.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_Message.cpp
 )
 target_link_libraries(DomainTest testftirc gtest_main)
 target_include_directories(DomainTest PRIVATE 

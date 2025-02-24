@@ -38,6 +38,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install clang-format
         run: sudo apt install clang-format
+      - name: show setteings
+        run: |
+          clang-format --version
+          clang-format -dump-config
       - name: Run clang-format
         run: |
           git ls-files | grep -E "\.(c|cpp|h|hpp|tpp)$" | xargs clang-format -i -style=file || true
