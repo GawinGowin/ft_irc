@@ -18,14 +18,10 @@ int main(int argc, char **argv) {
   // https://docs.sentry.io/platforms/native/configuration/options/#database-path
   sentry_options_set_handler_path(options, "/usr/local/bin/crashpad_handler");
   sentry_options_set_database_path(options, ".sentry-native");
-  sentry_options_set_release(options, "my-project-name@2.3.12");
+  sentry_options_set_release(options, "ft_irc@0.1");
   sentry_options_set_debug(options, 1);
   sentry_options_set_sample_rate(options, 1);
   sentry_init(options);
-  sentry_capture_event(sentry_value_new_message_event(
-      /*   level */ SENTRY_LEVEL_INFO,
-      /*  logger */ "custom",
-      /* message */ "Server started"));
   try {
     entrypoint(argc, argv);
   } catch (const std::exception &e) {
