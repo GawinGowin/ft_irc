@@ -1,13 +1,13 @@
 #ifndef RUNCOMMANDSUSECASE_HPP
 #define RUNCOMMANDSUSECASE_HPP
 
+#include "application/commands/Nick.hpp"
 #include "application/dto/RecievedMsgDTO.hpp"
 #include "application/dto/SendMsgDTO.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/Message.hpp"
 #include "infra/logger/MultiLogger.hpp"
-#include "application/commands/Nick.hpp"
 
 #include <stdexcept>
 #include <string>
