@@ -7,6 +7,7 @@
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/Message.hpp"
 #include "infra/logger/MultiLogger.hpp"
+#include "application/commands/Nick.hpp"
 
 #include <stdexcept>
 #include <string>
