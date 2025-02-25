@@ -15,11 +15,7 @@
 
 class LoggerServiceLocator {
 public:
-  enum loggerType {
-    CONSOLE = 1 << 0,
-    FILE = 1 << 1,
-    SENTRY = 1 << 2
-  };
+  enum loggerType { CONSOLE = 1 << 0, FILE = 1 << 1, SENTRY = 1 << 2 };
 
   static void init(int type, std::string logFile = "") {
     if (_logger != NULL) {

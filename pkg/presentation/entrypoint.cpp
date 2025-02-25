@@ -1,6 +1,7 @@
 #include "presentation/entrypoint.hpp"
 
-const int logTypes = LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE | LoggerServiceLocator::SENTRY;
+const int logTypes =
+    LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE | LoggerServiceLocator::SENTRY;
 
 void entrypoint(int argc, char **argv) {
   LogggerUseCase loggerWrapper(logTypes, "ft_irc.log");
