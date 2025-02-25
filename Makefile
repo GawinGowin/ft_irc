@@ -92,3 +92,7 @@ login:
 .PHONY: run
 run: build
 	env `cat .env | xargs` $(BUILD_DIR)/$(NAME)
+
+.PHONY: locust
+locust: debug
+	locust -f tools/locustfile.py

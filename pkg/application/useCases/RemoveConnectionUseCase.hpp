@@ -2,11 +2,12 @@
 #define REMOVECONNECTIONUSECASE_HPP
 
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
+#include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include "domain/client/Client.hpp"
-#include <stdexcept>
+#include "infra/logger/MultiLogger.hpp"
 
-// TODO: 接続情報分離により修正がある
+#include <stdexcept>
 
 class RemoveConnectionUseCase {
 public:

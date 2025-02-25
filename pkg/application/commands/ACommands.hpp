@@ -2,28 +2,30 @@
 #define ACOMMANDS_HPP
 
 #include "application/dto/RecievedMsgDTO.hpp"
+#include "application/dto/SendMsgDTO.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
-#include "domain/message/BaseMessage.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
+#include "domain/message/Message.hpp"
 
 #include <string>
 
 class ACommands {
 public:
   ACommands();
-  ACommands(const RecievedMsgDTO &message);
+  ACommands(IMessageAggregateRoot *msg, IClientAggregateRoot *client);
   virtual ~ACommands();
   ACommands(const ACommands &obj);
   ACommands &operator=(const ACommands &obj);
 
-  virtual void execute(IClientAggregateRoot &client) = 0;
+  virtual SendMsgDTO execute() = 0;
 
 protected:
-  const BaseMessage &getMessage() const;
+  IMessageAggregateRoot *getMessage() const;
+  IClientAggregateRoot *getClient() const;
 
 private:
-  BaseMessage *_parseMessage(const RecievedMsgDTO &message);
-  BaseMessage *_message;
+  IMessageAggregateRoot *_message;
+  IClientAggregateRoot *_client;
 };
 
 #endif /* ACOMMANDS_HPP */

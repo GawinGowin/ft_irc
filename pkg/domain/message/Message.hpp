@@ -1,17 +1,17 @@
-#ifndef BASEMESSAGE_HPP
-#define BASEMESSAGE_HPP
+#ifndef MESSAGE_HPP
+#define MESSAGE_HPP
 
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include <string>
 #include <vector>
 
-class BaseMessage : public IMessageAggregateRoot {
+class Message : public IMessageAggregateRoot {
 public:
-  BaseMessage();
-  BaseMessage(const std::string &message);
-  ~BaseMessage();
-  BaseMessage(const BaseMessage &obj);
-  BaseMessage &operator=(const BaseMessage &obj);
+  Message();
+  Message(const std::string &message);
+  ~Message();
+  Message(const Message &obj);
+  Message &operator=(const Message &obj);
 
   const std::string &getPrefix() const;
   const CommandType &getCommand() const;
@@ -23,4 +23,6 @@ private:
   std::vector<std::string> _params;
 };
 
-#endif /* BASEMESSAGE_HPP */
+std::ostream &operator<<(std::ostream &os, const Message &msg);
+
+#endif /* MESSAGE_HPP */
