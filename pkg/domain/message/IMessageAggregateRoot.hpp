@@ -17,6 +17,7 @@ public:
     TOPIC,
     MODE,
     ERROR,
+NAMES,
     UNKNOWN,
     UNDEFINED
   };

@@ -72,3 +72,10 @@ TEST(ParserTest, testParams) {
   EXPECT_EQ(trailingParams.getParams().size(), 2);
   EXPECT_EQ(multipleParams.getParams().size(), 3);
 }
+TEST(ParserTest, testNamesCommand) {
+  Parser names("NAMES #channel1,#channel2\r\n");
+
+  EXPECT_EQ(names.getCommand(), IMessageAggregateRoot::NAMES);
+  ASSERT_EQ(names.getParams().size(), 1);
+  EXPECT_EQ(names.getParams()[0], "#channel1,#channel2");
+}

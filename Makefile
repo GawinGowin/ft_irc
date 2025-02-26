@@ -66,7 +66,7 @@ build:
 
 .PHONY: test
 test: build
-	cd $(BUILD_DIR)/pkg/tests && make test
+	cd $(BUILD_DIR) && ctest
 
 .PHONY: locust
 locust: debug

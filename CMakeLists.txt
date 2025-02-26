@@ -15,6 +15,8 @@ file(GLOB_RECURSE SOURCES
 "${CMAKE_SOURCE_DIR}/pkg/infra/*.cpp"
 "${CMAKE_SOURCE_DIR}/pkg/presentation/**/*.cpp"
 "${CMAKE_SOURCE_DIR}/pkg/presentation/*.cpp"
+"${CMAKE_SOURCE_DIR}/pkg/tests/infra/**/*.cpp"
+    "${CMAKE_SOURCE_DIR}/pkg/tests/infra/*.cpp"
 )
 message(STATUS "SOURCES: ${SOURCES}")
 add_library(testftirc ${SOURCES}) 
@@ -26,7 +28,7 @@ target_include_directories(
 
 ## Link with necessary libraries
 set(LIBRARIES crypto ssl)
-target_link_libraries(testftirc ${LIBRARIES})
+target_link_libraries(testftirc ${LIBRARIES} gtest gmock)
 
 add_executable(ft_irc
 ${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)

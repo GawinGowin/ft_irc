@@ -40,7 +40,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/infra/test_main.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_MultiLogger.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/infra/logger/test_FileLogger.cpp
 )
-target_link_libraries(InfrastructureTest testftirc gtest_main gmock_main)
+target_link_libraries(InfrastructureTest testftirc gtest_main gmock_main crypto ssl)
 target_include_directories(InfrastructureTest PRIVATE 
   ${CMAKE_SOURCE_DIR}/pkg
   ${gtest_SOURCE_DIR}

@@ -59,6 +59,8 @@ Parser::Parser(std::string message) {
     this->_command = IMessageAggregateRoot::MODE;
   } else if (command == "ERROR") {
     this->_command = IMessageAggregateRoot::ERROR;
+  } else if (command == "NAMES") {
+    this->_command = IMessageAggregateRoot::NAMES;
   } else {
     this->_command = IMessageAggregateRoot::UNKNOWN;
   }
