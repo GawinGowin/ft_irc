@@ -3,10 +3,10 @@
 ChannelTopic::ChannelTopic() {
   this->_topic = "";
   this->_topic_time = time(NULL);
-  this->_topic_who = 0;
+  this->_topic_who = "";
 }
 
-ChannelTopic::ChannelTopic(const std::string &topic, const ClientUniqueID &who) {
+ChannelTopic::ChannelTopic(const std::string &topic, const std::string &who) {
   this->_topic = topic;
   this->_topic_time = time(NULL);
   this->_topic_who = who;
@@ -25,7 +25,7 @@ ChannelTopic &ChannelTopic::operator=(const ChannelTopic &other) {
   return *this;
 }
 
-void ChannelTopic::updateTopic(const std::string &topic, const ClientUniqueID &who) {
+void ChannelTopic::updateTopic(const std::string &topic, const std::string &who) {
   this->_topic = topic;
   this->_topic_time = time(NULL);
   this->_topic_who = who;
@@ -35,6 +35,6 @@ void ChannelTopic::clearTopic() { *this = ChannelTopic(); }
 
 const std::string &ChannelTopic::getTopic() const { return this->_topic; }
 
-const ClientUniqueID &ChannelTopic::getWho() const { return this->_topic_who; }
+const std::string &ChannelTopic::getWho() const { return this->_topic_who; }
 
 const time_t &ChannelTopic::getWhen() const { return this->_topic_time; }

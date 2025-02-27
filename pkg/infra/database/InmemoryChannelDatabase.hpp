@@ -20,7 +20,7 @@ public:
   InmemoryChannelDatabase &operator=(const InmemoryChannelDatabase &other);
 
   void add(const IChannelAggregateRoot &channel);
-  const IChannelAggregateRoot *get(const std::string &name);
+  IChannelAggregateRoot *get(const std::string &name);
   void update(const std::string &name, const IChannelAggregateRoot &newData);
   void remove(const std::string &name);
 
