@@ -25,7 +25,8 @@ TEST_P(PositiveArgsTest, Positive) {
   const char **const_argv = c_args.data();
   char **argv = const_cast<char **>(const_argv);
   int argc = c_args.size() - 1;
-  EXPECT_NO_THROW(StartServerDTO dto(argc, argv));
+  StartServerDTO dto(argc, argv);
+  EXPECT_FALSE(dto.isError());
 }
 
 TEST_P(NegativeArgsTest, Negative) {
@@ -38,7 +39,8 @@ TEST_P(NegativeArgsTest, Negative) {
   const char **const_argv = c_args.data();
   char **argv = const_cast<char **>(const_argv);
   int argc = c_args.size() - 1;
-  EXPECT_THROW(StartServerDTO dto(argc, argv), std::runtime_error);
+  StartServerDTO dto(argc, argv);
+  EXPECT_TRUE(dto.isError());
 }
 
 const TestData PositiveTestData[] = {
