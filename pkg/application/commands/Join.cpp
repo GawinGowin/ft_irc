@@ -13,6 +13,9 @@ SendMsgDTO Join::execute() {
   IClientAggregateRoot *client = this->getClient();
   InmemoryChannelDatabase &db = InmemoryChannelDBServiceLocator::get();
 
+  if (client->getNickName() == "") {
+    return exit_with_error("You must set your nickname first", *client);
+  }
   if (msg->getParams().size() < 1 || msg->getParams().size() > 2) {
     return exit_with_error("Invalid number of parameters", *client);
   }
