@@ -7,9 +7,6 @@ int main(int argc, char **argv) {
   try {
     entrypoint(argc, argv);
   } catch (const std::exception &e) {
-    if (e.what() == std::string("Monitoring Socket: poll failed") && g_signal != 0) {
-      return (0);
-    }
     std::cerr << "Error: " << e.what() << std::endl;
     return (1);
   }

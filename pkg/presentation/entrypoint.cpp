@@ -22,8 +22,15 @@ void entrypoint(int argc, char **argv) {
   SendMsgDTO sendMsgDto;
 
   logger->info("Start Listening...");
-  while (true) {
-    eventDto = monitorSocketEventsUseCase.monitor();
+  while (!g_signal) {
+    try {
+      eventDto = monitorSocketEventsUseCase.monitor();
+    } catch (const std::runtime_error &e) {
+      if (g_signal) {
+        break;
+      }
+      logger->fatal(e.what());
+    }
     switch (eventDto.getEvent()) {
     case MonitorSocketEventDTO::NewConnection:
       AcceptConnectionUseCase::accept();
@@ -43,4 +50,6 @@ void entrypoint(int argc, char **argv) {
       break;
     }
   }
+  logger->infoss() << "Interrupt signal (" << g_signal << ") received";
+  logger->info("Stop server...");
 }
