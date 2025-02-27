@@ -11,13 +11,16 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   logger->tracess() << "clientMsg: " << clientMsg;
 
   SendMsgDTO dto;
+  IClientAggregateRoot *client = recieved.getClient();
   switch (clientMsg.getCommand()) {
   case (IMessageAggregateRoot::PASS):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::NICK):
-    // dto = ..
+  case (IMessageAggregateRoot::NICK): {
+    Nick nick(&clientMsg, client);
+    dto = nick.execute();
     break;
+  }
   case (IMessageAggregateRoot::USER):
     // dto = ..
     break;
