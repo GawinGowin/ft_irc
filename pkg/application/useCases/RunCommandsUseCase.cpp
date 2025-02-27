@@ -25,7 +25,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     // dto = ..
     break;
   case (IMessageAggregateRoot::JOIN):
-    // dto = ..
+    dto = Join(&clientMsg, client).execute();
     break;
   case (IMessageAggregateRoot::PRIVMSG):
     // dto = ..

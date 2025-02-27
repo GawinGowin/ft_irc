@@ -6,15 +6,15 @@
 #include "domain/channel/IChannelRepository.hpp"
 // #include "domain/client/IClientRepository.hpp"
 
+#include <string>
 #include <vector>
 
-typedef long ClientUniqueID;
 typedef std::vector<ChannelClientList *> ListofClientList;
 
 class ChannelService {
 public:
-  static void purgeClient(const ListofClientList &lsts, const ClientUniqueID &id);
-  static void removeClientFromAllChannels(const ClientUniqueID &id);
+  static void purgeClient(const ListofClientList &lsts, const std::string &nickname);
+  static void removeClientFromAllChannels(const std::string &nickname);
 
 private:
   ChannelService();

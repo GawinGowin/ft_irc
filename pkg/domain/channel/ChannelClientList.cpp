@@ -4,19 +4,19 @@ ChannelClientList::ChannelClientList() : _clients() {}
 
 ChannelClientList::~ChannelClientList() {}
 
-int ChannelClientList::addClient(const ClientUniqueID &id) {
-  std::vector<ClientUniqueID>::iterator it;
-  it = std::find(_clients.begin(), _clients.end(), id);
+int ChannelClientList::addClient(const std::string &nickname) {
+  std::vector<std::string>::iterator it;
+  it = std::find(_clients.begin(), _clients.end(), nickname);
   if (it == _clients.end()) {
-    _clients.push_back(id);
+    _clients.push_back(nickname);
     return 0;
   }
   return 1;
 }
 
-int ChannelClientList::removeClient(const ClientUniqueID &id) {
-  std::vector<ClientUniqueID>::iterator it;
-  it = std::find(_clients.begin(), _clients.end(), id);
+int ChannelClientList::removeClient(const std::string &nickname) {
+  std::vector<std::string>::iterator it;
+  it = std::find(_clients.begin(), _clients.end(), nickname);
   if (it != _clients.end()) {
     _clients.erase(it);
     return 0;
@@ -24,10 +24,10 @@ int ChannelClientList::removeClient(const ClientUniqueID &id) {
   return 1;
 }
 
-bool ChannelClientList::isClientInList(const ClientUniqueID &id) {
-  std::vector<ClientUniqueID>::iterator it;
-  it = std::find(_clients.begin(), _clients.end(), id);
+bool ChannelClientList::isClientInList(const std::string &nickname) {
+  std::vector<std::string>::iterator it;
+  it = std::find(_clients.begin(), _clients.end(), nickname);
   return it != _clients.end();
 }
 
-std::vector<ClientUniqueID> &ChannelClientList::getClients() { return _clients; }
+std::vector<std::string> &ChannelClientList::getClients() { return _clients; }

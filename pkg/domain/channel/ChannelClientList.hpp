@@ -2,21 +2,20 @@
 #define CHANNELCLIENTLIST_HPP
 
 #include <algorithm>
+#include <string>
 #include <vector>
-
-typedef long ClientUniqueID;
 
 class ChannelClientList {
 public:
   ChannelClientList();
   ~ChannelClientList();
-  int addClient(const ClientUniqueID &id);
-  int removeClient(const ClientUniqueID &id);
-  std::vector<ClientUniqueID> &getClients();
-  bool isClientInList(const ClientUniqueID &id);
+  int addClient(const std::string &nickname);
+  int removeClient(const std::string &nickname);
+  std::vector<std::string> &getClients();
+  bool isClientInList(const std::string &nickname);
 
 private:
-  std::vector<ClientUniqueID> _clients;
+  std::vector<std::string> _clients;
 };
 
 #endif /* CHANNELCLIENTLIST_HPP */
