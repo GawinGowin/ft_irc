@@ -21,7 +21,7 @@ public:
 
   virtual void setId(const int &id) = 0;
   virtual void setNickName(const std::string &nickName) = 0;
-  virtual void setPassword(const std::string &password) = 0;
+  virtual int setPassword(const std::string &password) = 0;
 };
 
 #endif /* ICLIENTAGGREGATEROOT_HPP */

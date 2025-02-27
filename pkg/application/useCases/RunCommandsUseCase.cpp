@@ -14,7 +14,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   IClientAggregateRoot *client = recieved.getClient();
   switch (clientMsg.getCommand()) {
   case (IMessageAggregateRoot::PASS):
-    // dto = ..
+    dto = Pass(&clientMsg, client).execute();
     break;
   case (IMessageAggregateRoot::NICK): {
     Nick nick(&clientMsg, client);
