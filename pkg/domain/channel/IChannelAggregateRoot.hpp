@@ -16,7 +16,7 @@ public:
   virtual const IHashAggregateRoot &getId() const = 0;
   virtual const int &getModeFlags() const = 0;
   virtual const time_t &getCreationTime() const = 0;
-  virtual const ChannelTopic &getTopic() const = 0;
+  virtual const std::string &getTopic() const = 0;
   virtual const unsigned long &getMaxUsers() const = 0;
   virtual const std::string &getKey() const = 0;
 
