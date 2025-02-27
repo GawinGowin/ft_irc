@@ -55,6 +55,18 @@ public:
     }
   }
 
+  void fatal(std::string msg) {
+    std::vector<ILogger *>::iterator it;
+    for (it = _loggers.begin(); it != _loggers.end(); it++) {
+      try {
+        (*it)->fatal(msg);
+      } catch (...) {
+        // ignore
+      }
+    }
+    throw std::runtime_error(msg);
+  }
+
   std::size_t size() { return _loggers.size(); }
 
   void clear() {

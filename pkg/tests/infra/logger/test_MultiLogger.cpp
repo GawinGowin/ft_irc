@@ -11,6 +11,7 @@ public:
   MOCK_METHOD(void, info, (std::string msg));
   MOCK_METHOD(void, warning, (std::string msg));
   MOCK_METHOD(void, error, (std::string msg));
+  MOCK_METHOD(void, fatal, (std::string msg));
   MOCK_METHOD(void, log, (LogLevel level, const std::string &msg));
 };
 
@@ -44,4 +45,18 @@ TEST_F(MultiLoggerTest, DualLoggers) {
   EXPECT_CALL(*mockLogger1, info("Info message")).Times(1);
   EXPECT_CALL(*mockLogger2, info("Info message")).Times(1);
   logger.info("Info message");
+}
+
+TEST_F(MultiLoggerTest, MultipleFatalLoggers) {
+  MultiLogger logger;
+  auto mockLogger1 = new MockLogger();
+  auto mockLogger2 = new MockLogger();
+  logger.addLogger(mockLogger1);
+  logger.addLogger(mockLogger2);
+
+  EXPECT_CALL(*mockLogger1, fatal("Fatal message"))
+      .WillOnce(testing::Throw(std::runtime_error("Fatal message1")));
+  EXPECT_CALL(*mockLogger2, fatal("Fatal message"))
+      .WillOnce(testing::Throw(std::runtime_error("Fatal message2")));
+  EXPECT_THROW(logger.fatal("Fatal message"), std::runtime_error);
 }

@@ -47,6 +47,14 @@ TEST_F(ConsoleLoggerTest, ErrorLevel) {
   EXPECT_EQ(output, "\e[31m[error]: Error message\e[m\n");
 }
 
+TEST_F(ConsoleLoggerTest, FatalLevel) {
+  ConsoleLogger logger;
+  testing::internal::CaptureStdout();
+  EXPECT_THROW(logger.fatal("Fatal message"), std::runtime_error);
+  std::string output = testing::internal::GetCapturedStdout();
+  EXPECT_EQ(output, "\e[41m[fatal]: Fatal message\e[m\n");
+}
+
 TEST_F(ConsoleLoggerTest, TraceLevelSS) {
   ConsoleLogger logger;
   testing::internal::CaptureStdout();
