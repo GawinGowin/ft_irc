@@ -1,6 +1,7 @@
 #ifndef RUNCOMMANDSUSECASE_HPP
 #define RUNCOMMANDSUSECASE_HPP
 
+#include "application/commands/Join.hpp"
 #include "application/commands/Nick.hpp"
 #include "application/commands/Pass.hpp"
 
