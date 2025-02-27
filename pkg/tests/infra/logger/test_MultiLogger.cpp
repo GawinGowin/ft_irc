@@ -60,3 +60,13 @@ TEST_F(MultiLoggerTest, MultipleFatalLoggers) {
       .WillOnce(testing::Throw(std::runtime_error("Fatal message2")));
   EXPECT_THROW(logger.fatal("Fatal message"), std::runtime_error);
 }
+
+TEST_F(MultiLoggerTest, WithoutLoggers) {
+  MultiLogger logger;
+  EXPECT_NO_THROW(logger.trace("Trace message"));
+  EXPECT_NO_THROW(logger.info("Info message"));
+  EXPECT_NO_THROW(logger.debug("Debug message"));
+  EXPECT_NO_THROW(logger.warning("Warning message"));
+  EXPECT_NO_THROW(logger.error("Error message"));
+  EXPECT_THROW(logger.fatal("Fatal message"), std::runtime_error);
+}
