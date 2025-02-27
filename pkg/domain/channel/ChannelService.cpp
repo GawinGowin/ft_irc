@@ -2,14 +2,14 @@
 #include "infra/database/InmemoryChannelDatabase.hpp"
 #include <string>
 
-void ChannelService::purgeClient(const ListofClientList &lsts, const ClientUniqueID &id) {
+void ChannelService::purgeClient(const ListofClientList &lsts, const std::string &nickname) {
   ListofClientList::const_iterator it;
   for (it = lsts.begin(); it != lsts.end(); ++it) {
-    (*it)->removeClient(id);
+    (*it)->removeClient(nickname);
   }
 }
 
-void ChannelService::removeClientFromAllChannels(const ClientUniqueID &id) {
+void ChannelService::removeClientFromAllChannels(const std::string &nickname) {
   InmemoryChannelDatabase &db = InmemoryChannelDBServiceLocator::get();
   const IdToChannelMap &channels = db.getDatabase();
 
@@ -20,6 +20,6 @@ void ChannelService::removeClientFromAllChannels(const ClientUniqueID &id) {
     lists.push_back(&channel->getListBans());
     lists.push_back(&channel->getListExcepts());
     lists.push_back(&channel->getListInvites());
-    purgeClient(lists, id);
+    purgeClient(lists, nickname);
   }
 }
