@@ -1,7 +1,6 @@
 #include "application/commands/Pass.hpp"
 
-Pass::Pass(IMessageAggregateRoot *msg, IClientAggregateRoot *client)
-    : ACommands(msg, client) {}
+Pass::Pass(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
 SendMsgDTO Pass::execute() {
   MultiLogger *logger = LoggerServiceLocator::get();
