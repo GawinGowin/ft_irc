@@ -20,6 +20,11 @@ public:
   void warning(std::string msg) { std::cout << "\e[33m[warning]: " << msg << "\e[m" << std::endl; }
 
   void error(std::string msg) { std::cout << "\e[31m[error]: " << msg << "\e[m" << std::endl; }
+
+  void fatal(std::string msg) {
+    std::cout << "\e[41m[fatal]: " << msg << "\e[m" << std::endl;
+    throw std::runtime_error(msg);
+  }
 };
 
 #endif /* CONSOLELOGGER_HPP */
