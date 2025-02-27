@@ -1,9 +1,9 @@
 #include "domain/client/Client.hpp"
 
-Client::Client() : _id(0), _nickName(""), _password(""), _connectionInfo() {}
+Client::Client() : _id(0), _nickName(""), _password(Password()), _connectionInfo() {}
 
 Client::Client(std::string addr, pollfd pollfd)
-    : _id(0), _nickName(""), _password(""), _connectionInfo(ConnectionInfo(addr, pollfd)) {}
+    : _id(0), _nickName(""), _password(Password()), _connectionInfo(ConnectionInfo(addr, pollfd)) {}
 
 Client::~Client() {}
 
@@ -35,7 +35,7 @@ const int &Client::getId() const { return this->_id; }
 
 const std::string &Client::getNickName() const { return this->_nickName; }
 
-const std::string &Client::getPassword() const { return this->_password; }
+const std::string &Client::getPassword() const { return this->_password.getPassword(); }
 
 const int &Client::getSocketFd() const { return this->_connectionInfo.getSocketFd(); }
 
@@ -47,4 +47,9 @@ void Client::setId(const int &id) { this->_id = id; }
 
 void Client::setNickName(const std::string &nickName) { this->_nickName = nickName; }
 
-void Client::setPassword(const std::string &password) { this->_password = password; }
+int Client::setPassword(const std::string &password) {
+  if (!this->_password.setPassword(password)) {
+    return 1; // password change failed
+  }
+  return 0; // password change successful
+}

@@ -3,6 +3,8 @@
 
 #include "domain/client/ConnectionInfo.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
+#include "domain/client/Password.hpp"
+
 #include <poll.h>
 #include <stdexcept>
 #include <string>
@@ -28,12 +30,12 @@ public:
 
   void setId(const int &id);
   void setNickName(const std::string &nickName);
-  void setPassword(const std::string &password);
+  int setPassword(const std::string &password);
 
 private:
   int _id;
   std::string _nickName;
-  std::string _password;
+  Password _password;
 
   ConnectionInfo _connectionInfo;
 };
