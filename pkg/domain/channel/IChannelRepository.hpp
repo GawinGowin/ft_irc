@@ -16,7 +16,7 @@ class IChannelRepository {
 public:
   virtual ~IChannelRepository(){};
   virtual void add(const IChannelAggregateRoot &channel) = 0;
-  virtual const IChannelAggregateRoot *get(const std::string &name) = 0;
+  virtual IChannelAggregateRoot *get(const std::string &name) = 0;
   virtual void update(const std::string &name, const IChannelAggregateRoot &newData) = 0;
   virtual void remove(const std::string &name) = 0;
 };
