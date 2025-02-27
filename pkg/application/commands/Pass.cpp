@@ -1,9 +1,9 @@
-#include "application/commands/PassCommand.hpp"
+#include "application/commands/Pass.hpp"
 
-PassCommand::PassCommand(IMessageAggregateRoot *msg, IClientAggregateRoot *client)
+Pass::Pass(IMessageAggregateRoot *msg, IClientAggregateRoot *client)
     : ACommands(msg, client) {}
 
-SendMsgDTO PassCommand::execute() {
+SendMsgDTO Pass::execute() {
   MultiLogger *logger = LoggerServiceLocator::get();
   IMessageAggregateRoot *msg = this->getMessage();
   IClientAggregateRoot *client = this->getClient();
@@ -11,14 +11,16 @@ SendMsgDTO PassCommand::execute() {
   if (msg->getParams().size() != 1) {
     dto.setStatus(1);
     dto.setMessage(Message(":irc.example.net 461 * PASS :Syntax error")); // TODO: tmp
+    logger->debugss() << "[PASS] by (fd: " << client->getSocketFd() << "): Syntax error";
     return dto;
   }
-  if (!client->getPassword().empty()) {
+  if (client->setPassword(msg->getParams()[0])) {
     dto.setStatus(1);
     dto.setMessage(Message(":irc.example.net 462 * :Connection already registered")); // TODO: tmp
+    logger->debugss() << "[PASS] by (fd: " << client->getSocketFd() << "): already registered";
     return dto;
   }
-  client->setPassword(msg->getParams()[0]);
-  logger->debugss() << "[PASS] by (fd: " << client->getSocketFd() << ")";
+  logger->debugss() << "[PASS] by (fd: " << client->getSocketFd() << "): success";
+  dto.setStatus(0);
   return dto;
 }

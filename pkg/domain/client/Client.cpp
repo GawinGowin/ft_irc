@@ -48,8 +48,8 @@ void Client::setId(const int &id) { this->_id = id; }
 void Client::setNickName(const std::string &nickName) { this->_nickName = nickName; }
 
 int Client::setPassword(const std::string &password) {
-  if (!this->_password.setPassword(password)) {
-    return 1; // password change failed
+  if (this->_password.setPassword(password)) {
+    return 1; // password change successful
   }
-  return 0; // password change successful
+  return 0; // password change failed
 }
