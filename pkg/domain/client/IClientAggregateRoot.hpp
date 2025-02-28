@@ -12,7 +12,7 @@ public:
 
   virtual IClientAggregateRoot *clone() const = 0;
 
-  virtual const int &getId() const = 0;
+  virtual const std::string &getId() const = 0;
   virtual const std::string &getNickName() const = 0;
   virtual const std::string &getPassword() const = 0;
   virtual const int &getSocketFd() const = 0;

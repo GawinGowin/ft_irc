@@ -31,7 +31,7 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
 
 Client *Client::clone() const { return new Client(*this); }
 
-const int &Client::getId() const { return this->_id; }
+const std::string &Client::getId() const { return this->_nickName; }
 
 const std::string &Client::getNickName() const { return this->_nickName; }
 

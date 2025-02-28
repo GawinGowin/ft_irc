@@ -21,7 +21,7 @@ public:
 
   Client *clone() const;
 
-  const int &getId() const;
+  const std::string &getId() const;
   const std::string &getNickName() const;
   const std::string &getPassword() const;
   const int &getSocketFd() const;
