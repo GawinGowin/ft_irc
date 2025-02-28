@@ -25,7 +25,7 @@ TEST(SocketHandlerTest, InitializationSuccess) {
   // 二重でバインドは出来ないはず
   EXPECT_THROW({ handler.initializeSocket(); }, std::runtime_error);
   // bind関数を用いてバインドする
-  struct sockaddr_in addr {};
+  struct sockaddr_in addr{};
   addr.sin_family = AF_INET;
   addr.sin_addr.s_addr = inet_addr(address.c_str());
   ; // 任意のアドレス

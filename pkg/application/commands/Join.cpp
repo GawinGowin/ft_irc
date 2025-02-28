@@ -22,14 +22,15 @@ SendMsgDTO Join::execute() {
   }
   if (msg->getParams()[0] == "0") {
     std::vector<std::string> joinedChannels;
-    auto db = InmemoryChannelDBServiceLocator::get().getDatabase();
-    for (const auto &channelPair : db) {
-      IChannelAggregateRoot *channel = channelPair.second;
+    const IdToChannelMap &db = InmemoryChannelDBServiceLocator::get().getDatabase();
+    IdToChannelMap::const_iterator it;
+    for (it = db.begin(); it != db.end(); ++it) {
+      IChannelAggregateRoot *channel = (*it).second;
       if (channel->getListConnects().hasClient(client->getNickName())) {
         channel->getListConnects().removeClient(client->getNickName());
-        joinedChannels.push_back(channelPair.first);
+        joinedChannels.push_back((*it).first);
         logger->debugss() << "[PART] by (fd: " << client->getSocketFd() << "): left "
-                          << channelPair.first;
+                          << (*it).first;
       }
     }
     return SendMsgDTO();
@@ -89,16 +90,15 @@ SendMsgDTO Join::execute() {
                      << channel->getTopic() << "\r\n";
       }
 
-      // チャンネルメンバーリストの送信
-      const auto &members = channel->getListConnects().getClients();
+      std::vector<std::string> &members = channel->getListConnects().getClients();
+      std::vector<std::string>::const_iterator member;
       joinResponse << ":server 353 " << client->getNickName() << " = " << channels[i] << " :";
-      for (const auto &member : members) {
-        joinResponse << member << " ";
+      for (member = members.begin(); member != members.end(); ++member) {
+        joinResponse << *member << " ";
       }
       joinResponse << "\r\n";
       joinResponse << ":server 366 " << client->getNickName() << " " << channels[i]
                    << " :End of /NAMES list.\r\n";
-
       SendMsgDTO dto;
       dto.setMessage(joinResponse.str());
       return dto;

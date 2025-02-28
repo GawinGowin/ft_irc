@@ -22,7 +22,7 @@ public:
  *
  * 派生クラスでリソースを解放するためにオーバーライドされることを想定しています。
  */
-  virtual ~ILogger(){};
+  virtual ~ILogger() {};
   /**
  * @brief トレースレベルのログメッセージを出力します。
  * @param msg ログメッセージ

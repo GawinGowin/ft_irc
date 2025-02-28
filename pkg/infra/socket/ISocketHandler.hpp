@@ -7,7 +7,7 @@
 
 class ISocketHandler {
 public:
-  virtual ~ISocketHandler(){};
+  virtual ~ISocketHandler() {};
 
   virtual void initializeSocket() = 0;
 
