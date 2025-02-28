@@ -5,7 +5,7 @@
 
 class IHashAggregateRoot {
 public:
-  virtual ~IHashAggregateRoot(){};
+  virtual ~IHashAggregateRoot() {};
   virtual bool operator==(const IHashAggregateRoot &other) const = 0;
   virtual bool operator<(const IHashAggregateRoot &other) const = 0;
 

@@ -21,7 +21,7 @@ public:
     UNDEFINED
   };
 
-  virtual ~IMessageAggregateRoot(){};
+  virtual ~IMessageAggregateRoot() {};
 
   virtual const std::string &getPrefix() const = 0;
   virtual const CommandType &getCommand() const = 0;

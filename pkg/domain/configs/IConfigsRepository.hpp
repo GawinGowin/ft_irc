@@ -5,7 +5,7 @@
 
 class IConfigsRepository {
 public:
-  virtual ~IConfigsRepository(){};
+  virtual ~IConfigsRepository() {};
 
   virtual const Configs &getConfigs(void) const = 0;
   virtual void setConfigs(const Configs &configs) = 0;
