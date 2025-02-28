@@ -5,15 +5,15 @@
 
 class MockClient : public IClientAggregateRoot {
 public:
-  MockClient(int id, pollfd pfd) : _id(id), _pfd(pfd) {}
-  MOCK_METHOD(const int &, getId, (), (const));
+  MockClient(std::string id, pollfd pfd) : _id(id), _pfd(pfd) {}
+  MOCK_METHOD(const std::string &, getId, (), (const));
   MOCK_METHOD(const std::string &, getNickName, (), (const));
   MOCK_METHOD(const std::string &, getPassword, (), (const));
   MOCK_METHOD(const int &, getSocketFd, (), (const));
   MOCK_METHOD(const pollfd &, getPollfd, (), (const));
   MOCK_METHOD(const std::string &, getAddress, (), (const));
 
-  MOCK_METHOD(void, setId, (const int &id), ());
+  MOCK_METHOD(void, setId, (const std::string &id), ());
   MOCK_METHOD(void, setNickName, (const std::string &nickName), ());
   MOCK_METHOD(int, setPassword, (const std::string &password), ());
 
@@ -24,16 +24,16 @@ public:
   MOCK_METHOD(IClientAggregateRoot *, clone, (), (const));
 
 private:
-  int _id;
+  std::string _id;
   pollfd _pfd;
 };
 
 TEST(InmemoryClientDatabaseTest, AddAndList) {
   InmemoryClientDatabase db;
-  int id1 = 1;
-  int id2 = 2;
-  pollfd pfd1 = {id1, POLLIN, 0};
-  pollfd pfd2 = {id2, POLLIN, 0};
+  std::string id1 = "1";
+  std::string id2 = "2";
+  pollfd pfd1 = {1, POLLIN, 0};
+  pollfd pfd2 = {2, POLLIN, 0};
 
   MockClient client1(id1, pfd1);
   MockClient *client1Copy = new MockClient(id1, pfd1);
@@ -51,16 +51,16 @@ TEST(InmemoryClientDatabaseTest, AddAndList) {
   EXPECT_EQ(db.size(), 2);
   const auto &clients = db.list();
   ASSERT_EQ(clients.size(), 2);
-  EXPECT_EQ(clients[0]->getId(), 1);
-  EXPECT_EQ(clients[1]->getId(), 2);
+  EXPECT_EQ(clients[0]->getId(), "1");
+  EXPECT_EQ(clients[1]->getId(), "2");
 }
 
 TEST(InmemoryClientDatabaseTest, GetById) {
   InmemoryClientDatabase db;
-  int id1 = 1;
-  int id2 = 2;
-  pollfd pfd1 = {id1, POLLIN, 0};
-  pollfd pfd2 = {id2, POLLIN, 0};
+  std::string id1 = "1";
+  std::string id2 = "2";
+  pollfd pfd1 = {1, POLLIN, 0};
+  pollfd pfd2 = {2, POLLIN, 0};
 
   MockClient client1(id1, pfd1);
   MockClient *client1Copy = new MockClient(id1, pfd1);
@@ -75,14 +75,14 @@ TEST(InmemoryClientDatabaseTest, GetById) {
   db.add(client1);
   db.add(client2);
 
-  const auto &retrievedClient = db.getById(id2);
-  EXPECT_EQ(retrievedClient.getId(), id2);
+  const auto retrievedClient = db.getById(id2);
+  EXPECT_EQ(retrievedClient->getId(), id2);
 }
 
 TEST(InmemoryClientDatabaseTest, Update) {
   InmemoryClientDatabase db;
-  int id1 = 1;
-  pollfd pfd1 = {id1, POLLIN, 0};
+  std::string id1 = "1";
+  pollfd pfd1 = {1, POLLIN, 0};
   MockClient client1(id1, pfd1);
   MockClient *client1Copy = new MockClient(id1, pfd1);
   MockClient updatedClient1(id1, pfd1);
@@ -94,18 +94,18 @@ TEST(InmemoryClientDatabaseTest, Update) {
   EXPECT_CALL(updatedClient1, clone()).WillRepeatedly(testing::Return(updatedClient1Copy));
 
   db.add(client1);
-  db.update(1, updatedClient1);
+  db.update(id1, updatedClient1);
 
-  const auto &retrievedClient = db.getById(1);
-  EXPECT_EQ(retrievedClient.getId(), 1);
+  const auto retrievedClient = db.getById(id1);
+  EXPECT_EQ(retrievedClient->getId(), id1);
 }
 
 TEST(InmemoryClientDatabaseTest, Remove) {
   InmemoryClientDatabase db;
-  int id1 = 1;
-  int id2 = 2;
-  pollfd pfd1 = {id1, POLLIN, 0};
-  pollfd pfd2 = {id2, POLLIN, 0};
+  std::string id1 = "1";
+  std::string id2 = "2";
+  pollfd pfd1 = {1, POLLIN, 0};
+  pollfd pfd2 = {2, POLLIN, 0};
 
   MockClient client1(id1, pfd1);
   MockClient *client1Copy = new MockClient(id1, pfd1);
@@ -119,20 +119,20 @@ TEST(InmemoryClientDatabaseTest, Remove) {
 
   db.add(client1);
   db.add(client2);
-  db.remove(1);
+  db.remove(id1);
 
   EXPECT_EQ(db.size(), 1);
   const auto &clients = db.list();
   ASSERT_EQ(clients.size(), 1);
-  EXPECT_EQ(clients[0]->getId(), 2);
+  EXPECT_EQ(clients[0]->getId(), "2");
 }
 
 TEST(InmemoryClientDatabaseTest, Clear) {
   InmemoryClientDatabase db;
-  int id1 = 1;
-  int id2 = 2;
-  pollfd pfd1 = {id1, POLLIN, 0};
-  pollfd pfd2 = {id2, POLLIN, 0};
+  std::string id1 = "1";
+  std::string id2 = "2";
+  pollfd pfd1 = {1, POLLIN, 0};
+  pollfd pfd2 = {2, POLLIN, 0};
 
   MockClient client1(id1, pfd1);
   MockClient *client1Copy = new MockClient(id1, pfd1);
@@ -153,10 +153,10 @@ TEST(InmemoryClientDatabaseTest, Clear) {
 
 TEST(InmemoryClientDatabaseTest, ListPollfds) {
   InmemoryClientDatabase db;
-  int id1 = 1;
-  int id2 = 2;
-  pollfd pfd1 = {id1, POLLIN, 0};
-  pollfd pfd2 = {id2, POLLIN, 0};
+  std::string id1 = "1";
+  std::string id2 = "2";
+  pollfd pfd1 = {1, POLLIN, 0};
+  pollfd pfd2 = {2, POLLIN, 0};
 
   MockClient client1(id1, pfd1);
   MockClient *client1Copy = new MockClient(id1, pfd1);
@@ -184,10 +184,10 @@ TEST(InmemoryClientDatabaseTest, ListPollfds) {
 
 TEST(InmemoryClientDatabaseTest, Size) {
   InmemoryClientDatabase db;
-  int id1 = 1;
-  int id2 = 2;
-  pollfd pfd1 = {id1, POLLIN, 0};
-  pollfd pfd2 = {id2, POLLIN, 0};
+  std::string id1 = "1";
+  std::string id2 = "2";
+  pollfd pfd1 = {1, POLLIN, 0};
+  pollfd pfd2 = {2, POLLIN, 0};
 
   MockClient client1(id1, pfd1);
   MockClient *client1Copy = new MockClient(id1, pfd1);

@@ -21,14 +21,14 @@ public:
 
   Client *clone() const;
 
-  const int &getId() const;
+  const std::string &getId() const;
   const std::string &getNickName() const;
   const std::string &getPassword() const;
   const int &getSocketFd() const;
   const pollfd &getPollfd() const;
   const std::string &getAddress() const;
 
-  void setId(const int &id);
+  void setId(const std::string &id);
   void setNickName(const std::string &nickName);
   int setPassword(const std::string &password);
 

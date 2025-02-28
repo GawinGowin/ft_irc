@@ -5,6 +5,8 @@ typedef std::vector<std::string>::iterator iter;
 static inline bool checkChannelName(const std::string &channelName);
 static inline void split(const std::string &s, char delim, std::vector<std::string> &elems);
 static inline SendMsgDTO exit_with_error(const std::string &msg, IClientAggregateRoot &client);
+static inline std::string
+generateChannelInfoResponse(IClientAggregateRoot *client, IChannelAggregateRoot *channel);
 
 Join::Join(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
@@ -13,6 +15,8 @@ SendMsgDTO Join::execute() {
   IMessageAggregateRoot *msg = this->getMessage();
   IClientAggregateRoot *client = this->getClient();
   InmemoryChannelDatabase &db = InmemoryChannelDBServiceLocator::get();
+  InmemoryClientDatabase &clientDB = InmemoryClientDBServiceLocator::get();
+  ISocketHandler *socketHandler = &SocketHandlerServiceLocator::get();
 
   if (client->getNickName() == "") {
     return exit_with_error("You must set your nickname first", *client);
@@ -21,14 +25,12 @@ SendMsgDTO Join::execute() {
     return exit_with_error("Invalid number of parameters", *client);
   }
   if (msg->getParams()[0] == "0") {
-    std::vector<std::string> joinedChannels;
     const IdToChannelMap &db = InmemoryChannelDBServiceLocator::get().getDatabase();
     IdToChannelMap::const_iterator it;
     for (it = db.begin(); it != db.end(); ++it) {
       IChannelAggregateRoot *channel = (*it).second;
       if (channel->getListConnects().hasClient(client->getNickName())) {
         channel->getListConnects().removeClient(client->getNickName());
-        joinedChannels.push_back((*it).first);
         logger->debugss() << "[PART] by (fd: " << client->getSocketFd() << "): left "
                           << (*it).first;
       }
@@ -45,6 +47,10 @@ SendMsgDTO Join::execute() {
       return exit_with_error("Syntax error", *client);
     }
   }
+
+  // 全チャンネルの応答を結合するためのストリーム
+  std::stringstream combinedResponse;
+
   for (size_t i = 0; i < channels.size(); i++) {
     if (!checkChannelName(channels[i])) {
       return exit_with_error("Invalid channel name", *client);
@@ -56,22 +62,21 @@ SendMsgDTO Join::execute() {
       password = channelwasswords[i];
     }
 
-    if (channel != NULL) {
-      // パスワードが設定されているチャンネルの場合
-      if (!channel->getKey().empty() && channel->getKey() != password) {
-        return exit_with_error("Invalid channel key", *client);
-      }
-
-      // ユーザー数制限のチェック
-      if (channel->getMaxUsers() > 0 &&
-          channel->getListConnects().getClients().size() >= channel->getMaxUsers()) {
-        return exit_with_error("Channel is full", *client);
-      }
-    } else {
+    if (channel == NULL) {
       db.add(Channel(channels[i]));
       channel = db.get(channels[i]);
+    } else {
+      // パスワードのチェック
+      if (!channel->checkKey(password)) {
+        exit_with_error("Invalid channel key", *client);
+        continue;
+      }
+      // ユーザー数制限のチェック
+      if (channel->isMemberLimitExceeded()) {
+        exit_with_error("Channel is full", *client);
+        continue;
+      }
     }
-
     int joinResult = channel->getListConnects().addClient(client->getNickName());
     if (joinResult == 1) {
       logger->debugss() << "[JOIN] by (fd: " << client->getSocketFd() << "): already joined to "
@@ -80,37 +85,30 @@ SendMsgDTO Join::execute() {
       logger->debugss() << "[JOIN] by (fd: " << client->getSocketFd() << "): success to "
                         << channels[i];
 
-      // JOIN成功メッセージの構築
-      std::stringstream joinResponse;
-      joinResponse << ":" << client->getNickName() << " JOIN " << channels[i] << "\r\n";
-
-      // トピックが設定されている場合は送信
-      if (!channel->getTopic().empty()) {
-        joinResponse << ":server 332 " << client->getNickName() << " " << channels[i] << " :"
-                     << channel->getTopic() << "\r\n";
+      // チャンネルメンバーにJOIN通知をブロードキャスト
+      std::vector<MessageStream> streams;
+      std::stringstream joinMsg;
+      joinMsg << ":" << client->getNickName() << " JOIN " << channel->getName() << "\r\n";
+      streams = MessageService::generateMessageToChannel(
+          socketHandler, client, &clientDB, channel, joinMsg.str());
+      combinedResponse << generateChannelInfoResponse(client, channel);
+      for (std::vector<MessageStream>::iterator it = streams.begin(); it != streams.end(); ++it) {
+        int status = it->send();
+        if (status != 0) {
+          logger->warningss() << "[JOIN] by (fd: " << client->getSocketFd() << "): failed to send "
+                              << channels[i];
+        }
       }
-
-      std::vector<std::string> &members = channel->getListConnects().getClients();
-      std::vector<std::string>::const_iterator member;
-      joinResponse << ":server 353 " << client->getNickName() << " = " << channels[i] << " :";
-      for (member = members.begin(); member != members.end(); ++member) {
-        joinResponse << *member << " ";
-      }
-      joinResponse << "\r\n";
-      joinResponse << ":server 366 " << client->getNickName() << " " << channels[i]
-                   << " :End of /NAMES list.\r\n";
-      SendMsgDTO dto;
-      dto.setMessage(joinResponse.str());
-      return dto;
     }
   }
-  (void)channelwasswords;
-  return SendMsgDTO();
+
+  // 応答の生成
+  SendMsgDTO dto;
+  if (!combinedResponse.str().empty()) {
+    dto.setMessage(combinedResponse.str());
+  }
+  return dto;
 }
-
-// static inline int checkJoinChannel();
-
-// static inline int JoinChannel();
 
 static inline void split(const std::string &s, char delim, std::vector<std::string> &elems) {
   std::stringstream ss(s);
@@ -133,17 +131,43 @@ static inline bool checkChannelName(const std::string &channelName) {
   if (channelName.empty() || channelName.length() > 50) {
     return false;
   }
-
-  // チャンネル名は'#'または'&'で始まる必要がある
   if (channelName[0] != '#' && channelName[0] != '&') {
     return false;
   }
-
-  // 禁止文字のチェック（スペース、カンマ、コロン、CR、LF等）
   const std::string invalidChars = " ,:\r\n";
   if (channelName.find_first_of(invalidChars) != std::string::npos) {
     return false;
   }
 
   return true;
+}
+
+static inline std::string
+generateChannelInfoResponse(IClientAggregateRoot *client, IChannelAggregateRoot *channel) {
+  std::stringstream response;
+
+  // トピックが設定されている場合は送信
+  const std::string &topic = channel->getTopic();
+  if (!topic.empty()) {
+    response << ":server 332 " << client->getNickName() << " " << channel->getName() << " :"
+             << topic << "\r\n";
+  }
+
+  // チャンネルメンバーリストを送信 (NAMES)
+  const std::vector<std::string> &members = channel->getListConnects().getClients();
+  response << ":server 353 " << client->getNickName() << " = " << channel->getName() << " :";
+
+  for (std::vector<std::string>::const_iterator member = members.begin(); member != members.end();
+       ++member) {
+    if (member != members.begin()) {
+      response << " ";
+    }
+    response << *member;
+  }
+  response << "\r\n";
+
+  // NAMES終了の通知
+  response << ":server 366 " << client->getNickName() << " " << channel->getName()
+           << " :End of /NAMES list.\r\n";
+  return response.str();
 }

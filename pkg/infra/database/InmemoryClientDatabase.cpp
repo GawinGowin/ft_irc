@@ -56,17 +56,17 @@ IClientAggregateRoot *InmemoryClientDatabase::getByFd(const int fd) {
   throw std::runtime_error("Not found");
 }
 
-const IClientAggregateRoot &InmemoryClientDatabase::getById(const int id) {
+IClientAggregateRoot *InmemoryClientDatabase::getById(const std::string &id) {
   std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
     if (id == (*it)->getId()) {
-      return *(*it);
+      return (*it);
     }
   }
-  throw std::runtime_error("Not found");
+  return NULL;
 }
 
-void InmemoryClientDatabase::update(const int id, const IClientAggregateRoot &newData) {
+void InmemoryClientDatabase::update(const std::string &id, const IClientAggregateRoot &newData) {
   std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
     if (id == (*it)->getId()) {
@@ -79,7 +79,7 @@ void InmemoryClientDatabase::update(const int id, const IClientAggregateRoot &ne
   throw std::runtime_error("Not found");
 }
 
-void InmemoryClientDatabase::remove(const int id) {
+void InmemoryClientDatabase::remove(const std::string &id) {
   std::vector<IClientAggregateRoot *>::iterator it;
   for (it = this->_clients.begin(); it != this->_clients.end(); it++) {
     if (id == (*it)->getId()) {
