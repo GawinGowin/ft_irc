@@ -7,10 +7,7 @@
 
 class MessageService {
 public:
-  static MessageStream
-  generateMessageStream(ISocketHandler *socketHandler, IClientAggregateRoot *client) {
-    return MessageStream(socketHandler, client);
-  }
+  static MessageStream generateMessageStream(ISocketHandler *, IClientAggregateRoot *);
 };
 
 #endif /* MESSAGESERVICE_HPP */
