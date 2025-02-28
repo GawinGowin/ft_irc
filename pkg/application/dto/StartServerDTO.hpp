@@ -8,7 +8,7 @@
 class StartServerDTO {
 public:
   StartServerDTO(int argc, char **argv);
-  ~StartServerDTO() {};
+  ~StartServerDTO(){};
   StartServerDTO(const StartServerDTO &obj) { *this = obj; };
   StartServerDTO &operator=(const StartServerDTO &obj) {
     if (this != &obj) {

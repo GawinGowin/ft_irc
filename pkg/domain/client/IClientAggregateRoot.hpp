@@ -6,7 +6,7 @@
 
 class IClientAggregateRoot {
 public:
-  virtual ~IClientAggregateRoot() {};
+  virtual ~IClientAggregateRoot(){};
 
   virtual bool operator==(const IClientAggregateRoot &other) const = 0;
 
