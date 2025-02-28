@@ -20,6 +20,12 @@ public:
 
   MOCK_METHOD(IChannelAggregateRoot *, clone, (), (const, override));
 
+  MOCK_METHOD(bool, isKeyProtected, (), (const, override));
+  MOCK_METHOD(bool, checkKey, (const std::string &key), (const, override));
+  MOCK_METHOD(bool, isMemberLimitExceeded, (), (override));
+  MOCK_METHOD(bool, isInviteOnly, (), (const, override));
+  MOCK_METHOD(bool, isUserInvited, (const std::string &nickname), (override));
+
   MOCK_METHOD(ChannelClientList &, getListConnects, (), (override));
   MOCK_METHOD(ChannelClientList &, getListBans, (), (override));
   MOCK_METHOD(ChannelClientList &, getListExcepts, (), (override));

@@ -4,6 +4,7 @@
 #include "domain/channel/ChannelClientList.hpp"
 #include "domain/channel/IChannelAggregateRoot.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
+#include "domain/client/IClientRepository.hpp"
 #include "domain/message/MessageStream.hpp"
 #include "infra/socket/ISocketHandler.hpp"
 
@@ -15,7 +16,11 @@ public:
   generateMessageStream(ISocketHandler *socketHandler, IClientAggregateRoot *client);
 
   static std::vector<MessageStream> generateMessageToChannel(
-      ISocketHandler *, IClientAggregateRoot *, IChannelAggregateRoot *, const std::string &);
+      ISocketHandler *,
+      IClientAggregateRoot *,
+      IClientRepository *,
+      IChannelAggregateRoot *,
+      const std::string &);
 };
 
 #endif /* MESSAGESERVICE_HPP */

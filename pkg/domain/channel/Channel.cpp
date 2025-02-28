@@ -44,3 +44,28 @@ ChannelClientList &Channel::getListBans() { return this->_listBans; }
 ChannelClientList &Channel::getListExcepts() { return this->_listExcepts; }
 
 ChannelClientList &Channel::getListInvites() { return this->_listInvites; }
+
+bool Channel::isKeyProtected() const {
+  return (this->_modeFlags & MODE_KEY_PROTECTED) && !this->_key.empty();
+}
+
+bool Channel::checkKey(const std::string &key) const {
+  if (!this->isKeyProtected()) {
+    return true;
+  }
+  return this->_key == key;
+}
+
+bool Channel::isMemberLimitExceeded() {
+  if (!(this->_modeFlags & MODE_LIMIT_USERS)) {
+    return false;
+  }
+  ChannelClientList &listConnects = this->_listConnects;
+  return listConnects.getClients().size() >= this->_maxusers;
+}
+
+bool Channel::isInviteOnly() const { return (this->_modeFlags & MODE_INVITE_ONLY); }
+
+bool Channel::isUserInvited(const std::string &nickname) {
+  return this->_listInvites.isClientInList(nickname);
+}

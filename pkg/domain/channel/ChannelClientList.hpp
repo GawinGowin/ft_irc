@@ -11,8 +11,8 @@ public:
   ~ChannelClientList();
   int addClient(const std::string &nickname);
   int removeClient(const std::string &nickname);
-  std::vector<std::string> &getClients();
   bool isClientInList(const std::string &nickname);
+  std::vector<std::string> &getClients();
 
 private:
   std::vector<std::string> _clients;
