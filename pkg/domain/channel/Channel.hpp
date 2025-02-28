@@ -19,7 +19,7 @@ public:
   const JenkinsHash &getId() const;
   const int &getModeFlags() const;
   const time_t &getCreationTime() const;
-  const ChannelTopic &getTopic() const;
+  const std::string &getTopic() const;
   const unsigned long &getMaxUsers() const;
 
   const std::string &getKey() const;

@@ -52,6 +52,14 @@ public:
   MessageStream(const MessageStream &other)
       : _socketHandler(other._socketHandler), _client(other._client), _stream(other._stream.str()) {
   }
+  MessageStream &operator=(const MessageStream &other) {
+    if (this != &other) {
+      this->_socketHandler = other._socketHandler;
+      this->_client = other._client;
+      this->_stream.str(other._stream.str());
+    }
+    return *this;
+  }
 
 private:
   ISocketHandler *_socketHandler;

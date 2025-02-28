@@ -25,7 +25,7 @@ const int &Channel::getModeFlags() const { return this->_modeFlags; }
 
 const time_t &Channel::getCreationTime() const { return this->_creation_time; }
 
-const ChannelTopic &Channel::getTopic() const { return this->_topic; }
+const std::string &Channel::getTopic() const { return this->_topic.getTopic(); }
 
 const unsigned long &Channel::getMaxUsers() const { return this->_maxusers; }
 

@@ -21,7 +21,7 @@ std::vector<MessageStream> MessageService::generateMessageToChannel(
 
     if (member && member->getNickName() != sender->getNickName()) {
       MessageStream stream = generateMessageStream(socketHandler, member);
-      stream << msg << "\r\n";
+      stream << msg;
       messageStreams.push_back(stream);
     }
   }

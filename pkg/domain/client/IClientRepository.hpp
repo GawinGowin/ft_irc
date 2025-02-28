@@ -6,7 +6,7 @@
 
 class IClientRepository {
 public:
-  virtual ~IClientRepository() {};
+  virtual ~IClientRepository(){};
 
   virtual void add(const IClientAggregateRoot &IClientAggregateRoot) = 0;
   virtual const std::vector<IClientAggregateRoot *> &list() = 0;
