@@ -8,7 +8,7 @@
 #include <string>
 #include <time.h>
 
-static const unsigned long DEFAULT_MAX_USERS = 5;
+static const unsigned long DEFAULT_MAX_USERS = 5; // TODO: remove
 
 class Channel : virtual public IChannelAggregateRoot {
 public:
@@ -19,7 +19,7 @@ public:
   const JenkinsHash &getId() const;
   const int &getModeFlags() const;
   const time_t &getCreationTime() const;
-  const ChannelTopic &getTopic() const;
+  const std::string &getTopic() const;
   const unsigned long &getMaxUsers() const;
 
   const std::string &getKey() const;
@@ -33,6 +33,12 @@ public:
   ChannelClientList &getListBans();
   ChannelClientList &getListExcepts();
   ChannelClientList &getListInvites();
+
+  bool isKeyProtected() const;
+  bool checkKey(const std::string &key) const;
+  bool isMemberLimitExceeded();
+  bool isInviteOnly() const;
+  bool isUserInvited(const std::string &nickname);
 
 private:
   std::string _name;               /* Name of the channel */

@@ -39,8 +39,26 @@ public:
     return (0);
   }
 
+  static size_t sendMessageStreams(std::vector<MessageStream> &streams) {
+    size_t sent = 0;
+    for (std::vector<MessageStream>::iterator it = streams.begin(); it != streams.end(); ++it) {
+      if (it->send() == 0) {
+        ++sent;
+      }
+    }
+    return (sent);
+  }
+
   MessageStream(const MessageStream &other)
       : _socketHandler(other._socketHandler), _client(other._client), _stream(other._stream.str()) {
+  }
+  MessageStream &operator=(const MessageStream &other) {
+    if (this != &other) {
+      this->_socketHandler = other._socketHandler;
+      this->_client = other._client;
+      this->_stream.str(other._stream.str());
+    }
+    return *this;
   }
 
 private:
