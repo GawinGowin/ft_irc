@@ -28,7 +28,7 @@ public:
   const pollfd &getPollfd() const;
   const std::string &getAddress() const;
 
-  void setId(const int &id);
+  void setId(const std::string &id);
   void setNickName(const std::string &nickName);
   int setPassword(const std::string &password);
 

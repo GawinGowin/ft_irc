@@ -19,7 +19,7 @@ public:
   virtual const pollfd &getPollfd() const = 0;
   virtual const std::string &getAddress() const = 0;
 
-  virtual void setId(const int &id) = 0;
+  virtual void setId(const std::string &id) = 0;
   virtual void setNickName(const std::string &nickName) = 0;
   virtual int setPassword(const std::string &password) = 0;
 };
