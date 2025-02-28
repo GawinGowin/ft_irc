@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.25.1)
 project(ft_irc)
 
 set(CMAKE_C_STANDARD 11)
