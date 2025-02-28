@@ -39,28 +39,9 @@ Parser::Parser(std::string message) {
 
   size_t pos = std::min(message.find(' '), message.find("\r\n"));
   std::string command = message.substr(0, pos);
-  if (command == "PASS") {
-    this->_command = IMessageAggregateRoot::PASS;
-  } else if (command == "NICK") {
-    this->_command = IMessageAggregateRoot::NICK;
-  } else if (command == "USER") {
-    this->_command = IMessageAggregateRoot::USER;
-  } else if (command == "JOIN") {
-    this->_command = IMessageAggregateRoot::JOIN;
-  } else if (command == "PRIVMSG") {
-    this->_command = IMessageAggregateRoot::PRIVMSG;
-  } else if (command == "KICK") {
-    this->_command = IMessageAggregateRoot::KICK;
-  } else if (command == "INVITE") {
-    this->_command = IMessageAggregateRoot::INVITE;
-  } else if (command == "TOPIC") {
-    this->_command = IMessageAggregateRoot::TOPIC;
-  } else if (command == "MODE") {
-    this->_command = IMessageAggregateRoot::MODE;
-  } else if (command == "ERROR") {
-    this->_command = IMessageAggregateRoot::ERROR;
-  } else {
-    this->_command = IMessageAggregateRoot::UNKNOWN;
+  this->_command = this->strToEnum(command);
+  if (command.length() == 3 && isdigit(command[0]) && isdigit(command[1]) && isdigit(command[2])) {
+    this->_numberCommand = command;
   }
   message.erase(0, pos);
   if (message.length() == 2) {
@@ -80,5 +61,97 @@ Parser::Parser(std::string message) {
     this->_params.push_back(message.substr(0, pos));
     message.erase(0, pos);
     eraseSpace(&message);
+  }
+}
+
+int Parser::parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix) {
+  if (prefix.length() == 0 || std::count(prefix.begin(), prefix.end(), '!') > 1 ||
+      std::count(prefix.begin(), prefix.end(), '@') > 1) {
+    return 1;
+  }
+  size_t userPos = prefix.find('!');
+  size_t hostPos = prefix.find('@');
+  if (userPos != std::string::npos && hostPos != std::string::npos && hostPos < userPos) {
+    return 1;
+  }
+  if (userPos != std::string::npos) {
+    prefixInfo.nick = prefix.substr(0, userPos);
+    if (hostPos != std::string::npos) {
+      prefixInfo.user = prefix.substr(userPos + 1, hostPos - userPos - 1);
+      prefixInfo.host = prefix.substr(hostPos + 1);
+      if (prefixInfo.user.length() == 0 || prefixInfo.host.length() == 0) {
+        return 1;
+      }
+    } else {
+      prefixInfo.user = prefix.substr(userPos + 1);
+      if (prefixInfo.user.length() == 0) {
+        return 1;
+      }
+    }
+  } else if (hostPos != std::string::npos) {
+    prefixInfo.nick = prefix.substr(0, hostPos);
+    prefixInfo.host = prefix.substr(hostPos + 1);
+    if (prefixInfo.host.length() == 0) {
+      return 1;
+    }
+  } else {
+    prefixInfo.nick = prefix;
+  }
+  if (prefixInfo.nick.length() == 0) {
+    return 1;
+  }
+  return 0;
+}
+
+IMessageAggregateRoot::CommandType Parser::strToEnum(const std::string &str) {
+  if (str == "PASS") {
+    return (IMessageAggregateRoot::PASS);
+  } else if (str == "NICK") {
+    return (IMessageAggregateRoot::NICK);
+  } else if (str == "USER") {
+    return (IMessageAggregateRoot::USER);
+  } else if (str == "JOIN") {
+    return (IMessageAggregateRoot::JOIN);
+  } else if (str == "PRIVMSG") {
+    return (IMessageAggregateRoot::PRIVMSG);
+  } else if (str == "KICK") {
+    return (IMessageAggregateRoot::KICK);
+  } else if (str == "INVITE") {
+    return (IMessageAggregateRoot::INVITE);
+  } else if (str == "TOPIC") {
+    return (IMessageAggregateRoot::TOPIC);
+  } else if (str == "MODE") {
+    return (IMessageAggregateRoot::MODE);
+  } else if (str == "ERROR") {
+    return (IMessageAggregateRoot::ERROR);
+  } else {
+    return (IMessageAggregateRoot::UNKNOWN);
+  }
+}
+
+const std::string Parser::enumToStr(const IMessageAggregateRoot::CommandType &type) {
+  switch (type) {
+  case IMessageAggregateRoot::PASS:
+    return "PASS";
+  case IMessageAggregateRoot::NICK:
+    return "NICK";
+  case IMessageAggregateRoot::USER:
+    return "USER";
+  case IMessageAggregateRoot::JOIN:
+    return "JOIN";
+  case IMessageAggregateRoot::PRIVMSG:
+    return "PRIVMSG";
+  case IMessageAggregateRoot::KICK:
+    return "KICK";
+  case IMessageAggregateRoot::INVITE:
+    return "INVITE";
+  case IMessageAggregateRoot::TOPIC:
+    return "TOPIC";
+  case IMessageAggregateRoot::MODE:
+    return "MODE";
+  case IMessageAggregateRoot::ERROR:
+    return "ERROR";
+  default:
+    return "UNKNOWN";
   }
 }

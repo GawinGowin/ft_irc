@@ -2,6 +2,9 @@
 #define PARSER_HPP
 
 #include "IMessageAggregateRoot.hpp"
+#include "domain/message/PrefixInfo.hpp"
+
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,10 +17,16 @@ public:
   const CommandType &getCommand() const { return this->_command; }
   const std::vector<std::string> &getParams() const { return this->_params; }
 
+  static int parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix);
+  static IMessageAggregateRoot::CommandType strToEnum(const std::string &str);
+  static const std::string enumToStr(const IMessageAggregateRoot::CommandType &type);
+
 private:
   std::string _prefix;
   CommandType _command;
   std::vector<std::string> _params;
+
+  std::string _numberCommand;
 };
 
 #endif /* PARSER_HPP */
