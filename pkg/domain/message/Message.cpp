@@ -64,8 +64,11 @@ Message::Message(const Message &obj) { *this = obj; }
 
 Message &Message::operator=(const Message &obj) {
   if (this != &obj) {
+    this->_prefixObj = obj._prefixObj;
     this->_prefix = obj._prefix;
     this->_command = obj._command;
+    this->_isNumericResponse = obj._isNumericResponse;
+    this->_numericResponse = obj._numericResponse;
     this->_params = obj._params;
   }
   return *this;

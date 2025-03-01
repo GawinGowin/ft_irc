@@ -12,6 +12,20 @@ public:
   MessageStream(ISocketHandler *socketHandler, IClientAggregateRoot *client)
       : _socketHandler(socketHandler), _client(client) {}
 
+  MessageStream(const MessageStream &other)
+      : _socketHandler(other._socketHandler), _client(other._client), _stream(other._stream.str()) {
+  }
+  MessageStream &operator=(const MessageStream &other) {
+    if (this != &other) {
+      this->_socketHandler = other._socketHandler;
+      this->_client = other._client;
+      this->_stream.str(other._stream.str());
+    }
+    return *this;
+  }
+
+  ~MessageStream() {}
+
   template <typename T> MessageStream &operator<<(const T &value) {
     _stream << value;
     return *this;
@@ -20,8 +34,6 @@ public:
     _stream << manip;
     return *this;
   }
-
-  ~MessageStream() {}
 
   int send() {
     if (this->_socketHandler->isListening() == false || this->_client == NULL) {
@@ -37,28 +49,6 @@ public:
       return (-1);
     }
     return (0);
-  }
-
-  static size_t sendMessageStreams(std::vector<MessageStream> &streams) {
-    size_t sent = 0;
-    for (std::vector<MessageStream>::iterator it = streams.begin(); it != streams.end(); ++it) {
-      if (it->send() == 0) {
-        ++sent;
-      }
-    }
-    return (sent);
-  }
-
-  MessageStream(const MessageStream &other)
-      : _socketHandler(other._socketHandler), _client(other._client), _stream(other._stream.str()) {
-  }
-  MessageStream &operator=(const MessageStream &other) {
-    if (this != &other) {
-      this->_socketHandler = other._socketHandler;
-      this->_client = other._client;
-      this->_stream.str(other._stream.str());
-    }
-    return *this;
   }
 
 private:
