@@ -4,12 +4,12 @@
 #include "application/commands/Join.hpp"
 #include "application/commands/Nick.hpp"
 #include "application/commands/Pass.hpp"
-
 #include "application/dto/RecievedMsgDTO.hpp"
 #include "application/dto/SendMsgDTO.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/Message.hpp"
+#include "domain/message/MessageConstants.hpp"
 #include "infra/logger/MultiLogger.hpp"
 
 #include <stdexcept>
