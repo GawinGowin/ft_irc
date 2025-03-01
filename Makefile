@@ -14,14 +14,17 @@ TESTS =
 TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
 
 CXX := c++
-CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR) -I/opt/homebrew/opt/openssl@3/include
-LFALGS := -L/opt/homebrew/opt/openssl@3/lib -lcrypto -lssl
+CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
+LFALGS := 
 DFLAGS := -fdiagnostics-color=always -g3 -fsanitize=address
 
 OBJS := $(SOURCE:.cpp=.o)
 DOBJS := $(SOURCE:.cpp=_d.o)
 DEP = $(OBJS:.o=.d)
 DDEP = $(DOBJS:.o=.d)
+
+ORGANIZATION := 42tokyo-b9
+PROJECT := ft_irc
 
 .PHONY: all
 all: $(NAME)
@@ -49,8 +52,8 @@ clean:
 
 .PHONY: fclean
 fclean: clean
-	rm -f $(NAME) $(DNAME)
-	rm -rf $(BUILD_DIR)
+	rm -f $(NAME) $(DNAME) $(DNAME).debug
+	rm -rf $(BUILD_DIR) 
 
 .PHONY: re
 re: fclean all
@@ -67,6 +70,28 @@ build:
 .PHONY: test
 test: build
 	cd $(BUILD_DIR)/pkg/tests && make test
+
+.PHONY: dif
+dif: debug
+	rm -f $(DNAME).debug
+	objcopy --only-keep-debug $(DNAME) $(DNAME).debug
+	objcopy --strip-debug --strip-unneeded $(DNAME)
+	objcopy --add-gnu-debuglink=$(DNAME).debug $(DNAME)
+	sentry-cli dif upload -o $(ORGANIZATION) -p $(PROJECT) --wait $(DNAME).debug --include-sources $(DOBJS) 
+
+bundle:
+	sentry-cli dif bundle-sources $(DOBJS) --log-level=info
+
+list: 
+	sentry-cli dif list  -o $(ORGANIZATION) -p $(PROJECT) 
+
+.PHONY: login
+login: 
+	env `cat .env | xargs` sh -c 'sentry-cli login --auth-token $$SENTRY_CLI_AUTH_TOKEN'
+
+.PHONY: run
+run: build
+	env `cat .env | xargs` $(BUILD_DIR)/$(NAME)
 
 .PHONY: locust
 locust: debug

@@ -41,6 +41,7 @@ build/
 ft_irc
 !cmd/ft_irc/
 ft_irc_debug
+.sentry-native/
 
 *.log
 
@@ -218,3 +219,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+*.debug

@@ -23,6 +23,7 @@
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
+      "envFile": "${workspaceFolder}/.env",
 			"externalConsole": true,
 			"preLaunchTask": "make-compile", 
 			"MIMode": "gdb",
