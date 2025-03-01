@@ -18,7 +18,7 @@ std::ostream &operator<<(std::ostream &os, const Message &msg) {
 
 Message::Message() {
   this->_prefix = "";
-  this->_command = IMessageAggregateRoot::UNDEFINED;
+  this->_command = MessageConstants::CommandType::UNDEFINED;
   this->_params = std::vector<std::string>();
 }
 
@@ -44,6 +44,6 @@ Message &Message::operator=(const Message &obj) {
 
 const std::string &Message::getPrefix() const { return this->_prefix; }
 
-const IMessageAggregateRoot::CommandType &Message::getCommand() const { return this->_command; }
+const MessageConstants::CommandType &Message::getCommand() const { return this->_command; }
 
 const std::vector<std::string> &Message::getParams() const { return this->_params; }

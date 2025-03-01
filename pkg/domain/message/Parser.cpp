@@ -16,14 +16,14 @@ Parser::Parser(std::string message) {
   eraseSpace(&message);
 
   if (message.length() < 2 || message.substr(message.length() - 2) != "\r\n") {
-    this->_command = IMessageAggregateRoot::UNKNOWN;
+    this->_command = CommandType::UNKNOWN;
     return;
   }
 
   if (message[0] == ':') {
     size_t pos = message.find(' ');
     if (pos == std::string::npos) {
-      this->_command = IMessageAggregateRoot::UNKNOWN;
+      this->_command = CommandType::UNKNOWN;
       return;
     }
     this->_prefix = message.substr(1, pos - 1);
@@ -33,7 +33,7 @@ Parser::Parser(std::string message) {
   }
   eraseSpace(&message);
   if (message.length() == 2) {
-    this->_command = IMessageAggregateRoot::UNKNOWN;
+    this->_command = CommandType::UNKNOWN;
     return;
   }
 
@@ -103,55 +103,28 @@ int Parser::parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix
   return 0;
 }
 
-IMessageAggregateRoot::CommandType Parser::strToEnum(const std::string &str) {
+CommandType Parser::strToEnum(const std::string &str) {
   if (str == "PASS") {
-    return (IMessageAggregateRoot::PASS);
+    return (CommandType::PASS);
   } else if (str == "NICK") {
-    return (IMessageAggregateRoot::NICK);
+    return (CommandType::NICK);
   } else if (str == "USER") {
-    return (IMessageAggregateRoot::USER);
+    return (CommandType::USER);
   } else if (str == "JOIN") {
-    return (IMessageAggregateRoot::JOIN);
+    return (CommandType::JOIN);
   } else if (str == "PRIVMSG") {
-    return (IMessageAggregateRoot::PRIVMSG);
+    return (CommandType::PRIVMSG);
   } else if (str == "KICK") {
-    return (IMessageAggregateRoot::KICK);
+    return (CommandType::KICK);
   } else if (str == "INVITE") {
-    return (IMessageAggregateRoot::INVITE);
+    return (CommandType::INVITE);
   } else if (str == "TOPIC") {
-    return (IMessageAggregateRoot::TOPIC);
+    return (CommandType::TOPIC);
   } else if (str == "MODE") {
-    return (IMessageAggregateRoot::MODE);
+    return (CommandType::MODE);
   } else if (str == "ERROR") {
-    return (IMessageAggregateRoot::ERROR);
+    return (CommandType::ERROR);
   } else {
-    return (IMessageAggregateRoot::UNKNOWN);
-  }
-}
-
-const std::string Parser::enumToStr(const IMessageAggregateRoot::CommandType &type) {
-  switch (type) {
-  case IMessageAggregateRoot::PASS:
-    return "PASS";
-  case IMessageAggregateRoot::NICK:
-    return "NICK";
-  case IMessageAggregateRoot::USER:
-    return "USER";
-  case IMessageAggregateRoot::JOIN:
-    return "JOIN";
-  case IMessageAggregateRoot::PRIVMSG:
-    return "PRIVMSG";
-  case IMessageAggregateRoot::KICK:
-    return "KICK";
-  case IMessageAggregateRoot::INVITE:
-    return "INVITE";
-  case IMessageAggregateRoot::TOPIC:
-    return "TOPIC";
-  case IMessageAggregateRoot::MODE:
-    return "MODE";
-  case IMessageAggregateRoot::ERROR:
-    return "ERROR";
-  default:
-    return "UNKNOWN";
+    return (CommandType::UNKNOWN);
   }
 }

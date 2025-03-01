@@ -1,5 +1,8 @@
 #include "domain/message/Parser.hpp"
 #include <gtest/gtest.h>
+#include "domain/message/MessageConstants.hpp"
+
+using namespace MessageConstants;
 
 TEST(ParserTest, testLongMessage) {
   // Max length of a message is 512 characters, including the CRLF(2 characters)
@@ -14,8 +17,8 @@ TEST(ParserTest, testNoCRLF) {
   Parser noCRLF("PRIVMSG #channel :Hello, world!");
   Parser onlyLF("\n");
 
-  EXPECT_EQ(noCRLF.getCommand(), IMessageAggregateRoot::UNKNOWN);
-  EXPECT_EQ(onlyLF.getCommand(), IMessageAggregateRoot::UNKNOWN);
+  EXPECT_EQ(noCRLF.getCommand(), CommandType::UNKNOWN);
+  EXPECT_EQ(onlyLF.getCommand(), CommandType::UNKNOWN);
 }
 
 TEST(ParserTest, testPrefix) {
@@ -25,12 +28,12 @@ TEST(ParserTest, testPrefix) {
   Parser onlyPrefixAndSpace(":prefix \r\n");
 
   EXPECT_EQ(prefix.getPrefix(), "prefix");
-  EXPECT_EQ(prefix.getCommand(), IMessageAggregateRoot::PRIVMSG);
+  EXPECT_EQ(prefix.getCommand(), CommandType::PRIVMSG);
   EXPECT_EQ(prefix.getParams()[0], "#channel");
   EXPECT_EQ(prefix.getParams()[1], "Hello, world!");
   EXPECT_EQ(noprefix.getPrefix(), "");
-  EXPECT_EQ(onlyPrefix.getCommand(), IMessageAggregateRoot::UNKNOWN);
-  EXPECT_EQ(onlyPrefixAndSpace.getCommand(), IMessageAggregateRoot::UNKNOWN);
+  EXPECT_EQ(onlyPrefix.getCommand(), CommandType::UNKNOWN);
+  EXPECT_EQ(onlyPrefixAndSpace.getCommand(), CommandType::UNKNOWN);
 }
 
 TEST(ParserTest, testCommand) {
@@ -47,18 +50,18 @@ TEST(ParserTest, testCommand) {
   Parser unknown("hoge huge\r\n");
   Parser partialMatch("MODECHANGE #channel +o user\r\n");
 
-  EXPECT_EQ(pass.getCommand(), IMessageAggregateRoot::PASS);
-  EXPECT_EQ(nick.getCommand(), IMessageAggregateRoot::NICK);
-  EXPECT_EQ(user.getCommand(), IMessageAggregateRoot::USER);
-  EXPECT_EQ(join.getCommand(), IMessageAggregateRoot::JOIN);
-  EXPECT_EQ(privmsg.getCommand(), IMessageAggregateRoot::PRIVMSG);
-  EXPECT_EQ(kick.getCommand(), IMessageAggregateRoot::KICK);
-  EXPECT_EQ(invite.getCommand(), IMessageAggregateRoot::INVITE);
-  EXPECT_EQ(topic.getCommand(), IMessageAggregateRoot::TOPIC);
-  EXPECT_EQ(mode.getCommand(), IMessageAggregateRoot::MODE);
-  EXPECT_EQ(error.getCommand(), IMessageAggregateRoot::ERROR);
-  EXPECT_EQ(unknown.getCommand(), IMessageAggregateRoot::UNKNOWN);
-  EXPECT_EQ(partialMatch.getCommand(), IMessageAggregateRoot::UNKNOWN);
+  EXPECT_EQ(pass.getCommand(), CommandType::PASS);
+  EXPECT_EQ(nick.getCommand(), CommandType::NICK);
+  EXPECT_EQ(user.getCommand(), CommandType::USER);
+  EXPECT_EQ(join.getCommand(), CommandType::JOIN);
+  EXPECT_EQ(privmsg.getCommand(), CommandType::PRIVMSG);
+  EXPECT_EQ(kick.getCommand(), CommandType::KICK);
+  EXPECT_EQ(invite.getCommand(), CommandType::INVITE);
+  EXPECT_EQ(topic.getCommand(), CommandType::TOPIC);
+  EXPECT_EQ(mode.getCommand(), CommandType::MODE);
+  EXPECT_EQ(error.getCommand(), CommandType::ERROR);
+  EXPECT_EQ(unknown.getCommand(), CommandType::UNKNOWN);
+  EXPECT_EQ(partialMatch.getCommand(), CommandType::UNKNOWN);
 }
 
 TEST(ParserTest, testParams) {

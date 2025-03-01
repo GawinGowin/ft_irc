@@ -3,11 +3,14 @@
 
 #include "IMessageAggregateRoot.hpp"
 #include "domain/message/PrefixInfo.hpp"
+#include "domain/message/MessageConstants.hpp"
 
 #include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
+
+using namespace MessageConstants;
 
 class Parser : public IMessageAggregateRoot {
 public:
@@ -18,8 +21,7 @@ public:
   const std::vector<std::string> &getParams() const { return this->_params; }
 
   static int parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix);
-  static IMessageAggregateRoot::CommandType strToEnum(const std::string &str);
-  static const std::string enumToStr(const IMessageAggregateRoot::CommandType &type);
+  static CommandType strToEnum(const std::string &str);
 
 private:
   std::string _prefix;

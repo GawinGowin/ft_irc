@@ -13,39 +13,39 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   SendMsgDTO dto;
   IClientAggregateRoot *client = recieved.getClient();
   switch (clientMsg.getCommand()) {
-  case (IMessageAggregateRoot::PASS):
+  case (CommandType::PASS):
     dto = Pass(&clientMsg, client).execute();
     break;
-  case (IMessageAggregateRoot::NICK): {
+  case (CommandType::NICK): {
     Nick nick(&clientMsg, client);
     dto = nick.execute();
     break;
   }
-  case (IMessageAggregateRoot::USER):
+  case (CommandType::USER):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::JOIN):
+  case (CommandType::JOIN):
     dto = Join(&clientMsg, client).execute();
     break;
-  case (IMessageAggregateRoot::PRIVMSG):
+  case (CommandType::PRIVMSG):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::KICK):
+  case (CommandType::KICK):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::INVITE):
+  case (CommandType::INVITE):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::TOPIC):
+  case (CommandType::TOPIC):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::MODE):
+  case (CommandType::MODE):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::ERROR):
+  case (CommandType::ERROR):
     dto.setStatus(1);
     return (dto);
-  case (IMessageAggregateRoot::UNKNOWN):
+  case (CommandType::UNKNOWN):
     break;
   default:
     break;

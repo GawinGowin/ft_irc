@@ -14,12 +14,12 @@ public:
   Message &operator=(const Message &obj);
 
   const std::string &getPrefix() const;
-  const CommandType &getCommand() const;
+  const MessageConstants::CommandType &getCommand() const;
   const std::vector<std::string> &getParams() const;
 
 private:
   std::string _prefix;
-  CommandType _command;
+  MessageConstants::CommandType _command;
   std::vector<std::string> _params;
 };
 
