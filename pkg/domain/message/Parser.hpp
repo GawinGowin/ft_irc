@@ -2,8 +2,8 @@
 #define PARSER_HPP
 
 #include "IMessageAggregateRoot.hpp"
-#include "domain/message/PrefixInfo.hpp"
 #include "domain/message/MessageConstants.hpp"
+#include "domain/message/PrefixInfo.hpp"
 
 #include <algorithm>
 #include <iostream>

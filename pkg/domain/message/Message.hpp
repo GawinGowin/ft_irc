@@ -13,10 +13,8 @@ public:
   Message();
   Message(const std::string &message);
   Message(
-      const std::string prefix,
-      MessageConstants::CommandType command,
-      const std::vector<std::string> params);
-  Message(const std::string prefix, const int responseCode, const std::vector<std::string> params);
+      const std::string prefix, MessageConstants::CommandType command, const std::string params);
+  Message(const std::string prefix, const int responseCode, const std::string params);
 
   ~Message();
   Message(const Message &obj);
@@ -28,6 +26,15 @@ public:
   const std::string &getNumericResponse() const;
   const bool &isNumericResponse() const;
 
+  int parseMessage(const std::string &message);
+  static int parsePrefixDetails(PrefixInfo &prefixInfo, const std::string prefix);
+  static int parseCommand(MessageConstants::CommandType &command, const std::string message);
+  static int parseParams(
+      std::vector<std::string> &params,
+      std::vector<std::string>::iterator paramIter,
+      std::vector<std::string>::iterator end);
+  static int parseParams(std::vector<std::string> &params, const std::string paramStr);
+
 private:
   std::string _prefix;
   MessageConstants::CommandType _command;
@@ -35,6 +42,11 @@ private:
 
   bool _isNumericResponse;
   std::string _numericResponse;
+
+  PrefixInfo _prefixObj;
+  // MessageConstants::CommandType _command;
+
+  // std::vector<std::string> _params;
 };
 
 std::ostream &operator<<(std::ostream &os, const Message &msg);

@@ -1,6 +1,6 @@
+#include "domain/message/MessageConstants.hpp"
 #include "domain/message/Parser.hpp"
 #include <gtest/gtest.h>
-#include "domain/message/MessageConstants.hpp"
 
 using namespace MessageConstants;
 

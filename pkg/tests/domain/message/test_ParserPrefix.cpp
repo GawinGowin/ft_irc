@@ -41,7 +41,10 @@ TEST_P(ParserPrefixTestAbnormal, bad) {
 
   PrefixInfo info;
   int status = Parser::parsePrefixDetails(info, prefix);
-  EXPECT_NE(status, expectStatus);
+  EXPECT_EQ(info.nick, "");
+  EXPECT_EQ(info.user, "");
+  EXPECT_EQ(info.host, "");
+  EXPECT_EQ(status, expectStatus);
 }
 
 const TestData PrefixTestData[] = {
@@ -84,24 +87,24 @@ const TestData PrefixTestData[] = {
 };
 
 const TestData PrefixErrorTestData[] = {
-    {"", "", "", "", 0},
-    {"!user@host", "", "user", "host", 0},
-    {"nick!@host", "nick", "", "host", 0},
-    {"nick!user@", "nick", "user", "", 0},
-    {"nick!user!extra@host", "nick", "user!extra", "host", 0},
-    {"nick!user@host@extra", "nick", "user", "host@extra", 0},
-    {"nick!user!name@host@domain", "nick", "user!name", "host@domain", 0},
-    {"nick!user@host.local@example", "nick", "user", "host.local@example", 0},
-    {"!", "", "", "", 0},
-    {"@", "", "", "", 0},
-    {"!@", "", "", "", 0},
-    {"@!", "@", "", "", 0},
-    {"nick@host!user", "nick", "", "host!user", 0},
-    {"!!@", "!", "", "", 0},
-    {"@@!", "@", "", "!", 0},
-    {"n!!u@@h", "n", "!u", "@h", 0},
-    {"nick\\!name!user@host", "nick\\", "name!user", "host", 0},
-    {"nick!user\\@name@host", "nick", "user\\", "name@host", 0},
+    {"", "", "", "", 1},
+    {"!user@host", "", "user", "host", 1},
+    {"nick!@host", "nick", "", "host", 1},
+    {"nick!user@", "nick", "user", "", 1},
+    {"nick!user!extra@host", "nick", "user!extra", "host", 1},
+    {"nick!user@host@extra", "nick", "user", "host@extra", 1},
+    {"nick!user!name@host@domain", "nick", "user!name", "host@domain", 1},
+    {"nick!user@host.local@example", "nick", "user", "host.local@example", 1},
+    {"!", "", "", "", 1},
+    {"@", "", "", "", 1},
+    {"!@", "", "", "", 1},
+    {"@!", "@", "", "", 1},
+    {"nick@host!user", "nick", "", "host!user", 1},
+    {"!!@", "!", "", "", 1},
+    {"@@!", "@", "", "!", 1},
+    {"n!!u@@h", "n", "!u", "@h", 1},
+    {"nick\\!name!user@host", "nick\\", "name!user", "host", 1},
+    {"nick!user\\@name@host", "nick", "user\\", "name@host", 1},
 };
 
 INSTANTIATE_TEST_SUITE_P(

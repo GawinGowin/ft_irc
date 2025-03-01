@@ -65,6 +65,10 @@ Parser::Parser(std::string message) {
 }
 
 int Parser::parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix) {
+  std::string new_nick;
+  std::string new_user;
+  std::string new_host;
+
   if (prefix.length() == 0 || std::count(prefix.begin(), prefix.end(), '!') > 1 ||
       std::count(prefix.begin(), prefix.end(), '@') > 1) {
     return 1;
@@ -75,31 +79,34 @@ int Parser::parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix
     return 1;
   }
   if (userPos != std::string::npos) {
-    prefixInfo.nick = prefix.substr(0, userPos);
+    new_nick = prefix.substr(0, userPos);
     if (hostPos != std::string::npos) {
-      prefixInfo.user = prefix.substr(userPos + 1, hostPos - userPos - 1);
-      prefixInfo.host = prefix.substr(hostPos + 1);
-      if (prefixInfo.user.length() == 0 || prefixInfo.host.length() == 0) {
+      new_user = prefix.substr(userPos + 1, hostPos - userPos - 1);
+      new_host = prefix.substr(hostPos + 1);
+      if (new_user.length() == 0 || new_host.length() == 0) {
         return 1;
       }
     } else {
-      prefixInfo.user = prefix.substr(userPos + 1);
-      if (prefixInfo.user.length() == 0) {
+      new_user = prefix.substr(userPos + 1);
+      if (new_user.length() == 0) {
         return 1;
       }
     }
   } else if (hostPos != std::string::npos) {
-    prefixInfo.nick = prefix.substr(0, hostPos);
-    prefixInfo.host = prefix.substr(hostPos + 1);
-    if (prefixInfo.host.length() == 0) {
+    new_nick = prefix.substr(0, hostPos);
+    new_host = prefix.substr(hostPos + 1);
+    if (new_host.length() == 0) {
       return 1;
     }
   } else {
-    prefixInfo.nick = prefix;
+    new_nick = prefix;
   }
-  if (prefixInfo.nick.length() == 0) {
+  if (new_nick.length() == 0) {
     return 1;
   }
+  prefixInfo.nick = new_nick;
+  prefixInfo.user = new_user;
+  prefixInfo.host = new_host;
   return 0;
 }
 
