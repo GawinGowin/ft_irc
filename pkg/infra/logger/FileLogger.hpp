@@ -56,6 +56,13 @@ public:
     }
   }
 
+  void fatal(std::string msg) {
+    if (this->_ofile.is_open()) {
+      this->_ofile << this->getTime() << " [fatal]: " << msg << std::endl;
+    }
+    throw std::runtime_error(msg);
+  }
+
 private:
   std::fstream _ofile;
 

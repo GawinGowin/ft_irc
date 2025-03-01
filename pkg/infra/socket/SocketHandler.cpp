@@ -93,7 +93,7 @@ int SocketHandler::acceptConnection(struct sockaddr_in *clientAddr) {
     throw std::runtime_error("socket is not listening");
   }
   if (this->_currentConnections >= this->_maxConnections) {
-    throw std::runtime_error("max connections reached");
+    throw std::runtime_error("max connections reached"); // TODO: 例外をスローしないように
   }
   int clientSocket = -1;
   if (clientAddr == NULL) {

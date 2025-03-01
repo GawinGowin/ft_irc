@@ -96,3 +96,9 @@ run: build
 .PHONY: locust
 locust: debug
 	locust -f tools/locustfile.py
+
+.PHONY: cov
+cov: build
+	lcov --capture --directory . --output-file coverage.info
+	lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter system-files
+	lcov --list coverage.info # debug info

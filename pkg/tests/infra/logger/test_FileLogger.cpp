@@ -99,6 +99,21 @@ TEST_F(FileLoggerTest, ErrorLog) {
   ifile.close();
 }
 
+TEST_F(FileLoggerTest, FatalLog) {
+  std::string logFile = "test_fatal.log";
+  FileLogger logger(logFile);
+  EXPECT_THROW(logger.fatal("This is a fatal message"), std::runtime_error);
+
+  std::ifstream ifile(logFile);
+  ASSERT_TRUE(ifile.is_open());
+
+  std::string line;
+  std::getline(ifile, line);
+  ASSERT_NE(line.find("[fatal]: This is a fatal message"), std::string::npos);
+
+  ifile.close();
+}
+
 TEST_F(FileLoggerTest, MultipleMessages) {
   std::string logFile = "test_multiple.log";
   FileLogger logger(logFile);

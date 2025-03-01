@@ -1,6 +1,6 @@
 #ifndef LOGLEVEL_HPP
 #define LOGLEVEL_HPP
 
-enum LogLevel { TRACE, DEBUG, INFO, WARNING, ERROR };
+enum LogLevel { TRACE, DEBUG, INFO, WARNING, ERROR, FATAL };
 
 #endif /* LOGLEVEL_HPP */

@@ -28,7 +28,7 @@ void InmemoryChannelDatabase::add(const IChannelAggregateRoot &channel) {
   this->_database.insert(std::make_pair(channel.getName(), channel.clone()));
 }
 
-const IChannelAggregateRoot *InmemoryChannelDatabase::get(const std::string &name) {
+IChannelAggregateRoot *InmemoryChannelDatabase::get(const std::string &name) {
   IdToChannelMap::iterator ret = this->_database.find(name);
   return ret == this->_database.end() ? NULL : ret->second;
 }

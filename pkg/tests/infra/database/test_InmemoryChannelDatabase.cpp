@@ -11,7 +11,7 @@ public:
   MOCK_METHOD(const JenkinsHash &, getId, (), (const, override));
   MOCK_METHOD(const int &, getModeFlags, (), (const, override));
   MOCK_METHOD(const time_t &, getCreationTime, (), (const, override));
-  MOCK_METHOD(ChannelTopic &, getTopic, (), (const, override));
+  MOCK_METHOD(const std::string &, getTopic, (), (const, override));
   MOCK_METHOD(const unsigned long &, getMaxUsers, (), (const, override));
   MOCK_METHOD(const std::string &, getKey, (), (const, override));
 
@@ -19,6 +19,12 @@ public:
   MOCK_METHOD(void, setMaxUsers, (unsigned long maxusers), (override));
 
   MOCK_METHOD(IChannelAggregateRoot *, clone, (), (const, override));
+
+  MOCK_METHOD(bool, isKeyProtected, (), (const, override));
+  MOCK_METHOD(bool, checkKey, (const std::string &key), (const, override));
+  MOCK_METHOD(bool, isMemberLimitExceeded, (), (override));
+  MOCK_METHOD(bool, isInviteOnly, (), (const, override));
+  MOCK_METHOD(bool, isUserInvited, (const std::string &nickname), (override));
 
   MOCK_METHOD(ChannelClientList &, getListConnects, (), (override));
   MOCK_METHOD(ChannelClientList &, getListBans, (), (override));
