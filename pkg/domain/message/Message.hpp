@@ -37,17 +37,14 @@ public:
   static int parseParams(std::vector<std::string> &params, const std::string paramStr);
 
 private:
+  PrefixInfo _prefixObj;
   std::string _prefix;
-  MessageConstants::CommandType _command;
-  std::vector<std::string> _params;
 
+  MessageConstants::CommandType _command;
   bool _isNumericResponse;
   std::string _numericResponse;
 
-  PrefixInfo _prefixObj;
-  // MessageConstants::CommandType _command;
-
-  // std::vector<std::string> _params;
+  std::vector<std::string> _params;
 };
 
 std::ostream &operator<<(std::ostream &os, const Message &msg);
