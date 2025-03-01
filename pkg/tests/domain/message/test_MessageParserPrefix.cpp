@@ -1,4 +1,4 @@
-#include "domain/message/Parser.hpp"
+#include "domain/message/Message.hpp"
 #include <gtest/gtest.h>
 
 struct TestData {
@@ -26,7 +26,7 @@ TEST_P(ParserPrefixTestNormal, good) {
   int expectStatus = param.status;
 
   PrefixInfo info;
-  int status = Parser::parsePrefixDetails(info, prefix);
+  int status = Message::parsePrefixDetails(info, prefix);
 
   EXPECT_EQ(info.nick, expectedNick);
   EXPECT_EQ(info.user, expectedUser);
@@ -37,13 +37,16 @@ TEST_P(ParserPrefixTestNormal, good) {
 TEST_P(ParserPrefixTestAbnormal, bad) {
   auto param = GetParam();
   std::string prefix = param.prefixString;
+  std::string expectedNick = param.nick;
+  std::string expectedUser = param.user;
+  std::string expectedHost = param.host;
   int expectStatus = param.status;
 
   PrefixInfo info;
-  int status = Parser::parsePrefixDetails(info, prefix);
-  EXPECT_EQ(info.nick, "");
-  EXPECT_EQ(info.user, "");
-  EXPECT_EQ(info.host, "");
+  int status = Message::parsePrefixDetails(info, prefix);
+  EXPECT_EQ(info.nick, expectedNick);
+  EXPECT_EQ(info.user, expectedUser);
+  EXPECT_EQ(info.host, expectedHost);
   EXPECT_EQ(status, expectStatus);
 }
 
@@ -88,23 +91,23 @@ const TestData PrefixTestData[] = {
 
 const TestData PrefixErrorTestData[] = {
     {"", "", "", "", 1},
-    {"!user@host", "", "user", "host", 1},
-    {"nick!@host", "nick", "", "host", 1},
-    {"nick!user@", "nick", "user", "", 1},
-    {"nick!user!extra@host", "nick", "user!extra", "host", 1},
-    {"nick!user@host@extra", "nick", "user", "host@extra", 1},
-    {"nick!user!name@host@domain", "nick", "user!name", "host@domain", 1},
-    {"nick!user@host.local@example", "nick", "user", "host.local@example", 1},
+    {"!user@host", "", "", "", 1},
+    {"nick!@host", "", "", "", 1},
+    {"nick!user@", "", "", "", 1},
+    {"nick!user!extra@host", "", "", "", 1},
+    {"nick!user@host@extra", "", "", "", 1},
+    {"nick!user!name@host@domain", "", "", "", 1},
+    {"nick!user@host.local@example", "", "", "", 1},
     {"!", "", "", "", 1},
     {"@", "", "", "", 1},
     {"!@", "", "", "", 1},
-    {"@!", "@", "", "", 1},
-    {"nick@host!user", "nick", "", "host!user", 1},
-    {"!!@", "!", "", "", 1},
-    {"@@!", "@", "", "!", 1},
-    {"n!!u@@h", "n", "!u", "@h", 1},
-    {"nick\\!name!user@host", "nick\\", "name!user", "host", 1},
-    {"nick!user\\@name@host", "nick", "user\\", "name@host", 1},
+    {"@!", "", "", "", 1},
+    {"nick@host!user", "", "", "", 1},
+    {"!!@", "", "", "", 1},
+    {"@@!", "", "", "", 1},
+    {"n!!u@@h", "", "", "", 1},
+    {"nick\\!name!user@host", "", "", "", 1},
+    {"nick!user\\@name@host", "", "", "", 1},
 };
 
 INSTANTIATE_TEST_SUITE_P(

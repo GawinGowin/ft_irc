@@ -3,7 +3,8 @@
 
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/MessageConstants.hpp"
-#include "domain/message/Parser.hpp"
+#include "domain/message/PrefixInfo.hpp"
+#include <algorithm>
 #include <sstream>
 #include <string>
 #include <vector>
