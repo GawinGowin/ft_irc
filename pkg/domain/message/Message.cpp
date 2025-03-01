@@ -1,5 +1,4 @@
 #include "domain/message/Message.hpp"
-#include "Parser.hpp"
 
 std::ostream &operator<<(std::ostream &os, const Message &msg) {
   std::vector<std::string>::const_iterator it;
@@ -18,8 +17,10 @@ std::ostream &operator<<(std::ostream &os, const Message &msg) {
 
 Message::Message() {
   this->_prefix = "";
-  this->_command = MessageConstants::CommandType::UNDEFINED;
+  this->_command = MessageConstants::UNDEFINED;
   this->_params = std::vector<std::string>();
+  this->_isNumericResponse = false;
+  this->_numericResponse = "";
 }
 
 Message::Message(const std::string &message) {
@@ -27,6 +28,31 @@ Message::Message(const std::string &message) {
   this->_prefix = parser.getPrefix();
   this->_command = parser.getCommand();
   this->_params = parser.getParams();
+  this->_isNumericResponse = false;
+  this->_numericResponse = "";
+}
+
+Message::Message(
+    const std::string prefix,
+    MessageConstants::CommandType command,
+    const std::vector<std::string> params) {
+  this->_prefix = ":" + prefix;
+  this->_command = command;
+  this->_params = params;
+  this->_isNumericResponse = false;
+  this->_numericResponse = "";
+}
+
+Message::Message(
+    const std::string prefix, const int responseCode, const std::vector<std::string> params) {
+  this->_prefix = ":" + prefix;
+  this->_command = MessageConstants::UNDEFINED;
+  this->_params = params;
+  this->_isNumericResponse = true;
+
+  std::ostringstream ss;
+  ss << responseCode;
+  this->_numericResponse = ss.str();
 }
 
 Message::~Message() {}
@@ -47,3 +73,7 @@ const std::string &Message::getPrefix() const { return this->_prefix; }
 const MessageConstants::CommandType &Message::getCommand() const { return this->_command; }
 
 const std::vector<std::string> &Message::getParams() const { return this->_params; }
+
+const std::string &Message::getNumericResponse() const { return this->_numericResponse; }
+
+const bool &Message::isNumericResponse() const { return this->_isNumericResponse; }

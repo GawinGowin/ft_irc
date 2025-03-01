@@ -16,14 +16,14 @@ Parser::Parser(std::string message) {
   eraseSpace(&message);
 
   if (message.length() < 2 || message.substr(message.length() - 2) != "\r\n") {
-    this->_command = CommandType::UNKNOWN;
+    this->_command = MessageConstants::UNKNOWN;
     return;
   }
 
   if (message[0] == ':') {
     size_t pos = message.find(' ');
     if (pos == std::string::npos) {
-      this->_command = CommandType::UNKNOWN;
+      this->_command = MessageConstants::UNKNOWN;
       return;
     }
     this->_prefix = message.substr(1, pos - 1);
@@ -33,7 +33,7 @@ Parser::Parser(std::string message) {
   }
   eraseSpace(&message);
   if (message.length() == 2) {
-    this->_command = CommandType::UNKNOWN;
+    this->_command = MessageConstants::UNKNOWN;
     return;
   }
 
@@ -103,28 +103,28 @@ int Parser::parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix
   return 0;
 }
 
-CommandType Parser::strToEnum(const std::string &str) {
+MessageConstants::CommandType Parser::strToEnum(const std::string &str) {
   if (str == "PASS") {
-    return (CommandType::PASS);
+    return (MessageConstants::PASS);
   } else if (str == "NICK") {
-    return (CommandType::NICK);
+    return (MessageConstants::NICK);
   } else if (str == "USER") {
-    return (CommandType::USER);
+    return (MessageConstants::USER);
   } else if (str == "JOIN") {
-    return (CommandType::JOIN);
+    return (MessageConstants::JOIN);
   } else if (str == "PRIVMSG") {
-    return (CommandType::PRIVMSG);
+    return (MessageConstants::PRIVMSG);
   } else if (str == "KICK") {
-    return (CommandType::KICK);
+    return (MessageConstants::KICK);
   } else if (str == "INVITE") {
-    return (CommandType::INVITE);
+    return (MessageConstants::INVITE);
   } else if (str == "TOPIC") {
-    return (CommandType::TOPIC);
+    return (MessageConstants::TOPIC);
   } else if (str == "MODE") {
-    return (CommandType::MODE);
+    return (MessageConstants::MODE);
   } else if (str == "ERROR") {
-    return (CommandType::ERROR);
+    return (MessageConstants::ERROR);
   } else {
-    return (CommandType::UNKNOWN);
+    return (MessageConstants::UNKNOWN);
   }
 }

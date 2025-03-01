@@ -15,8 +15,6 @@
 #include <stdexcept>
 #include <string>
 
-using namespace MessageConstants;
-
 class RunCommandsUseCase {
 public:
   static SendMsgDTO execute(RecievedMsgDTO &recieved);

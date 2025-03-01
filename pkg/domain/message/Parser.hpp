@@ -10,22 +10,20 @@
 #include <string>
 #include <vector>
 
-using namespace MessageConstants;
-
 class Parser : public IMessageAggregateRoot {
 public:
   Parser(std::string message = "");
   ~Parser(){};
   const std::string &getPrefix() const { return this->_prefix; }
-  const CommandType &getCommand() const { return this->_command; }
+  const MessageConstants::CommandType &getCommand() const { return this->_command; }
   const std::vector<std::string> &getParams() const { return this->_params; }
 
   static int parsePrefixDetails(PrefixInfo &prefixInfo, const std::string &prefix);
-  static CommandType strToEnum(const std::string &str);
+  static MessageConstants::CommandType strToEnum(const std::string &str);
 
 private:
   std::string _prefix;
-  CommandType _command;
+  MessageConstants::CommandType _command;
   std::vector<std::string> _params;
 
   std::string _numberCommand;

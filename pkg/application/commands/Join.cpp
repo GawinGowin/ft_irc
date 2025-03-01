@@ -10,7 +10,7 @@ generateChannelInfoResponse(IClientAggregateRoot *client, IChannelAggregateRoot 
 
 Join::Join(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
-SendMsgDTO Join::execute() {
+SendMsgDTO Join::execute() { // TODO: 送信処理は全てSendMsgFromServerUseCaseに移譲したい
   MultiLogger *logger = LoggerServiceLocator::get();
   IMessageAggregateRoot *msg = this->getMessage();
   IClientAggregateRoot *client = this->getClient();
