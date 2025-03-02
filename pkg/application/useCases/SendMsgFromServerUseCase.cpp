@@ -1,21 +1,17 @@
 #include "application/useCases/SendMsgFromServerUseCase.hpp"
 
-void SendMsgFromServerUseCase::send(IClientAggregateRoot *client, const SendMsgDTO &message) {
+void SendMsgFromServerUseCase::send(SendMsgDTO &message) {
   MultiLogger *logger = LoggerServiceLocator::get();
-  SocketHandler *_socketHandler = &SocketHandlerServiceLocator::get();
-  if (client == NULL) {
-    logger->errorss() << "Failed to send message to client: client is NULL";
-    return;
-  }
-  MessageStream ss = MessageService::generateMessageStream(_socketHandler, client);
-  ss << message << std::endl;
-  int status = ss.send();
-  int fd = client->getSocketFd();
-  if (status == -1) {
-    logger->errorss() << "Failed to send message to client: " << client->getAddress()
-                      << " (fd: " << fd << ")";
-  } else {
-    logger->tracess() << "Message to client: " << client->getAddress() << " (fd: " << fd << ")"
-                      << message;
+  MessageStreamVector &msgStreams = message.getMessageStreams();
+
+  std::vector<int> results = msgStreams.send();
+
+  for (size_t i = 0; i < results.size(); ++i) {
+    IClientAggregateRoot *client = msgStreams[i].getClient();
+    if (results[i] != 0) {
+      logger->errorss() << "Failed to send message to " << client->getNickName();
+    } else {
+      logger->tracess() << "Success to send message to " << client->getNickName();
+    }
   }
 }

@@ -5,14 +5,14 @@ MessageService::generateMessageStream(ISocketHandler *socketHandler, IClientAggr
   return MessageStream(socketHandler, client);
 }
 
-std::vector<MessageStream> MessageService::generateMessageToChannel(
+MessageStreamVector MessageService::generateMessageToChannel(
     ISocketHandler *socketHandler,
     IClientAggregateRoot *sender,
     IClientRepository *clientRepository,
     IChannelAggregateRoot *ch,
     const std::string &msg) {
 
-  std::vector<MessageStream> messageStreams;
+  MessageStreamVector messageStreams;
 
   const std::vector<std::string> &members = ch->getListConnects().getClients();
   for (std::vector<std::string>::const_iterator it = members.begin(); it != members.end(); ++it) {
@@ -20,7 +20,7 @@ std::vector<MessageStream> MessageService::generateMessageToChannel(
     IClientAggregateRoot *member = clientRepository->getById(*it);
 
     if (member && member->getNickName() != sender->getNickName()) {
-      MessageStream stream = generateMessageStream(socketHandler, member);
+      MessageStream stream = MessageService::generateMessageStream(socketHandler, member);
       stream << msg;
       messageStreams.push_back(stream);
     }
