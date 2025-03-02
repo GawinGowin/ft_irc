@@ -26,6 +26,7 @@ const int RPL_TOPIC = 332;
 const int RPL_NAMREPLY = 353;
 const int RPL_ENDOFNAMES = 366;
 const int ERR_NEEDMOREPARAMS = 461;
+const int ERR_ALREADYREGISTRED = 462;
 } // namespace ResponseCode
 } // namespace MessageConstants
 
