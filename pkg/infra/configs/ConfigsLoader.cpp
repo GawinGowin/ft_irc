@@ -34,7 +34,7 @@ ConfigsLoader::ConfigsLoader() {
   conf.Limits.MaxBufferSize = 1024;
 
   // [Options]
-  conf.Options.AllowedChannelTypes = "#&+";
+  conf.Options.AllowedChannelTypes = "#&";
   conf.Options.AllowRemoteOper = false;
   conf.Options.ChrootDir = "/var/empty";
   conf.Options.CloakHost = "cloaked.host";
