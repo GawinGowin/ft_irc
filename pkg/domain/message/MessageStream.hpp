@@ -51,6 +51,8 @@ public:
     return (0);
   }
 
+  IClientAggregateRoot *getClient() { return this->_client; }
+
 private:
   ISocketHandler *_socketHandler;
   IClientAggregateRoot *_client;

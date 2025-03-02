@@ -9,7 +9,7 @@ inline static void generateChannelInfoResponse(
     ISocketHandler *socketHandler,
     IClientAggregateRoot *client,
     IChannelAggregateRoot *channel);
-inline static SendMsgDTO sendError(const std::string svrName, IClientAggregateRoot *client);
+inline static SendMsgDTO sendError(IClientAggregateRoot *client);
 
 Join::Join(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
@@ -26,10 +26,10 @@ SendMsgDTO Join::execute() {
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
 
   if (client->getNickName() == "") {
-    return sendError(serverName, client);
+    return sendError(client);
   }
   if (msg->getParams().size() < 1 || msg->getParams().size() > 2) {
-    return sendError(serverName, client);
+    return sendError(client);
   }
   if (msg->getParams()[0] == "0") {
     const IdToChannelMap &idToChannel = channelDB.getDatabase();
@@ -51,13 +51,13 @@ SendMsgDTO Join::execute() {
   if (msg->getParams().size() == 2) {
     split(msg->getParams()[1], ',', channelwasswords);
     if (channels.size() != channelwasswords.size()) {
-      return sendError(serverName, client);
+      return sendError(client);
     }
   }
 
   for (size_t i = 0; i < channels.size(); i++) {
     if (!checkChannelName(channels[i])) {
-      return sendError(serverName, client);
+      return sendError(client);
     }
 
     IChannelAggregateRoot *channel = channelDB.get(channels[i]);
@@ -72,12 +72,12 @@ SendMsgDTO Join::execute() {
     } else {
       // パスワードのチェック
       if (!channel->checkKey(password)) {
-        sendError(serverName, client); // TODO: JOIN messageStreams
+        sendError(client); // TODO: JOIN messageStreams
         continue;
       }
       // ユーザー数制限のチェック
       if (channel->isMemberLimitExceeded()) {
-        sendError(serverName, client); // TODO: JOIN messageStreams
+        sendError(client); // TODO: JOIN messageStreams
         continue;
       }
     }

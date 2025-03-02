@@ -2,7 +2,7 @@
 
 SendMsgDTO::SendMsgDTO(): _status(0), _messageStreams(MessageStreamVector()) {}
 
-SendMsgDTO::SendMsgDTO(int status, const MessageStreamVector &messageStreams)
+SendMsgDTO::SendMsgDTO(int status, MessageStreamVector &messageStreams)
     : _status(status), _messageStreams(messageStreams) {}
 
 SendMsgDTO::~SendMsgDTO() {}
@@ -21,7 +21,7 @@ const int &SendMsgDTO::getStatus() const { return _status; }
 
 void SendMsgDTO::setStatus(int status) { this->_status = status; }
 
-const MessageStreamVector &SendMsgDTO::getMessageStreams() const { return this->_messageStreams; }
+MessageStreamVector &SendMsgDTO::getMessageStreams() { return this->_messageStreams; }
 
 void SendMsgDTO::setMessageStreams(const MessageStreamVector &message) {
   this->_messageStreams = message;

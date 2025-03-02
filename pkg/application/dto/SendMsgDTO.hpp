@@ -9,7 +9,7 @@
 class SendMsgDTO {
 public:
   SendMsgDTO();
-  SendMsgDTO(int status, const MessageStreamVector &message);
+  SendMsgDTO(int status, MessageStreamVector &message);
   ~SendMsgDTO();
   SendMsgDTO(const SendMsgDTO &obj);
   SendMsgDTO &operator=(const SendMsgDTO &obj);
@@ -17,7 +17,7 @@ public:
   const int &getStatus() const;
   void setStatus(const int status);
 
-  const MessageStreamVector &getMessageStreams() const;
+  MessageStreamVector &getMessageStreams();
   void setMessageStreams(const MessageStreamVector &message);
 
 private:

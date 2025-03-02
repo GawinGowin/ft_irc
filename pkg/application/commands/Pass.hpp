@@ -6,7 +6,7 @@
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
-#include "domain/message/MessageService.cpp"
+#include "domain/message/MessageService.hpp"
 #include "application/serviceLocator/ConfigsServiceLocator.hpp"
 
 class Pass : public ACommands {

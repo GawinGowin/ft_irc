@@ -3,7 +3,6 @@
 Pass::Pass(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
 SendMsgDTO Pass::execute() {
-  MultiLogger *logger = LoggerServiceLocator::get();
   IMessageAggregateRoot *msg = this->getMessage();
   IClientAggregateRoot *client = this->getClient();
   MessageStreamVector messageStreams;
