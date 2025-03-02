@@ -7,16 +7,14 @@ static const std::string CRLF = "\r\n";
 
 std::ostream &operator<<(std::ostream &os, const Message &msg) {
   std::vector<std::string>::const_iterator it;
-  os << "{prefix: \"" << msg.getPrefix()
-     << "\", "
-        "command: "
-     << msg.getCommand() << ", params: [";
+  os << msg.getPrefix() << " " << msg.getCommand() << " ";
   for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
-    os << "\"" << (*it) << "\"";
-    if (it + 1 != msg.getParams().end())
-      os << ", ";
+    os << *it;
+    if (it + 1 != msg.getParams().end()) {
+      os << " ";
+    }
   }
-  os << "]}";
+  os << CRLF;
   return os;
 }
 
@@ -106,8 +104,8 @@ int Message::parseMessage(const std::string &msgStr) {
     if (word[0] == ':' && words.size() > 0) {
       std::string remaining;
       getline(iss, remaining);
-      if (!remaining.empty() && remaining.back() == '\r') {
-        remaining.pop_back();
+      if (!remaining.empty() && remaining[remaining.size() - 1] == '\r') {
+        remaining.resize(remaining.size() - 1);
       }
       word += remaining;
       words.push_back(word);
@@ -219,8 +217,8 @@ int Message::parseParams(std::vector<std::string> &params, const std::string par
     if (word[0] == ':') {
       std::string remaining;
       getline(iss, remaining);
-      if (!remaining.empty() && remaining.back() == '\r') {
-        remaining.pop_back();
+      if (!remaining.empty() && remaining[remaining.size() - 1] == '\r') {
+        remaining.resize(remaining.size() - 1);
       }
       word += remaining;
       params.push_back(word);
