@@ -25,5 +25,5 @@ SendMsgDTO Pass::execute() {
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
-  return SendMsgDTO(1, messageStreams);
+  return SendMsgDTO(0, messageStreams);
 }

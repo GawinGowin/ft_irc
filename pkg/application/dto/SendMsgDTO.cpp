@@ -1,6 +1,6 @@
 #include "application/dto/SendMsgDTO.hpp"
 
-SendMsgDTO::SendMsgDTO() {}
+SendMsgDTO::SendMsgDTO(): _status(0), _messageStreams(MessageStreamVector()) {}
 
 SendMsgDTO::SendMsgDTO(int status, const MessageStreamVector &messageStreams)
     : _status(status), _messageStreams(messageStreams) {}
