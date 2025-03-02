@@ -50,6 +50,5 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   default:
     break;
   }
-  logger->tracess() << "serverResp: " << dto;
   return (dto);
 }

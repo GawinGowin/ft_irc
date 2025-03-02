@@ -2,6 +2,7 @@
 #define JOIN_HPP
 
 #include "application/commands/ACommands.hpp"
+#include "application/serviceLocator/ConfigsServiceLocator.hpp"
 #include "application/serviceLocator/InmemoryChannelDBServiceLocator.hpp"
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
