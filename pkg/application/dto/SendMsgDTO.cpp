@@ -1,22 +1,9 @@
 #include "application/dto/SendMsgDTO.hpp"
 
-std::ostream &operator<<(std::ostream &os, const SendMsgDTO &msgDTO) {
-  Message msg = msgDTO.getMessage();
-  std::vector<std::string>::const_iterator it;
+SendMsgDTO::SendMsgDTO() : _status(0), _messageStreams(MessageStreamVector()) {}
 
-  os << msg.getPrefix() << " " << msg.getCommand() << " ";
-  for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
-    os << *it;
-    if (it + 1 != msg.getParams().end()) {
-      os << " ";
-    }
-  }
-  return os;
-}
-
-SendMsgDTO::SendMsgDTO() {}
-
-SendMsgDTO::SendMsgDTO(const Message &message) : _message(message), _status(0) {}
+SendMsgDTO::SendMsgDTO(int status, MessageStreamVector &messageStreams)
+    : _status(status), _messageStreams(messageStreams) {}
 
 SendMsgDTO::~SendMsgDTO() {}
 
@@ -24,15 +11,18 @@ SendMsgDTO::SendMsgDTO(const SendMsgDTO &obj) { *this = obj; }
 
 SendMsgDTO &SendMsgDTO::operator=(const SendMsgDTO &obj) {
   if (this != &obj) {
-    this->_message = obj._message;
+    this->_messageStreams = obj._messageStreams;
+    this->_status = obj._status;
   }
   return *this;
 }
 
-const Message &SendMsgDTO::getMessage() const { return this->_message; }
-
 const int &SendMsgDTO::getStatus() const { return _status; }
 
-void SendMsgDTO::setMessage(const Message &message) { this->_message = message; }
-
 void SendMsgDTO::setStatus(int status) { this->_status = status; }
+
+MessageStreamVector &SendMsgDTO::getMessageStreams() { return this->_messageStreams; }
+
+void SendMsgDTO::setMessageStreams(const MessageStreamVector &message) {
+  this->_messageStreams = message;
+}

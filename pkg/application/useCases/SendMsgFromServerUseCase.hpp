@@ -11,7 +11,7 @@
 
 class SendMsgFromServerUseCase {
 public:
-  static void send(IClientAggregateRoot *client, const SendMsgDTO &message);
+  static void send(SendMsgDTO &message);
 
 private:
   SendMsgFromServerUseCase();

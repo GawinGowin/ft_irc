@@ -13,43 +13,42 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   SendMsgDTO dto;
   IClientAggregateRoot *client = recieved.getClient();
   switch (clientMsg.getCommand()) {
-  case (IMessageAggregateRoot::PASS):
+  case (MessageConstants::PASS):
     dto = Pass(&clientMsg, client).execute();
     break;
-  case (IMessageAggregateRoot::NICK): {
+  case (MessageConstants::NICK): {
     Nick nick(&clientMsg, client);
     dto = nick.execute();
     break;
   }
-  case (IMessageAggregateRoot::USER):
+  case (MessageConstants::USER):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::JOIN):
+  case (MessageConstants::JOIN):
     dto = Join(&clientMsg, client).execute();
     break;
-  case (IMessageAggregateRoot::PRIVMSG):
+  case (MessageConstants::PRIVMSG):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::KICK):
+  case (MessageConstants::KICK):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::INVITE):
+  case (MessageConstants::INVITE):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::TOPIC):
+  case (MessageConstants::TOPIC):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::MODE):
+  case (MessageConstants::MODE):
     // dto = ..
     break;
-  case (IMessageAggregateRoot::ERROR):
+  case (MessageConstants::ERROR):
     dto.setStatus(1);
     return (dto);
-  case (IMessageAggregateRoot::UNKNOWN):
+  case (MessageConstants::UNKNOWN):
     break;
   default:
     break;
   }
-  logger->tracess() << "serverResp: " << dto;
   return (dto);
 }

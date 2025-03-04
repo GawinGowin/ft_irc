@@ -2,27 +2,27 @@
 #define SENDMSGDTO_HPP
 
 #include "domain/message/Message.hpp"
+#include "domain/message/MessageStreamVector.hpp"
 #include <iostream>
+#include <vector>
 
 class SendMsgDTO {
 public:
   SendMsgDTO();
-  SendMsgDTO(const Message &message);
+  SendMsgDTO(int status, MessageStreamVector &message);
   ~SendMsgDTO();
   SendMsgDTO(const SendMsgDTO &obj);
   SendMsgDTO &operator=(const SendMsgDTO &obj);
 
-  const Message &getMessage() const;
   const int &getStatus() const;
-
-  void setMessage(const Message &message);
   void setStatus(const int status);
 
-private:
-  Message _message;
-  int _status;
-};
+  MessageStreamVector &getMessageStreams();
+  void setMessageStreams(const MessageStreamVector &message);
 
-std::ostream &operator<<(std::ostream &os, const SendMsgDTO &msg);
+private:
+  int _status;
+  MessageStreamVector _messageStreams;
+};
 
 #endif /* SENDMSGDTO_HPP */
