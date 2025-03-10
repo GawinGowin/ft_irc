@@ -7,7 +7,12 @@ static const std::string CRLF = "\r\n";
 
 std::ostream &operator<<(std::ostream &os, const Message &msg) {
   std::vector<std::string>::const_iterator it;
-  os << msg.getPrefix() << " " << msg.getCommand() << " ";
+  os << msg.getPrefix() << " ";
+  if (msg.isNumericResponse()) {
+    os << msg.getNumericResponse() << " ";
+  } else {
+    os << msg.getCommand() << " ";
+  }
   for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
     os << *it;
     if (it + 1 != msg.getParams().end()) {
