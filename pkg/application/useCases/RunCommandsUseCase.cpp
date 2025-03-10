@@ -40,7 +40,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     // dto = ..
     break;
   case (MessageConstants::MODE):
-    // dto = ..
+    dto = Mode(&clientMsg, client).execute();
     break;
   case (MessageConstants::ERROR):
     dto.setStatus(1);
