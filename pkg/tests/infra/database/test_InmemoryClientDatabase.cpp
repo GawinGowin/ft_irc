@@ -8,13 +8,14 @@ public:
   MockClient(std::string id, pollfd pfd) : _id(id), _pfd(pfd) {}
   MOCK_METHOD(const std::string &, getId, (), (const));
   MOCK_METHOD(const std::string &, getNickName, (), (const));
+  MOCK_METHOD(const std::string &, getUserName, (), (const));
   MOCK_METHOD(const std::string &, getPassword, (), (const));
   MOCK_METHOD(const int &, getSocketFd, (), (const));
   MOCK_METHOD(const pollfd &, getPollfd, (), (const));
   MOCK_METHOD(const std::string &, getAddress, (), (const));
-
   MOCK_METHOD(void, setId, (const std::string &id), ());
   MOCK_METHOD(void, setNickName, (const std::string &nickName), ());
+  MOCK_METHOD(void, setUserName, (const std::string &userName), ());
   MOCK_METHOD(int, setPassword, (const std::string &password), ());
 
   bool operator==(const IClientAggregateRoot &other) const override {
