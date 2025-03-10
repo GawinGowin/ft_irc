@@ -23,18 +23,21 @@ public:
 
   const std::string &getId() const;
   const std::string &getNickName() const;
+  const std::string &getUserName() const;
   const std::string &getPassword() const;
   const int &getSocketFd() const;
   const pollfd &getPollfd() const;
   const std::string &getAddress() const;
 
   void setId(const std::string &id);
+  void setUserName(const std::string &userName);
   void setNickName(const std::string &nickName);
   int setPassword(const std::string &password);
 
 private:
   int _id;
   std::string _nickName;
+  std::string _userName;
   Password _password;
 
   ConnectionInfo _connectionInfo;

@@ -11,8 +11,8 @@ SendMsgDTO::SendMsgDTO(const SendMsgDTO &obj) { *this = obj; }
 
 SendMsgDTO &SendMsgDTO::operator=(const SendMsgDTO &obj) {
   if (this != &obj) {
-    this->_messageStreams = obj._messageStreams;
     this->_status = obj._status;
+    this->_messageStreams = obj._messageStreams;
   }
   return *this;
 }

@@ -14,12 +14,14 @@ public:
 
   virtual const std::string &getId() const = 0;
   virtual const std::string &getNickName() const = 0;
+  virtual const std::string &getUserName() const = 0;
   virtual const std::string &getPassword() const = 0;
   virtual const int &getSocketFd() const = 0;
   virtual const pollfd &getPollfd() const = 0;
   virtual const std::string &getAddress() const = 0;
 
   virtual void setId(const std::string &id) = 0;
+  virtual void setUserName(const std::string &userName) = 0;
   virtual void setNickName(const std::string &nickName) = 0;
   virtual int setPassword(const std::string &password) = 0;
 };
