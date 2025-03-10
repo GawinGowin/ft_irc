@@ -1,6 +1,7 @@
 #include "domain/message/Message.hpp"
 
 inline static MessageConstants::CommandType strToCommandType(const std::string &str);
+inline static std::string enumToCommandStr(const MessageConstants::CommandType &command);
 inline static std::string getPrefixString(const PrefixInfo &prefixInfo);
 
 static const std::string CRLF = "\r\n";
@@ -11,7 +12,7 @@ std::ostream &operator<<(std::ostream &os, const Message &msg) {
   if (msg.isNumericResponse()) {
     os << msg.getNumericResponse() << " ";
   } else {
-    os << msg.getCommand() << " ";
+    os << enumToCommandStr(msg.getCommand()) << " ";
   }
   for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
     os << *it;
@@ -257,6 +258,31 @@ inline static MessageConstants::CommandType strToCommandType(const std::string &
     return (MessageConstants::UNKNOWN);
   }
 };
+
+inline static std::string enumToCommandStr(const MessageConstants::CommandType &command) {
+  switch (command) {
+  case MessageConstants::PASS:
+    return "PASS";
+  case MessageConstants::NICK:
+    return "NICK";
+  case MessageConstants::USER:
+    return "USER";
+  case MessageConstants::JOIN:
+    return "JOIN";
+  case MessageConstants::PRIVMSG:
+    return "PRIVMSG";
+  case MessageConstants::KICK:
+    return "KICK";
+  case MessageConstants::INVITE:
+    return "INVITE";
+  case MessageConstants::TOPIC:
+    return "TOPIC";
+  case MessageConstants::MODE:
+    return "MODE";
+  default:
+    return "UNKNOWN";
+  }
+}
 
 inline static std::string getPrefixString(const PrefixInfo &prefixInfo) {
   std::string prefix = "";
