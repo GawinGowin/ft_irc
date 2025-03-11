@@ -2,7 +2,7 @@ name: Docker CI image Build and Push
 
 on:
   push:
-    branches: [ "main", "ci/**", "dev-**"]
+    branches: [ "main"]
     paths:
       - "Dockerfile"
   workflow_dispatch:
