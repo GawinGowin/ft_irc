@@ -13,8 +13,7 @@ jobs:
       contents: read
       pull-requests: write  
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
+    container: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
 
     runs-on: ubuntu-latest
     steps:
@@ -44,8 +43,7 @@ jobs:
       contents: read
       pull-requests: write  
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
+    container: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
     steps:
       - uses: actions/checkout@v4
       - name: Install clang-format
