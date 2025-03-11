@@ -9,11 +9,7 @@ on:
 
 jobs:
   test:
-    permissions:
-      contents: read
-      pull-requests: write  
     runs-on: ubuntu-latest
-    container: ghcr.io/gawingowin/ft_irc_ci:17172c5
     steps:
     - uses: actions/checkout@v4
     - name: build test
