@@ -15,7 +15,7 @@ RUN set -x; \
 WORKDIR /repo
 COPY . /repo
 
-RUN make build
+RUN make
 
 FROM debian:12.9-slim AS ci
 
@@ -38,7 +38,7 @@ RUN set -x; \
 FROM debian:12.9-slim AS release
 
 ENV DEBIAN_FRONTEND=noninteractive
-COPY --from=base  /repo/build/ft_irc /usr/local/bin/ft_irc
+COPY --from=base /repo/ft_irc /usr/local/bin/ft_irc
 
 ENTRYPOINT ["ft_irc"]
 CMD ["8080", "password"]
