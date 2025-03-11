@@ -3,7 +3,7 @@
 
 #include "domain/channel/ChannelClientList.hpp"
 #include "domain/channel/ChannelTopic.hpp"
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/hash/IHashAggregateRoot.hpp"
 
 #include <string>
 #include <time.h>

@@ -1,4 +1,4 @@
-#include "domain/shared/values/JenkinsHash.hpp"
+#include "domain/hash/JenkinsHash.hpp"
 
 static int jenkins_hash(char *k, int length, int initval);
 

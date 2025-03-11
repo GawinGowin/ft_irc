@@ -1,7 +1,7 @@
 #ifndef SOCKETHANDLERSERVICELOCATOR_HPP
 #define SOCKETHANDLERSERVICELOCATOR_HPP
 
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/hash/IHashAggregateRoot.hpp"
 #include "infra/socket/SocketHandler.hpp"
 #include <stdexcept>
 

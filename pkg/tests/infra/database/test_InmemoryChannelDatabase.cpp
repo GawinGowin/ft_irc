@@ -1,5 +1,5 @@
 #include "domain/channel/IChannelAggregateRoot.hpp"
-#include "domain/shared/values/JenkinsHash.hpp"
+#include "domain/hash/JenkinsHash.hpp"
 #include "infra/database/InmemoryChannelDatabase.hpp"
 #include <ctime>
 #include <gmock/gmock.h>

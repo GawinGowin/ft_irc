@@ -1,7 +1,7 @@
 #ifndef JENKINSHASH_HPP
 #define JENKINSHASH_HPP
 
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/hash/IHashAggregateRoot.hpp"
 #include <sstream>
 #include <string>
 

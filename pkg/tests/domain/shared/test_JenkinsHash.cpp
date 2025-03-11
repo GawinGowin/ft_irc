@@ -1,4 +1,4 @@
-#include "domain/shared/values/JenkinsHash.cpp"
+#include "domain/hash/JenkinsHash.cpp"
 #include <gtest/gtest.h>
 
 TEST(JenkinsHashTest, ConstructorTest) {

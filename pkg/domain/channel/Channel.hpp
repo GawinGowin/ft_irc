@@ -4,7 +4,7 @@
 #include "domain/channel/ChannelClientList.hpp"
 #include "domain/channel/ChannelTopic.hpp"
 #include "domain/channel/IChannelAggregateRoot.hpp"
-#include "domain/shared/values/JenkinsHash.hpp"
+#include "domain/hash/JenkinsHash.hpp"
 #include <string>
 #include <time.h>
 

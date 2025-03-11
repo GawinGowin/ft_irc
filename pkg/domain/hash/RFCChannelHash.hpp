@@ -1,7 +1,7 @@
 #ifndef RFCCHANNELHASH_HPP
 #define RFCCHANNELHASH_HPP
 
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/hash/IHashAggregateRoot.hpp"
 #include <cmath>
 #include <ctime>
 #include <sstream>

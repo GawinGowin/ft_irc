@@ -3,7 +3,7 @@
 
 #include "domain/channel/IChannelAggregateRoot.hpp"
 #include "domain/channel/IChannelRepository.hpp"
-#include "domain/shared/values/JenkinsHash.hpp"
+#include "domain/hash/JenkinsHash.hpp"
 
 #include <iostream>
 #include <map>

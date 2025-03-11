@@ -1,4 +1,4 @@
-#include "domain/shared/values/RFCChannelHash.hpp"
+#include "domain/hash/RFCChannelHash.hpp"
 #include <ctime>
 #include <gtest/gtest.h>
 

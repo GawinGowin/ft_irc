@@ -1,4 +1,4 @@
-#include "domain/shared/values/RFCChannelHash.hpp"
+#include "domain/hash/RFCChannelHash.hpp"
 
 static const std::string base = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 static const int channelIdLength = 5;
