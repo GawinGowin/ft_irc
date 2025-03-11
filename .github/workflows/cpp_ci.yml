@@ -14,8 +14,6 @@ jobs:
       pull-requests: write  
     runs-on: ubuntu-latest
     container: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
-
-    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: build test
