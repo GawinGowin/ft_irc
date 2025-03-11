@@ -41,6 +41,10 @@ public:
   virtual ChannelClientList &getListBans() = 0;
   virtual ChannelClientList &getListExcepts() = 0;
   virtual ChannelClientList &getListInvites() = 0;
+
+  virtual bool isOperator(const std::string &nickname) const = 0;
+  virtual void addOperator(const std::string &nickname) = 0;
+  virtual void removeOperator(const std::string &nickname) = 0;
 };
 
 #endif /* ICHANNELAGGREGATEROOT_HPP */
