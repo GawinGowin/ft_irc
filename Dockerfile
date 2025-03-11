@@ -11,12 +11,7 @@ RUN set -x; \
 	make; \
 	make install
 
-WORKDIR /repo
-COPY . /repo
-
-RUN make
-
-FROM debian:12.9-slim AS ci
+FROM debian:12.9-slim AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --from=base /usr/local/include/ /usr/local/include/
@@ -34,10 +29,15 @@ RUN set -x; \
 	cmake ; \
 	rm -rf /var/lib/apt/lists/*
 
+WORKDIR /repo
+COPY . /repo
+
+RUN make
+
 FROM debian:12.9-slim AS release
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY --from=base /repo/ft_irc /usr/local/bin/ft_irc
+COPY --from=build /repo/ft_irc /usr/local/bin/ft_irc
 
 ENTRYPOINT ["ft_irc"]
 CMD ["8080", "password"]
