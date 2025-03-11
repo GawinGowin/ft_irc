@@ -32,6 +32,7 @@ RUN set -x; \
   gpg \
 	build-essential \
 	lcov \
+  clang-format \
 	cmake ; \
 	rm -rf /var/lib/apt/lists/*
 
