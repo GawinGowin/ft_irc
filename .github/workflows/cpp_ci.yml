@@ -13,7 +13,7 @@ jobs:
       contents: read
       pull-requests: write  
     runs-on: ubuntu-latest
-    container: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
+    container: ghcr.io/gawingowin/ft_irc_ci:17172c5
     steps:
     - uses: actions/checkout@v4
     - name: build test
@@ -41,7 +41,7 @@ jobs:
       contents: read
       pull-requests: write  
     runs-on: ubuntu-latest
-    container: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
+    container: ghcr.io/gawingowin/ft_irc_ci:17172c5
     steps:
       - uses: actions/checkout@v4
       - name: show setteings
