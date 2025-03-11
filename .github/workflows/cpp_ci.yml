@@ -37,13 +37,11 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
 
   format:
-    permissions:
-      contents: read
-      pull-requests: write  
     runs-on: ubuntu-latest
-    container: ghcr.io/gawingowin/ft_irc_ci:17172c5
     steps:
       - uses: actions/checkout@v4
+      - name: Install clang-format
+        run: sudo apt install clang-format
       - name: show setteings
         run: |
           clang-format --version
