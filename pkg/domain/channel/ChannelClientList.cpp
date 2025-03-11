@@ -25,9 +25,9 @@ int ChannelClientList::removeClient(const std::string &nickname) {
   return 1;
 }
 
-bool ChannelClientList::isClientInList(const std::string &nickname) {
-  std::vector<std::string>::iterator it;
-  it = std::find(_clients.begin(), _clients.end(), nickname);
+bool ChannelClientList::isClientInList(const std::string &nickname) const {
+  std::vector<std::string>::const_iterator it =
+      std::find(_clients.begin(), _clients.end(), nickname);
   return it != _clients.end();
 }
 

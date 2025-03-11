@@ -1,5 +1,5 @@
 #include "domain/channel/IChannelAggregateRoot.hpp"
-#include "domain/shared/values/JenkinsHash.hpp"
+#include "domain/hash/JenkinsHash.hpp"
 #include "infra/database/InmemoryChannelDatabase.hpp"
 #include <ctime>
 #include <gmock/gmock.h>
@@ -30,6 +30,10 @@ public:
   MOCK_METHOD(ChannelClientList &, getListBans, (), (override));
   MOCK_METHOD(ChannelClientList &, getListExcepts, (), (override));
   MOCK_METHOD(ChannelClientList &, getListInvites, (), (override));
+
+  MOCK_METHOD(bool, isOperator, (const std::string &nickname), (const, override));
+  MOCK_METHOD(void, addOperator, (const std::string &nickname), (override));
+  MOCK_METHOD(void, removeOperator, (const std::string &nickname), (override));
 };
 
 class InmemoryChannelDatabaseTest : public ::testing::Test {

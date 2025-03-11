@@ -80,7 +80,7 @@ Mode::_handleChannelMode(ISocketHandler &socketHandler, InmemoryChannelDatabase 
     logger->debugss() << "[MODE]: show mode (" << client->getSocketFd() << ")";
     return SendMsgDTO(0, streams);
   }
-  if (!this->_is_channelOperator(channelName, client->getNickName())) {
+  if (!this->_is_channelOperator(channel, client->getNickName())) {
     MessageStream stream = MessageService::generateMessageStream(&socketHandler, client);
     stream << Message(
         ConfigsServiceLocator::get().getConfigs().Global.Name,
@@ -212,8 +212,8 @@ Mode::_handleUserMode(ISocketHandler &socketHandler, InmemoryChannelDatabase &ch
   return SendMsgDTO(0, streams);
 }
 
-bool Mode::_is_channelOperator(const std::string &channel, const std::string &nickname) {
-  (void)channel;
-  (void)nickname;
-  return true;
+bool Mode::_is_channelOperator(IChannelAggregateRoot *channel, const std::string &nickname) const {
+  if (channel == NULL)
+    return false;
+  return channel->isOperator(nickname);
 }

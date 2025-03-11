@@ -69,3 +69,13 @@ bool Channel::isInviteOnly() const { return (this->_modeFlags & MODE_INVITE_ONLY
 bool Channel::isUserInvited(const std::string &nickname) {
   return this->_listInvites.isClientInList(nickname);
 }
+
+bool Channel::isOperator(const std::string &nickname) const {
+  return this->_listOperators.isClientInList(nickname);
+}
+
+void Channel::addOperator(const std::string &nickname) { this->_listOperators.addClient(nickname); }
+
+void Channel::removeOperator(const std::string &nickname) {
+  this->_listOperators.removeClient(nickname);
+}

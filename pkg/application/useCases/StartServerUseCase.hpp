@@ -9,7 +9,7 @@
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include "domain/client/Client.hpp"
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/hash/IHashAggregateRoot.hpp"
 #include "infra/configs/ConfigsLoader.hpp"
 #include "infra/socket/ISocketHandler.hpp"
 

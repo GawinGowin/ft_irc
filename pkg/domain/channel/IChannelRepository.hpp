@@ -2,7 +2,7 @@
 #define ICHANNELREPOSITORY_HPP
 
 #include "domain/channel/IChannelAggregateRoot.hpp"
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/hash/IHashAggregateRoot.hpp"
 
 #include <vector>
 

@@ -1,7 +1,7 @@
 #ifndef CONNECTIONINFO_HPP
 #define CONNECTIONINFO_HPP
 
-#include "domain/shared/values/IHashAggregateRoot.hpp"
+#include "domain/hash/IHashAggregateRoot.hpp"
 #include <poll.h>
 #include <string>
 

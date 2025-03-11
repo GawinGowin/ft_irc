@@ -65,10 +65,11 @@ SendMsgDTO Join::execute() {
     if (!channelwasswords.empty()) {
       password = channelwasswords[i];
     }
-
     if (channel == NULL) {
       channelDB.add(Channel(channels[i]));
       channel = channelDB.get(channels[i]);
+      channel->addOperator(client->getNickName());
+      logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): create" << channels[i];
     } else {
       // パスワードのチェック
       if (!channel->checkKey(password)) {
@@ -83,12 +84,11 @@ SendMsgDTO Join::execute() {
     }
     int joinResult = channel->getListConnects().addClient(client->getNickName());
     if (joinResult == 1) {
-      logger->debugss() << "[JOIN] by (fd: " << client->getSocketFd() << "): already joined to "
+      logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): already joined to "
                         << channels[i];
     } else {
-      logger->debugss() << "[JOIN] by (fd: " << client->getSocketFd() << "): success to "
+      logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): success to join"
                         << channels[i];
-
       // チャンネルメンバーにJOIN通知をブロードキャスト
       std::vector<MessageStream> streams;
       std::stringstream joinMsg;
