@@ -3,8 +3,6 @@ name: Docker image Build and Push
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: ["94-ft_irc-container"]
   workflow_dispatch:
 
 jobs:
