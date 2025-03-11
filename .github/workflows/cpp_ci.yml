@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main"]
   pull_request:
-    branches: ["main", "ci/**", "94-ft_irc-container"]
+    branches: ["main", "ci/**"]
   workflow_dispatch:
 
 jobs:
