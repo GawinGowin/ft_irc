@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/devcontainers/cpp:1.2.7-debian12 AS base
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install google test
@@ -18,7 +17,6 @@ COPY . /repo
 RUN make
 
 FROM debian:12.9-slim AS ci
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --from=base /usr/local/include/ /usr/local/include/
@@ -37,8 +35,8 @@ RUN set -x; \
 	rm -rf /var/lib/apt/lists/*
 
 FROM debian:12.9-slim AS release
-
 ENV DEBIAN_FRONTEND=noninteractive
+
 COPY --from=base /repo/ft_irc /usr/local/bin/ft_irc
 
 ENTRYPOINT ["ft_irc"]
