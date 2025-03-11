@@ -59,13 +59,6 @@ ConfigsLoader::ConfigsLoader() {
   conf.Options.ScrubCTCP = false;
   conf.Options.SyslogFacility = "local1";
   conf.Options.WebircPassword = "xyz";
-
-  // [Operator]
-  conf.Operators.push_back(OperatorConfig("TheOper", "ThePwd", "*!ident@somewhere.example.com"));
-
-  // [Channel]
-  conf.Channels.push_back(ChannelConfig(
-      "#ngircd", "Our ngircd testing channel", "+tnk mykey +l 5", "/etc/ngircd/#chan.key"));
 }
 
 ConfigsLoader::~ConfigsLoader() {}
