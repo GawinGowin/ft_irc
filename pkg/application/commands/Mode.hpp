@@ -21,7 +21,7 @@ public:
 private:
   SendMsgDTO _handleChannelMode(ISocketHandler &socketHandler, InmemoryChannelDatabase &channelDB);
   SendMsgDTO _handleUserMode(ISocketHandler &socketHandler, InmemoryChannelDatabase &channelDB);
-  bool _is_channelOperator(const std::string &channel, const std::string &nickname);
+  bool _is_channelOperator(IChannelAggregateRoot *channel, const std::string &nickname) const;
 };
 
 #endif /* MODE_HPP */
