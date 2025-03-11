@@ -44,8 +44,6 @@ jobs:
     container: ghcr.io/gawingowin/ft_irc_ci:27f5cf1
     steps:
       - uses: actions/checkout@v4
-      - name: Install clang-format
-        run: sudo apt install clang-format
       - name: show setteings
         run: |
           clang-format --version

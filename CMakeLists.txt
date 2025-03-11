@@ -24,10 +24,6 @@ target_include_directories(
   PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
 )
 
-## Link with necessary libraries
-set(LIBRARIES crypto ssl)
-target_link_libraries(testftirc ${LIBRARIES})
-
 add_executable(ft_irc
 ${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)
 target_include_directories(
