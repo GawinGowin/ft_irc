@@ -23,6 +23,7 @@ add_executable(DomainTest
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_Message.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_MessageParser.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_MessageParserPrefix.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_MessageParseParams.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_JenkinsHash.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_RFCChannelHash.cpp
 )
