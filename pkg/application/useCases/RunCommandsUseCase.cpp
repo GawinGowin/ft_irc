@@ -31,7 +31,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     dto = Privmsg(&clientMsg, client).execute();
     break;
   case (MessageConstants::KICK):
-    // dto = ..
+    dto = Kick(&clientMsg, client).execute();
     break;
   case (MessageConstants::INVITE):
     // dto = ..

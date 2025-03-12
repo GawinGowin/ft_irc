@@ -2,6 +2,7 @@
 #define RUNCOMMANDSUSECASE_HPP
 
 #include "application/commands/Join.hpp"
+#include "application/commands/Kick.hpp"
 #include "application/commands/Mode.hpp"
 #include "application/commands/Nick.hpp"
 #include "application/commands/Pass.hpp"
