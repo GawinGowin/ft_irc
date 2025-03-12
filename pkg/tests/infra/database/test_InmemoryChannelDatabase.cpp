@@ -12,7 +12,7 @@ public:
   MOCK_METHOD(const int &, getModeFlags, (), (const, override));
   MOCK_METHOD(const time_t &, getCreationTime, (), (const, override));
   MOCK_METHOD(const std::string &, getTopic, (), (const, override));
-  MOCK_METHOD(const unsigned long &, getMaxUsers, (), (const, override));
+  MOCK_METHOD(const std::string, getMaxUsers, (), (const, override));
   MOCK_METHOD(const std::string &, getKey, (), (const, override));
 
   MOCK_METHOD(void, setModeFlags, (int modeFlags), (override));

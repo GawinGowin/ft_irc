@@ -12,7 +12,7 @@ TEST(ChannelTest, ConstructorInitialization) {
   EXPECT_EQ(channel.getName(), TEST_CHANNEL_NAME);
   EXPECT_GT(channel.getCreationTime(), 0); // 現在時刻が正しく設定されているか
   EXPECT_EQ(channel.getModeFlags(), 0);    // 初期モードフラグが0であること
-  EXPECT_EQ(channel.getMaxUsers(), DEFAULT_MAX_USERS);
+  EXPECT_EQ(channel.getMaxUsers(), std::to_string(DEFAULT_MAX_USERS));
   EXPECT_EQ(channel.getKey(), ""); // 初期キーが""であること
 }
 
@@ -43,7 +43,7 @@ TEST(ChannelTest, SetAndGetMaxUsers) {
   Channel channel(TEST_CHANNEL_NAME);
 
   channel.setMaxUsers(TEST_MAX_USERS);
-  EXPECT_EQ(channel.getMaxUsers(), TEST_MAX_USERS);
+  EXPECT_EQ(channel.getMaxUsers(), std::to_string(TEST_MAX_USERS));
 }
 
 // チャネルリスト操作のテスト

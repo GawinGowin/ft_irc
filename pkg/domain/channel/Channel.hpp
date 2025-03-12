@@ -20,7 +20,7 @@ public:
   const int &getModeFlags() const;
   const time_t &getCreationTime() const;
   const std::string &getTopic() const;
-  const unsigned long &getMaxUsers() const;
+  const std::string getMaxUsers() const;
 
   const std::string &getKey() const;
 
