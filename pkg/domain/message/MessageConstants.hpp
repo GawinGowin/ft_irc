@@ -27,12 +27,12 @@ const int RPL_NAMREPLY = 353;
 const int RPL_ENDOFNAMES = 366;
 const int ERR_NEEDMOREPARAMS = 461;
 const int ERR_ALREADYREGISTRED = 462;
-
 const int ERR_NOSUCHNICK = 401;
 const int RPL_CHANNELMODEIS = 324;
 const int RPL_CREATIONTIME_MSG = 329;
 const int ERR_CHANOPRIVSNEEDED = 482;
 const int ERR_NOSUCHCHANNEL = 403;
+const int ERR_CANNOTSENDTOCHAN = 404;
 } // namespace ResponseCode
 } // namespace MessageConstants
 
