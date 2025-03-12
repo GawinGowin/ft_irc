@@ -35,6 +35,10 @@ void Channel::setModeFlags(int modeFlags) { this->_modeFlags = modeFlags; }
 
 void Channel::setMaxUsers(unsigned long maxusers) { this->_maxusers = maxusers; }
 
+void Channel::updateTopic(const std::string &topic, const std::string &who) {
+  this->_topic.updateTopic(topic, who);
+}
+
 Channel *Channel::clone() const { return new Channel(*this); }
 
 ChannelClientList &Channel::getListConnects() { return this->_listConnects; }
