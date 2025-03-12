@@ -7,7 +7,6 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     throw std::invalid_argument("Recieved message is empty");
   }
   Message clientMsg(recieved.getMessage());
-  Message serverResp;
   logger->tracess() << "clientMsg: " << clientMsg;
 
   SendMsgDTO dto;
@@ -34,7 +33,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     dto = Kick(&clientMsg, client).execute();
     break;
   case (MessageConstants::INVITE):
-    // dto = ..
+    dto = Invite(&clientMsg, client).execute();
     break;
   case (MessageConstants::TOPIC):
     // dto = ..
