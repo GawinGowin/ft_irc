@@ -53,15 +53,21 @@ Mode::_handleChannelMode(ISocketHandler &socketHandler, InmemoryChannelDatabase 
   }
   if (msg->getParams().size() == 1) { // チャンネルのモードを表示
     std::string modeString = "+";
+    std::string modeParams = "";
     int modeFlags = channel->getModeFlags();
     if (modeFlags & IChannelAggregateRoot::MODE_INVITE_ONLY) { // TODO: 他にモードがあるなら追加
       modeString += "i";
     }
+    if (modeFlags & IChannelAggregateRoot::MODE_TOPIC_RESTRICTED) {
+      modeString += "t";
+    }
     if (modeFlags & IChannelAggregateRoot::MODE_KEY_PROTECTED) {
       modeString += "k";
+      modeParams += " " + channel->getKey();
     }
     if (modeFlags & IChannelAggregateRoot::MODE_LIMIT_USERS) {
       modeString += "l";
+      modeParams += " " + channel->getMaxUsers();
     }
     std::stringstream ss;
     ss << channel->getCreationTime();
@@ -70,13 +76,13 @@ Mode::_handleChannelMode(ISocketHandler &socketHandler, InmemoryChannelDatabase 
     Message modeResponse = Message(
         ConfigsServiceLocator::get().getConfigs().Global.Name,
         MessageConstants::ResponseCode::RPL_CHANNELMODEIS,
-        client->getNickName() + " " + channelName + " " + modeString);
+        client->getNickName() + " " + channelName + " " + modeString + " " + modeParams);
     Message creationtimeResponse = Message(
         ConfigsServiceLocator::get().getConfigs().Global.Name,
         MessageConstants::ResponseCode::RPL_CREATIONTIME_MSG,
         client->getNickName() + " " + channelName + " " + creationTimeStr);
-    streams.push_back(MessageStream(&socketHandler, client) << modeResponse);
-    streams.push_back(MessageStream(&socketHandler, client) << creationtimeResponse);
+    streams.push_back(
+        MessageStream(&socketHandler, client) << modeResponse << creationtimeResponse);
     logger->debugss() << "[MODE]: show mode (" << client->getSocketFd() << ")";
     return SendMsgDTO(0, streams);
   }
