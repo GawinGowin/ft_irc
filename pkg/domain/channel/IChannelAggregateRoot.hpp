@@ -28,6 +28,7 @@ public:
 
   virtual void setModeFlags(int modeFlags) = 0;
   virtual void setMaxUsers(unsigned long maxusers) = 0;
+  virtual void updateTopic(const std::string &topic, const std::string &who) = 0;
 
   virtual IChannelAggregateRoot *clone() const = 0;
 

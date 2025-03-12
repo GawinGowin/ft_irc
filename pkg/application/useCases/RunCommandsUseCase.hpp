@@ -8,7 +8,7 @@
 #include "application/commands/Nick.hpp"
 #include "application/commands/Pass.hpp"
 #include "application/commands/Privmsg.hpp"
-
+#include "application/commands/Topic.hpp"
 #include "application/dto/RecievedMsgDTO.hpp"
 #include "application/dto/SendMsgDTO.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
