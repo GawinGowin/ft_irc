@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 
 const int argc = 3;
-char *argv[] = {(char *)"./ft_irc", (char *)"8080", (char *)"password", nullptr};
+char *argv[] = {(char *)"./ft_irc", (char *)"8085", (char *)"password", nullptr};
 
 TEST(StartServerUseCaseTest, TestInitialization) {
   StartServerDTO dto(argc, argv);
