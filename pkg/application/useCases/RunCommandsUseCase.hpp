@@ -5,6 +5,8 @@
 #include "application/commands/Mode.hpp"
 #include "application/commands/Nick.hpp"
 #include "application/commands/Pass.hpp"
+#include "application/commands/Privmsg.hpp"
+
 #include "application/dto/RecievedMsgDTO.hpp"
 #include "application/dto/SendMsgDTO.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"

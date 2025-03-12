@@ -227,7 +227,7 @@ int Message::parseParams(std::vector<std::string> &params, const std::string par
         remaining.resize(remaining.size() - 1);
       }
       word += remaining;
-      params.push_back(word);
+      params.push_back(word.substr(1));
       break;
     }
     params.push_back(word);

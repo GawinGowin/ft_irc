@@ -80,7 +80,7 @@ TEST(MessageTest, AssignmentOperatorWithNumericResponse) {
   EXPECT_EQ(assigned.getNumericResponse(), "404");
   EXPECT_EQ(assigned.getParams().size(), 2);
   EXPECT_EQ(assigned.getParams()[0], "nick");
-  EXPECT_EQ(assigned.getParams()[1], ":No such nick/channel");
+  EXPECT_EQ(assigned.getParams()[1], "No such nick/channel");
 }
 
 TEST(MessageTest, AssignmentOperatorSelfAssignment) {
@@ -91,7 +91,7 @@ TEST(MessageTest, AssignmentOperatorSelfAssignment) {
   EXPECT_EQ(message.getCommand(), MessageConstants::PRIVMSG);
   EXPECT_EQ(message.getParams().size(), 2);
   EXPECT_EQ(message.getParams()[0], "target");
-  EXPECT_EQ(message.getParams()[1], ":Hello world!");
+  EXPECT_EQ(message.getParams()[1], "Hello world!");
 }
 
 TEST(MessageTest, AssignmentOperatorEmptyMessage) {
