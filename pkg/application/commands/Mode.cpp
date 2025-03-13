@@ -1,61 +1,57 @@
 #include "application/commands/Mode.hpp"
 
-Mode::Mode(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
+Mode::Mode(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {
+  this->_channelDB = &InmemoryChannelDBServiceLocator::get();
+  this->_clientDB = &InmemoryClientDBServiceLocator::get();
+  this->_logger = LoggerServiceLocator::get();
+  this->_conf = &ConfigsServiceLocator::get();
+  this->_socketHandler = &SocketHandlerServiceLocator::get();
+}
 
 SendMsgDTO Mode::execute() {
-  MultiLogger *logger = LoggerServiceLocator::get();
-
   IMessageAggregateRoot *msg = this->getMessage();
   IClientAggregateRoot *client = this->getClient();
 
-  ConfigsLoader &conf = ConfigsServiceLocator::get();
-  InmemoryChannelDatabase &channelDB = InmemoryChannelDBServiceLocator::get();
-  ISocketHandler &socketHandler = SocketHandlerServiceLocator::get();
-
+  const Configs &configs = this->_conf->getConfigs();
   if (msg->getParams().size() < 1) {
     MessageStreamVector streams;
-    MessageStream stream = MessageService::generateMessageStream(&socketHandler, client);
+    MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
     stream << Message(
-        ConfigsServiceLocator::get().getConfigs().Global.Name,
-        MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS,
+        configs.Global.Name, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS,
         client->getNickName() + " MODE" + " :Syntax error");
     streams.push_back(stream);
-    logger->debugss() << "[MODE]: err syndax (" << client->getSocketFd() << ")";
+    this->_logger->debugss() << "[MODE]: err syndax (" << client->getSocketFd() << ")";
     return SendMsgDTO(1, streams);
   }
   std::string target = msg->getParams()[0];
-  if (conf.getConfigs().Options.AllowedChannelTypes.find(target[0]) !=
+  if (configs.Options.AllowedChannelTypes.find(target[0]) !=
       std::string::npos) { // 引数が"#"もしくは"&"で始まる場合
-    return this->_handleChannelMode(socketHandler, channelDB);
+    return this->_handleChannelMode(msg, client);
   }
-  return this->_handleUserMode(socketHandler, channelDB);
+  return this->_handleUserMode(msg, client);
 }
 
-SendMsgDTO
-Mode::_handleChannelMode(ISocketHandler &socketHandler, InmemoryChannelDatabase &channelDB) {
-  IMessageAggregateRoot *msg = this->getMessage();
-  IClientAggregateRoot *client = this->getClient();
-  MultiLogger *logger = LoggerServiceLocator::get();
-
+SendMsgDTO Mode::_handleChannelMode(IMessageAggregateRoot *msg, IClientAggregateRoot *client) {
   MessageStreamVector streams;
 
   const std::string &channelName = msg->getParams()[0];
-  IChannelAggregateRoot *channel = channelDB.get(channelName);
+  IChannelAggregateRoot *channel = this->_channelDB->get(channelName);
   if (!channel) {
-    MessageStream stream = MessageService::generateMessageStream(&socketHandler, client);
+    MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
     stream << Message(
         ConfigsServiceLocator::get().getConfigs().Global.Name,
         MessageConstants::ResponseCode::ERR_NOSUCHNICK,
         client->getNickName() + " " + channelName + " :No such nick or channel name");
     streams.push_back(stream);
-    logger->debugss() << "[MODE]: no such channel (" << client->getSocketFd() << ")";
+    this->_logger->debugss() << "[MODE]: no such channel (" << client->getSocketFd() << ")";
     return SendMsgDTO(1, streams);
   }
-  if (msg->getParams().size() == 1) { // チャンネルのモードを表示
+  // チャンネルのモードを表示
+  if (msg->getParams().size() == 1) {
     std::string modeString = "+";
     std::string modeParams = "";
     int modeFlags = channel->getModeFlags();
-    if (modeFlags & IChannelAggregateRoot::MODE_INVITE_ONLY) { // TODO: 他にモードがあるなら追加
+    if (modeFlags & IChannelAggregateRoot::MODE_INVITE_ONLY) {
       modeString += "i";
     }
     if (modeFlags & IChannelAggregateRoot::MODE_TOPIC_RESTRICTED) {
@@ -82,144 +78,192 @@ Mode::_handleChannelMode(ISocketHandler &socketHandler, InmemoryChannelDatabase 
         MessageConstants::ResponseCode::RPL_CREATIONTIME_MSG,
         client->getNickName() + " " + channelName + " " + creationTimeStr);
     streams.push_back(
-        MessageStream(&socketHandler, client) << modeResponse << creationtimeResponse);
-    logger->debugss() << "[MODE]: show mode (" << client->getSocketFd() << ")";
+        MessageStream(this->_socketHandler, client) << modeResponse << creationtimeResponse);
+    this->_logger->debugss() << "[MODE]: show mode (" << client->getSocketFd() << ")";
     return SendMsgDTO(0, streams);
   }
-  if (!this->_is_channelOperator(channel, client->getNickName())) {
-    MessageStream stream = MessageService::generateMessageStream(&socketHandler, client);
+  if (!channel->isOperator(client->getNickName())) {
+    MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
     stream << Message(
         ConfigsServiceLocator::get().getConfigs().Global.Name,
         MessageConstants::ResponseCode::ERR_CHANOPRIVSNEEDED,
         client->getNickName() + " " + channelName + " :You are not channel operator");
     streams.push_back(stream);
-    logger->debugss() << "[MODE]: not channel operator (" << client->getSocketFd() << ")";
+    this->_logger->debugss() << "[MODE]: not channel operator (" << client->getSocketFd() << ")";
     return SendMsgDTO(1, streams);
   }
   // チャンネルのモードを変更
-  const std::string &modeString = msg->getParams()[1];
-  int modeFlags;
-  int newModeFlags = modeFlags = channel->getModeFlags();
+  // MODE <channel> [{+|-}<mode>[<mode>] [<arg> [<arg> [...]]] [{+|-}<mode>[<mode>] [<arg> [<arg> [...]]] [...]]]
+  ModeChanges actualModeModifise;
+  int err = this->_parseAndProcessChannelMode(&actualModeModifise, channel, msg->getParams());
+  if (err != 0) {
+    MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
+    switch (err) {
+    case MessageConstants::ResponseCode::ERR_NOSUCHNICK:
+      stream << Message(
+          ConfigsServiceLocator::get().getConfigs().Global.Name,
+          MessageConstants::ResponseCode::ERR_NOSUCHNICK,
+          client->getNickName() + " " + channelName + " :No such nick or channel name");
+      break;
+    case MessageConstants::ResponseCode::ERR_USERNOTINCHANNEL:
+      stream << Message(
+          ConfigsServiceLocator::get().getConfigs().Global.Name,
+          MessageConstants::ResponseCode::ERR_USERNOTINCHANNEL,
+          client->getNickName() + " " + channelName + " :They aren't on that channel");
+      break;
+    case MessageConstants::ResponseCode::ERR_UNKNOWNMODE:
+      stream << Message(
+          ConfigsServiceLocator::get().getConfigs().Global.Name,
+          MessageConstants::ResponseCode::ERR_UNKNOWNMODE,
+          client->getNickName() + " " + channelName + " :Unknown mode");
+      break;
+    case MessageConstants::ResponseCode::ERR_INVALIDMODEPARAM:
+      stream << Message(
+          ConfigsServiceLocator::get().getConfigs().Global.Name,
+          MessageConstants::ResponseCode::ERR_INVALIDMODEPARAM,
+          client->getNickName() + " " + channelName + " :Invalid mode parameter");
+      break;
+    default:
+      break;
+    }
+    streams.push_back(stream);
+    this->_logger->debugss() << "[MODE]: invalid mode parameter (" << client->getSocketFd() << ")";
+    return SendMsgDTO(1, streams);
+  }
+  /* TODO: 下記を修正 */
+  std::string modeChangesResponse = "";
+  std::stringstream ss;
+  ss << Message(
+      client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
+      MessageConstants::MODE, channelName + " " + modeChangesResponse);
+  InmemoryClientDatabase &clientDB = InmemoryClientDBServiceLocator::get();
+  MessageStreamVector newStreams = MessageService::generateMessageToChannel(
+      this->_socketHandler, client, &clientDB, channel, ss.str());
+  streams.insert(streams.end(), newStreams.begin(), newStreams.end());
+  MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
+  streams.push_back(stream << ss.str());
+  this->_logger->debugss() << "[MODE]: change mode (" << client->getSocketFd() << ")";
+  return SendMsgDTO(0, streams);
+}
 
-  std::string response = channelName + " ";
-  std::string modeChanges = "";
+int Mode::_check_invalid_nick_arg(std::string targetNick, IChannelAggregateRoot *channel) {
+  if (this->_clientDB->getById(targetNick) == NULL)
+    return (MessageConstants::ResponseCode::ERR_NOSUCHNICK);
+  if (!channel->getListConnects().isClientInList(targetNick))
+    return (MessageConstants::ResponseCode::ERR_USERNOTINCHANNEL);
+  return (0);
+}
 
-  /* TODO: ここからのパース部分の確認を行う */
-  size_t paramIndex = 2; // MODE <channel> <modes> [args...]
-  for (size_t i = 0; i < modeString.length(); i++) {
+inline static int is_valid_limits_arg(std::string limitStr, int *value) {
+  int tmp_value;
+  std::stringstream ss(limitStr);
+  ss >> tmp_value;
+  if (ss.fail() || !ss.eof()) {
+    return MessageConstants::ResponseCode::ERR_INVALIDMODEPARAM;
+  }
+  if (tmp_value <= 0 || tmp_value >= 65535) {
+    return MessageConstants::ResponseCode::ERR_INVALIDMODEPARAM;
+  }
+  *value = tmp_value;
+  return 0;
+}
+
+int Mode::_parseAndProcessChannelMode(
+    ModeChanges *actualModeModifise,
+    IChannelAggregateRoot *channel,
+    const std::vector<std::string> &modeParams) {
+  int modeFlags = channel->getModeFlags();
+  actualModeModifise->modeFlags = modeFlags;
+  std::vector<std::string>::const_iterator it;
+  for (it = modeParams.begin(); it != modeParams.end(); ++it) {
     bool isAdd = true;
-    char c = modeString[i];
-
-    if (c == '+') {
+    if (it->length() == 1 && it->at(0) == '+') {
       isAdd = true;
-      modeChanges += "+";
       continue;
-    } else if (c == '-') {
+    } else if (it->length() == 1 && it->at(0) == '-') {
       isAdd = false;
-      modeChanges += "-";
       continue;
     }
-
-    // 各モードの処理
-    switch (c) {
-    case 'i': // invite-only
-      if (isAdd) {
-        newModeFlags |= IChannelAggregateRoot::MODE_INVITE_ONLY;
-        modeChanges += "i";
-      } else {
-        newModeFlags &= ~IChannelAggregateRoot::MODE_INVITE_ONLY;
-        modeChanges += "i";
-      }
-      break;
-
-    case 't': // topic制限
-      // ここではIChannelAggregateRootでtモードの定数が定義されていないため、追加が必要です
-      // 例: MODE_TOPIC_RESTRICTED = 1 << 3 のような定数を追加する必要があります
-      break;
-
-    case 'k': // キー（パスワード）
-      if (isAdd) {
-        if (paramIndex < msg->getParams().size()) {
-          const std::string &key = msg->getParams()[paramIndex++];
-          // チャンネルキーの設定（チャンネルクラスのAPIに応じて実装）
-          // channel->setKey(key);
-          newModeFlags |= IChannelAggregateRoot::MODE_KEY_PROTECTED;
-          modeChanges += "k";
-          response += " " + key;
+    size_t token_len = it->length();
+    for (size_t i = 0; i < token_len; i++) {
+      char c = it->at(i);
+      switch (c) {
+      case '+':
+        isAdd = true;
+        break;
+      case '-':
+        isAdd = false;
+        break;
+      case 'i': // invite-only
+        if (isAdd) {
+          actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_INVITE_ONLY;
+        } else {
+          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_INVITE_ONLY;
         }
-      } else {
-        // キー削除
-        // channel->setKey("");
-        newModeFlags &= ~IChannelAggregateRoot::MODE_KEY_PROTECTED;
-        modeChanges += "k";
-      }
-      break;
-
-    case 'o': // オペレータ権限の付与/剥奪
-      if (paramIndex < msg->getParams().size()) {
-        const std::string &targetNick = msg->getParams()[paramIndex++];
-        // オペレータ権限の設定（チャンネルクラスのAPIに応じて実装）
-        // ステップ4で実装
-        modeChanges += "o";
-        response += " " + targetNick;
-      }
-      break;
-
-    case 'l': // ユーザー数制限
-      if (isAdd) {
-        if (paramIndex < msg->getParams().size()) {
-          const std::string &limitStr = msg->getParams()[paramIndex++];
-          try {
-            unsigned long limit = std::atol(limitStr.c_str());
-            channel->setMaxUsers(limit);
-            newModeFlags |= IChannelAggregateRoot::MODE_LIMIT_USERS;
-            modeChanges += "l";
-            response += " " + limitStr;
-          } catch (...) {
-            // 数値変換エラー
+        break;
+      case 't': // topic制限
+        if (isAdd) {
+          actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_TOPIC_RESTRICTED;
+        } else {
+          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_TOPIC_RESTRICTED;
+        }
+        break;
+      case 'k': // キー（パスワード）
+        if (isAdd && it + 1 != modeParams.end()) {
+          const std::string &key = *(++it);
+          actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_KEY_PROTECTED;
+          actualModeModifise->newChannelKey = key;
+        } else {
+          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_KEY_PROTECTED;
+          actualModeModifise->newChannelKey = "";
+        }
+        break;
+      case 'o': // オペレータ権限の付与/剥奪
+        if (it + 1 != modeParams.end()) {
+          const std::string &targetNick = *(++it);
+          int ret = this->_check_invalid_nick_arg(targetNick, channel);
+          if (ret != 0) {
+            return ret;
+          }
+          if (isAdd) {
+            actualModeModifise->newOperators.insert(targetNick);
+            actualModeModifise->removedOperators.erase(targetNick);
+          } else {
+            actualModeModifise->newOperators.erase(targetNick);
+            actualModeModifise->removedOperators.insert(targetNick);
           }
         }
-      } else {
-        channel->setMaxUsers(0); // 制限なし
-        newModeFlags &= ~IChannelAggregateRoot::MODE_LIMIT_USERS;
-        modeChanges += "l";
+        break;
+      case 'l': // ユーザー数制限
+        if (isAdd) {
+          if (it + 1 != modeParams.end()) {
+            const std::string &limitStr = *(++it);
+            int limitValue;
+            int ret = is_valid_limits_arg(limitStr, &limitValue);
+            if (ret != 0) {
+              return ret;
+            }
+            actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_LIMIT_USERS;
+            actualModeModifise->newChannelLimit = limitValue;
+          }
+        } else {
+          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_LIMIT_USERS;
+          actualModeModifise->newChannelLimit = 0;
+        }
+        break;
+      default:
+        return MessageConstants::ResponseCode::ERR_UNKNOWNMODE;
+        break;
       }
-      break;
     }
   }
-
-  // モードフラグを更新
-  if (modeFlags != newModeFlags) {
-    channel->setModeFlags(newModeFlags);
-  }
-  if (!modeChanges.empty()) {
-    std::stringstream ss;
-    ss << Message(
-        client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
-        MessageConstants::MODE, response);
-    InmemoryClientDatabase &clientDB = InmemoryClientDBServiceLocator::get();
-    MessageStreamVector newStreams = MessageService::generateMessageToChannel(
-        &socketHandler, client, &clientDB, channel, ss.str());
-    streams.insert(streams.end(), newStreams.begin(), newStreams.end());
-    MessageStream stream = MessageService::generateMessageStream(&socketHandler, client);
-    streams.push_back(stream << ss.str());
-    logger->debugss() << "[MODE]: change mode (" << client->getSocketFd() << ")";
-  }
-  return SendMsgDTO(0, streams);
+  return 0;
 }
 
-SendMsgDTO
-Mode::_handleUserMode(ISocketHandler &socketHandler, InmemoryChannelDatabase &channelDB) {
+SendMsgDTO Mode::_handleUserMode(IMessageAggregateRoot *msg, IClientAggregateRoot *client) {
   MessageStreamVector streams;
-  (void)socketHandler;
-  (void)channelDB;
+  (void)msg;
+  (void)client;
   // ユーザーモード処理の実装
-
   return SendMsgDTO(0, streams);
-}
-
-bool Mode::_is_channelOperator(IChannelAggregateRoot *channel, const std::string &nickname) const {
-  if (channel == NULL)
-    return false;
-  return channel->isOperator(nickname);
 }
