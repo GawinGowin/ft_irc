@@ -35,6 +35,8 @@ const std::string Channel::getMaxUsers() const {
 
 const std::string &Channel::getKey() const { return this->_key; }
 
+void Channel::setKey(const std::string key) { this->_key = key; }
+
 void Channel::setModeFlags(int modeFlags) { this->_modeFlags = modeFlags; }
 
 void Channel::setMaxUsers(unsigned long maxusers) { this->_maxusers = maxusers; }

@@ -15,6 +15,7 @@ public:
   MOCK_METHOD(const std::string, getMaxUsers, (), (const, override));
   MOCK_METHOD(const std::string &, getKey, (), (const, override));
 
+  MOCK_METHOD(void, setKey, (const std::string key), (override));
   MOCK_METHOD(void, setModeFlags, (int modeFlags), (override));
   MOCK_METHOD(void, setMaxUsers, (unsigned long maxusers), (override));
 

@@ -23,7 +23,7 @@ public:
   const std::string getMaxUsers() const;
 
   const std::string &getKey() const;
-
+  void setKey(const std::string key);
   void setModeFlags(int modeFlags);
   void setMaxUsers(unsigned long maxusers);
 
