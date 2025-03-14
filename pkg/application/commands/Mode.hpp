@@ -22,6 +22,8 @@ public:
     int newChannelLimit;
     std::set<std::string> newOperators;
     std::set<std::string> removedOperators;
+
+    std::string modeChangeResponse;
   };
 
   Mode(IMessageAggregateRoot *msg, IClientAggregateRoot *client);
