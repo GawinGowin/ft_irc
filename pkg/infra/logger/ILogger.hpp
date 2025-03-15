@@ -67,24 +67,31 @@ public:
  * @details ログレベルに応じて適切な仮想関数を呼び出します。
  */
   virtual void log(LogLevel level, const std::string &msg) {
+    std::string sanitizedMsg = msg;
+    if (!sanitizedMsg.empty()) {
+      size_t pos = sanitizedMsg.find_last_not_of("\r\n");
+      if (pos != std::string::npos) {
+        sanitizedMsg.erase(pos + 1);
+      }
+    }
     switch (level) {
     case TRACE:
-      this->trace(msg);
+      this->trace(sanitizedMsg);
       break;
     case DEBUG:
-      this->debug(msg);
+      this->debug(sanitizedMsg);
       break;
     case INFO:
-      this->info(msg);
+      this->info(sanitizedMsg);
       break;
     case WARNING:
-      this->warning(msg);
+      this->warning(sanitizedMsg);
       break;
     case ERROR:
-      this->error(msg);
+      this->error(sanitizedMsg);
       break;
     case FATAL:
-      this->fatal(msg);
+      this->fatal(sanitizedMsg);
       break;
     }
   }
