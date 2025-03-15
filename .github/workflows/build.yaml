@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main"]
   pull_request:
-    branches: ["main", "ci/**", "103-e2e"]
+    branches: ["main", "ci/**"]
   workflow_dispatch:
 
 jobs:
