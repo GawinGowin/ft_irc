@@ -18,16 +18,16 @@ COPY --from=base /usr/local/include/ /usr/local/include/
 COPY --from=base /usr/local/lib/ /usr/local/lib/
 
 RUN set -x; \
-	apt-get update && apt-get install -y --no-install-recommends \
+  apt-get update && apt-get install -y --no-install-recommends \
   git \
   ca-certificates \
   curl \
   gpg \
-	build-essential \
-	lcov \
+  build-essential \
+  lcov \
   clang-format \
-	cmake ; \
-	rm -rf /var/lib/apt/lists/*
+  cmake ; \
+  rm -rf /var/lib/apt/lists/*
 
 WORKDIR /repo
 COPY . /repo

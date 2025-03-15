@@ -27,9 +27,15 @@ const time_t &Channel::getCreationTime() const { return this->_creation_time; }
 
 const std::string &Channel::getTopic() const { return this->_topic.getTopic(); }
 
-const unsigned long &Channel::getMaxUsers() const { return this->_maxusers; }
+const std::string Channel::getMaxUsers() const {
+  std::stringstream ss;
+  ss << this->_maxusers;
+  return ss.str();
+}
 
 const std::string &Channel::getKey() const { return this->_key; }
+
+void Channel::setKey(const std::string key) { this->_key = key; }
 
 void Channel::setModeFlags(int modeFlags) { this->_modeFlags = modeFlags; }
 

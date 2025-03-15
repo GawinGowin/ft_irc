@@ -11,9 +11,11 @@
 class IChannelAggregateRoot {
 public:
   enum ChannelMode {
-    MODE_INVITE_ONLY = 1 << 0,
-    MODE_KEY_PROTECTED = 1 << 1,
-    MODE_LIMIT_USERS = 1 << 2,
+    MODE_INVITE_ONLY = 1 << 0,      // +i, no args
+    MODE_TOPIC_RESTRICTED = 1 << 1, // +t, no args
+    MODE_KEY_PROTECTED = 1 << 2,    // +k, arg: key
+    MODE_LIMIT_USERS = 1 << 3,      // +l, arg: limit
+    MODE_CHANNEL_OPERATOR = 1 << 4, // +o, arg: nickname
   };
 
   virtual ~IChannelAggregateRoot(){};
@@ -23,9 +25,10 @@ public:
   virtual const int &getModeFlags() const = 0;
   virtual const time_t &getCreationTime() const = 0;
   virtual const std::string &getTopic() const = 0;
-  virtual const unsigned long &getMaxUsers() const = 0;
+  virtual const std::string getMaxUsers() const = 0;
   virtual const std::string &getKey() const = 0;
 
+  virtual void setKey(const std::string key) = 0;
   virtual void setModeFlags(int modeFlags) = 0;
   virtual void setMaxUsers(unsigned long maxusers) = 0;
 

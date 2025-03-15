@@ -20,10 +20,10 @@ public:
   const int &getModeFlags() const;
   const time_t &getCreationTime() const;
   const std::string &getTopic() const;
-  const unsigned long &getMaxUsers() const;
+  const std::string getMaxUsers() const;
 
   const std::string &getKey() const;
-
+  void setKey(const std::string key);
   void setModeFlags(int modeFlags);
   void setMaxUsers(unsigned long maxusers);
 
