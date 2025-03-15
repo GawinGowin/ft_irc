@@ -20,12 +20,7 @@
   "C/C++ Include Guard.Path Skip": 0,
   "C/C++ Include Guard.Remove Extension": false,
   "C/C++ Include Guard.Spaces After Endif": 1,
-  "C/C++ Include Guard.Header Extensions": [
-    ".h",
-    ".hpp",
-    ".h++",
-    ".hh"
-  ],
+  "C/C++ Include Guard.Header Extensions": [".h", ".hpp", ".h++", ".hh"],
   "files.associations": {
     "iosfwd": "cpp",
     "variant": "cpp",
@@ -96,5 +91,9 @@
     "numbers": "cpp",
     "semaphore": "cpp"
   },
-
+  "python.testing.pytestArgs": [
+    "tools"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }
