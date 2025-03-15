@@ -2,8 +2,9 @@ name: Docker image Build and Push
 
 on:
   push:
-    tags:
-      - "v*.*"
+    branches: ["main"]
+  pull_request:
+    branches: ["main", "ci/**", "103-e2e"]
   workflow_dispatch:
 
 jobs:
@@ -28,6 +29,8 @@ jobs:
         password: ${{ secrets.PUSH_KEY }}
     - name: Build the Docker image
       run: |
-        docker build --target release --file Dockerfile --tag $IMAGE_NAME:${{ steps.var.outputs.SHORT_SHA }} .
+        docker build --target release --file Dockerfile --tag $IMAGE_NAME:${{ steps.var.outputs.SHORT_SHA }} --tag $IMAGE_NAME:latest .
     - name: Push the Docker image
-      run: docker push $IMAGE_NAME:${{ steps.var.outputs.SHORT_SHA }}
+      run: |
+        docker push $IMAGE_NAME:${{ steps.var.outputs.SHORT_SHA }}
+        docker push $IMAGE_NAME:latest
