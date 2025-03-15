@@ -11,3 +11,15 @@ services:
     ports:
       - 6667:6667
     restart: unless-stopped
+
+  ft_irc:
+    image: ghcr.io/gawingowin/ft_irc:latest
+    container_name: ft_irc
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Tokyo
+    ports:
+      - 6668:6668
+    command: ["6668", "password"]
+    restart: unless-stopped
