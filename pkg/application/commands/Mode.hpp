@@ -23,7 +23,8 @@ public:
     std::set<std::string> newOperators;
     std::set<std::string> removedOperators;
 
-    std::string modeChangeResponse;
+    std::string ChangedFlags;
+    std::string ChangedParams;
   };
 
   Mode(IMessageAggregateRoot *msg, IClientAggregateRoot *client);

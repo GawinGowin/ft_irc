@@ -127,9 +127,7 @@ SendMsgDTO Mode::_handleChannelMode(IMessageAggregateRoot *msg, IClientAggregate
       break;
     }
     streams.push_back(stream);
-    this->_logger->debugss() << "[MODE]: invalid mode parameter (fd:" << client->getSocketFd()
-                             << ")";
-    return SendMsgDTO(1, streams);
+    this->_logger->debugss() << "[MODE]: invalid parameter (fd:" << client->getSocketFd() << ")";
   }
 
   const int &newFlags = actualModeModifise.modeFlags;
@@ -154,7 +152,8 @@ SendMsgDTO Mode::_handleChannelMode(IMessageAggregateRoot *msg, IClientAggregate
 
   channel->setModeFlags(newFlags);
 
-  const std::string &modeChangesResponse = actualModeModifise.modeChangeResponse;
+  const std::string modeChangesResponse =
+      actualModeModifise.ChangedFlags + " " + actualModeModifise.ChangedParams;
   // メッセージを生成して送信
   std::stringstream ss;
   ss << Message(
@@ -193,26 +192,26 @@ inline static int is_valid_limits_arg(std::string limitStr, int *value) {
 }
 
 int Mode::_parseAndProcessChannelMode(
-    ModeChanges *actualModeModifise,
-    IChannelAggregateRoot *channel,
-    const std::vector<std::string> &modeArgs) {
-  int modeFlags = channel->getModeFlags();
-  actualModeModifise->modeFlags = modeFlags;
-  actualModeModifise->newChannelKey = channel->getKey();
+    ModeChanges *mod, IChannelAggregateRoot *channel, const std::vector<std::string> &modeArgs) {
+  mod->modeFlags = channel->getModeFlags();
+  mod->newChannelKey = channel->getKey();
 
   // 0 <= getMaxUsers <= 65534
-  actualModeModifise->newChannelLimit = std::atoi(channel->getMaxUsers().c_str());
+  mod->newChannelLimit = std::atoi(channel->getMaxUsers().c_str());
 
-  std::string modePlus = "+";
-  std::string modeMinus = "-";
-  std::string modeParamsStr = "";
+  mod->ChangedFlags = "";
+  mod->ChangedParams = "";
   std::vector<std::string>::const_iterator it;
-  for (it = modeArgs.begin(); it != modeArgs.end(); ++it) {
-    bool isAdd = true;
-    if (it->length() == 1 && it->at(0) == '+') {
+  bool isAdd = true;
+  for (it = modeArgs.begin() + 1; it != modeArgs.end(); ++it) {
+    if (it->length() == 1 && it->at(0) == '+' && !isAdd) {
+      if (mod->ChangedFlags.empty())
+        mod->ChangedFlags += "+";
       isAdd = true;
       continue;
-    } else if (it->length() == 1 && it->at(0) == '-') {
+    } else if (it->length() == 1 && it->at(0) == '-' && isAdd) {
+      if (mod->ChangedFlags.empty())
+        mod->ChangedFlags += "-";
       isAdd = false;
       continue;
     }
@@ -221,40 +220,44 @@ int Mode::_parseAndProcessChannelMode(
       char c = it->at(i);
       switch (c) {
       case '+':
+        if (!isAdd || mod->ChangedFlags.empty())
+          mod->ChangedFlags += "+";
         isAdd = true;
-        break;
+        continue;
       case '-':
+        if (isAdd || mod->ChangedFlags.empty())
+          mod->ChangedFlags += "-";
         isAdd = false;
-        break;
+        continue;
       case 'i': // invite-only
-        if (isAdd) {
-          actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_INVITE_ONLY;
-          modePlus += "i";
-        } else {
-          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_INVITE_ONLY;
-          modeMinus += "i";
+        if (isAdd && !(mod->modeFlags & IChannelAggregateRoot::MODE_INVITE_ONLY)) {
+          mod->modeFlags |= IChannelAggregateRoot::MODE_INVITE_ONLY;
+          mod->ChangedFlags += "i";
+        } else if (!isAdd && (mod->modeFlags & IChannelAggregateRoot::MODE_INVITE_ONLY)) {
+          mod->modeFlags &= ~IChannelAggregateRoot::MODE_INVITE_ONLY;
+          mod->ChangedFlags += "i";
         }
         break;
       case 't': // topic制限
-        if (isAdd) {
-          actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_TOPIC_RESTRICTED;
-          modePlus += "t";
-        } else {
-          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_TOPIC_RESTRICTED;
-          modeMinus += "t";
+        if (isAdd && !(mod->modeFlags & IChannelAggregateRoot::MODE_TOPIC_RESTRICTED)) {
+          mod->modeFlags |= IChannelAggregateRoot::MODE_TOPIC_RESTRICTED;
+          mod->ChangedFlags += "t";
+        } else if (!isAdd && (mod->modeFlags & IChannelAggregateRoot::MODE_TOPIC_RESTRICTED)) {
+          mod->modeFlags &= ~IChannelAggregateRoot::MODE_TOPIC_RESTRICTED;
+          mod->ChangedFlags += "t";
         }
         break;
       case 'k': // キー（パスワード）
         if (isAdd && it + 1 != modeArgs.end()) {
           const std::string &key = *(++it);
-          actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_KEY_PROTECTED;
-          actualModeModifise->newChannelKey = key;
-          modePlus += "k";
-          modeParamsStr += " " + key;
+          mod->modeFlags |= IChannelAggregateRoot::MODE_KEY_PROTECTED;
+          mod->newChannelKey = key;
+          mod->ChangedFlags += "k";
+          mod->ChangedParams += " " + key;
         } else if (!isAdd) {
-          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_KEY_PROTECTED;
-          actualModeModifise->newChannelKey = "";
-          modeMinus += "k";
+          mod->modeFlags &= ~IChannelAggregateRoot::MODE_KEY_PROTECTED;
+          mod->newChannelKey = "";
+          mod->ChangedFlags += "k";
         } else {
           return MessageConstants::ResponseCode::ERR_INVALIDMODEPARAM;
         }
@@ -266,16 +269,19 @@ int Mode::_parseAndProcessChannelMode(
           if (ret != 0) {
             return ret;
           }
-          if (isAdd) {
-            actualModeModifise->newOperators.insert(targetNick);
-            actualModeModifise->removedOperators.erase(targetNick);
-            modePlus += "o";
-          } else {
-            actualModeModifise->newOperators.erase(targetNick);
-            actualModeModifise->removedOperators.insert(targetNick);
-            modeMinus += "o";
+          if (isAdd && mod->newOperators.find(targetNick) == mod->newOperators.end()) {
+            mod->newOperators.insert(targetNick);
+            mod->removedOperators.erase(targetNick);
+            mod->ChangedFlags += "o";
+            mod->ChangedParams += " " + targetNick;
+
+          } else if (
+              !isAdd && mod->removedOperators.find(targetNick) != mod->removedOperators.end()) {
+            mod->newOperators.erase(targetNick);
+            mod->removedOperators.insert(targetNick);
+            mod->ChangedFlags += "o";
+            mod->ChangedParams += " " + targetNick;
           }
-          modeParamsStr += " " + targetNick;
         }
         break;
       case 'l': // ユーザー数制限
@@ -287,15 +293,15 @@ int Mode::_parseAndProcessChannelMode(
             if (ret != 0) {
               return ret;
             }
-            actualModeModifise->modeFlags |= IChannelAggregateRoot::MODE_LIMIT_USERS;
-            actualModeModifise->newChannelLimit = limitValue;
-            modePlus += "l";
-            modeParamsStr += " " + limitStr;
+            mod->modeFlags |= IChannelAggregateRoot::MODE_LIMIT_USERS;
+            mod->newChannelLimit = limitValue;
+            mod->ChangedFlags += "l";
+            mod->ChangedParams += " " + limitStr;
           }
         } else {
-          actualModeModifise->modeFlags &= ~IChannelAggregateRoot::MODE_LIMIT_USERS;
-          actualModeModifise->newChannelLimit = 0;
-          modeMinus += "l";
+          mod->modeFlags &= ~IChannelAggregateRoot::MODE_LIMIT_USERS;
+          mod->newChannelLimit = 0;
+          mod->ChangedFlags += "l";
         }
         break;
       default:
@@ -303,8 +309,8 @@ int Mode::_parseAndProcessChannelMode(
         break;
       }
     }
+    isAdd = true;
   }
-  actualModeModifise->modeChangeResponse = modePlus + modeMinus + modeParamsStr;
   return 0;
 }
 
