@@ -34,7 +34,7 @@ COPY . /repo
 
 RUN make
 
-FROM debian:12.9-slim AS release
+FROM gcr.io/distroless/cc-debian12 AS release
 ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --from=build /repo/ft_irc /usr/local/bin/ft_irc
