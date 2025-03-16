@@ -14,7 +14,7 @@ TESTS =
 TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
 
 CXX := c++
-CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
+CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR) -O3
 LFALGS := 
 DFLAGS := -fdiagnostics-color=always -g3 -fsanitize=address
 
