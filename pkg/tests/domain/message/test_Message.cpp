@@ -86,11 +86,7 @@ TEST(MessageTest, AssignmentOperatorWithNumericResponse) {
 TEST(MessageTest, AssignmentOperatorSelfAssignment) {
   Message message("nick!user@host", MessageConstants::PRIVMSG, "target :Hello world!");
   
-  // 自己代入のテスト - コンパイラ警告を抑制
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wself-assign-overloaded"
   message = message; // 自己代入
-#pragma GCC diagnostic pop
 
   EXPECT_EQ(message.getPrefix(), ":nick!user@host");
   EXPECT_EQ(message.getCommand(), MessageConstants::PRIVMSG);
