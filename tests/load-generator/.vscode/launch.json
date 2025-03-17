@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run current locust scenario, autostart",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "locust",
+      "args": [],
+      "env": {
+        "FT_IRC_HOST": "host.docker.internal",
+        "FT_IRC_PORT": "6668",
+        "FT_IRC_PASSWORD": "password",
+        "LOCUST_AUTOSTART": "true",
+        "LOCUST_HEADLESS": "false"
+      },
+      "console": "integratedTerminal",
+      "gevent": true
+    }
+  ]
+}
