@@ -8,7 +8,7 @@
 class MockChannelAggregateRoot : public IChannelAggregateRoot {
 public:
   MOCK_METHOD(const std::string &, getName, (), (const, override));
-  MOCK_METHOD(const JenkinsHash &, getId, (), (const, override));
+  MOCK_METHOD(const IHashAggregateRoot &, getId, (), (const, override));
   MOCK_METHOD(const int &, getModeFlags, (), (const, override));
   MOCK_METHOD(const time_t &, getCreationTime, (), (const, override));
   MOCK_METHOD(const std::string &, getTopic, (), (const, override));
@@ -17,6 +17,7 @@ public:
 
   MOCK_METHOD(void, setModeFlags, (int modeFlags), (override));
   MOCK_METHOD(void, setMaxUsers, (unsigned long maxusers), (override));
+  MOCK_METHOD(void, updateTopic, (const std::string &topic, const std::string &who), (override));
 
   MOCK_METHOD(IChannelAggregateRoot *, clone, (), (const, override));
 
@@ -54,8 +55,8 @@ TEST_F(InmemoryChannelDatabaseTest, AddAndList) {
   EXPECT_CALL(this->mockChannel, getName()).WillRepeatedly(::testing::ReturnRef(this->channelName));
   EXPECT_CALL(*copyChannel, getName()).WillRepeatedly(::testing::ReturnRef(this->channelName));
 
-  EXPECT_CALL(this->mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
-  EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
+  EXPECT_CALL(this->mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(id)));
+  EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(id)));
   EXPECT_CALL(this->mockChannel, clone()).WillRepeatedly(::testing::Return(copyChannel));
 
   this->database.add(this->mockChannel);
@@ -76,10 +77,10 @@ TEST_F(InmemoryChannelDatabaseTest, UpdateChannel) {
   JenkinsHash id(this->channelName);
 
   EXPECT_CALL(this->mockChannel, getName()).WillRepeatedly(::testing::ReturnRef(this->channelName));
-  EXPECT_CALL(this->mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
+  EXPECT_CALL(this->mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(id)));
   EXPECT_CALL(this->mockChannel, clone()).WillRepeatedly(::testing::Return(copyChannel));
   EXPECT_CALL(*copyChannel, getName()).WillRepeatedly(::testing::ReturnRef(this->channelName));
-  EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
+  EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(id)));
 
   MockChannelAggregateRoot mockChannelNew;
   std::string channelNameNew = "#NewChannelName";
@@ -88,10 +89,10 @@ TEST_F(InmemoryChannelDatabaseTest, UpdateChannel) {
   JenkinsHash idNew(channelNameNew);
 
   EXPECT_CALL(mockChannelNew, getName()).WillRepeatedly(::testing::ReturnRef(channelNameNew));
-  EXPECT_CALL(mockChannelNew, getId()).WillRepeatedly(::testing::ReturnRef(idNew));
+  EXPECT_CALL(mockChannelNew, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(idNew)));
   EXPECT_CALL(mockChannelNew, clone()).WillRepeatedly(::testing::Return(copyNewChannel));
   EXPECT_CALL(*copyNewChannel, getName()).WillRepeatedly(::testing::ReturnRef(channelNameNew));
-  EXPECT_CALL(*copyNewChannel, getId()).WillRepeatedly(::testing::ReturnRef(idNew));
+  EXPECT_CALL(*copyNewChannel, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(idNew)));
 
   // データベースに追加
   database.add(this->mockChannel);
@@ -115,10 +116,10 @@ TEST_F(InmemoryChannelDatabaseTest, RemoveChannel) {
     copyChannel = new MockChannelAggregateRoot();
 
     EXPECT_CALL(mockChannel, getName()).WillRepeatedly(::testing::ReturnRef(channelName));
-    EXPECT_CALL(mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
+    EXPECT_CALL(mockChannel, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(id)));
     EXPECT_CALL(mockChannel, clone()).WillRepeatedly(::testing::Return(copyChannel));
     EXPECT_CALL(*copyChannel, getName()).WillRepeatedly(::testing::ReturnRef(channelName));
-    EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(id));
+    EXPECT_CALL(*copyChannel, getId()).WillRepeatedly(::testing::ReturnRef(static_cast<const IHashAggregateRoot &>(id)));
 
     database.add(mockChannel);
     database.remove(channelName);
