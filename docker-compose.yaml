@@ -29,7 +29,7 @@ services:
     container_name: load-generator
     build:
       context: .
-      dockerfile: e2e/Dockerfile
+      dockerfile: tests/load-generator/Dockerfile
     restart: unless-stopped
     ports:
       - "${LOCUST_WEB_PORT}"
