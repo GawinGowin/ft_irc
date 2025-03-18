@@ -1,6 +1,6 @@
 #include "application/dto/StartServerDTO.hpp"
-#include "application/useCases/StartServerUseCase.hpp"
 #include "application/serviceLocator/ConfigsServiceLocator.hpp"
+#include "application/useCases/StartServerUseCase.hpp"
 #include "domain/configs/Configs.hpp"
 
 #include <gtest/gtest.h>
@@ -12,10 +12,10 @@ char *argv[] = {(char *)"./ft_irc", (char *)"8080", (char *)"password", nullptr}
 void setupTestConfigs() {
   ConfigsLoader &loader = ConfigsServiceLocator::get();
   Configs configs = loader.getConfigs(); // 現在の設定をコピー
-  
+
   configs.Limits.MaxConnections = 10;
   configs.Limits.MaxBufferSize = 1024;
-  
+
   loader.setConfigs(configs);
 }
 

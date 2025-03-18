@@ -2,12 +2,12 @@
 #define TOPIC_HPP
 
 #include "application/commands/ACommands.hpp"
-#include "application/serviceLocator/LoggerServiceLocator.hpp"
+#include "application/dto/SendMsgDTO.hpp"
 #include "application/serviceLocator/InmemoryChannelDBServiceLocator.hpp"
+#include "application/serviceLocator/LoggerServiceLocator.hpp"
+#include "domain/channel/IChannelAggregateRoot.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
-#include "domain/channel/IChannelAggregateRoot.hpp"
-#include "application/dto/SendMsgDTO.hpp"
 
 class Topic : public ACommands {
 public:
