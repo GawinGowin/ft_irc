@@ -6,7 +6,9 @@
       "type": "debugpy",
       "request": "launch",
       "module": "locust",
-      "args": [],
+      "args": [
+        "--headless"
+      ],
       "env": {
         "FT_IRC_HOST": "host.docker.internal",
         "FT_IRC_PORT": "6668",
