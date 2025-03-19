@@ -1,10 +1,12 @@
 #include "domain/client/Client.hpp"
 
-Client::Client() : _id(0), _nickName(""), _userName(""), _password(Password()), _connectionInfo(), _clientType(CLIENT_UNKNOWN) {}
+Client::Client()
+    : _id(0), _nickName(""), _userName(""), _password(Password()), _connectionInfo(),
+      _clientType(CLIENT_UNKNOWN) {}
 
 Client::Client(std::string addr, pollfd pollfd)
     : _id(0), _nickName(""), _userName(""), _password(Password()),
-      _connectionInfo(ConnectionInfo(addr, pollfd)), _clientType(CLIENT_UNKNOWN)  {}
+      _connectionInfo(ConnectionInfo(addr, pollfd)), _clientType(CLIENT_UNKNOWN) {}
 
 Client::~Client() {}
 
@@ -29,7 +31,8 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
   }
   return this->_id == otherClient->_id && this->_nickName == otherClient->_nickName &&
          this->_userName == otherClient->_userName && this->_password == otherClient->_password &&
-         this->_connectionInfo == otherClient->_connectionInfo && this->_clientType == otherClient->_clientType;
+         this->_connectionInfo == otherClient->_connectionInfo &&
+         this->_clientType == otherClient->_clientType;
 }
 
 Client *Client::clone() const { return new Client(*this); }
