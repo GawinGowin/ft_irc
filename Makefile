@@ -14,7 +14,7 @@ TESTS =
 TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
 
 CXX := c++
-CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR) -O3
+CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
 LFALGS := 
 DFLAGS := -fdiagnostics-color=always -g3 -fsanitize=address
 
@@ -30,7 +30,7 @@ TEST_LOG = build/pkg/tests/Testing/Temporary/LastTest.log
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CFLAGS) $^ $(LFALGS) -o $@
+	$(CXX) $(CFLAGS) -O3 $^ $(LFALGS) -o $@
 
 .PHONY: debug
 debug: $(DNAME)
