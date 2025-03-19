@@ -1,35 +1,22 @@
 #include "application/commands/Nick.hpp"
 
-Nick::Nick() : ACommands() {}
-
 Nick::Nick(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
-Nick::~Nick() {}
-
-Nick::Nick(const Nick &obj) : ACommands(obj) {}
-
-Nick &Nick::operator=(const Nick &obj) {
-  if (this == &obj) {
-    return (*this);
-  }
-  ACommands::operator=(obj);
-  return (*this);
-}
-
 SendMsgDTO Nick::execute() {
-  SendMsgDTO dto;
-  IMessageAggregateRoot &message = *getMessage();
+  IMessageAggregateRoot *msg = this->getMessage();
+  IClientAggregateRoot *client = this->getClient();
+  MessageStreamVector messageStreams;
+  MessageStream stream =
+      MessageService::generateMessageStream(&SocketHandlerServiceLocator::get(), client);
 
-  if (message.getParams().size() != 1) {
-    dto.setStatus(1);
-    return (dto);
+  const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
+
+  if (msg->getParams().size() != 1) {
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* :Syntax error");
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
   }
-
-  _setNickName(message.getParams().at(0));
-  return (dto);
-}
-
-void Nick::_setNickName(std::string nick) {
-  IClientAggregateRoot &client = *getClient();
-  client.setNickName(nick);
+  client->setNickName(msg->getParams()[0]);
+  return SendMsgDTO(0, messageStreams);
 }
