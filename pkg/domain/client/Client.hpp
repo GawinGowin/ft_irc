@@ -34,13 +34,16 @@ public:
   void setNickName(const std::string &nickName);
   int setPassword(const std::string &password);
 
+  int getClientType();
+  void setClientType(int clientType);
+
 private:
   int _id;
   std::string _nickName;
   std::string _userName;
   Password _password;
-
   ConnectionInfo _connectionInfo;
+  int _clientType;
 };
 
 #endif /* CLIENT_HPP */
