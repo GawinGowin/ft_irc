@@ -2,19 +2,17 @@
 #define NICK_HPP
 
 #include "application/commands/ACommands.hpp"
+#include "application/serviceLocator/ConfigsServiceLocator.hpp"
+#include "application/serviceLocator/LoggerServiceLocator.hpp"
+#include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
+#include "domain/client/IClientAggregateRoot.hpp"
+#include "domain/message/IMessageAggregateRoot.hpp"
+#include "domain/message/MessageService.hpp"
 
 class Nick : public ACommands {
 public:
-  Nick();
   Nick(IMessageAggregateRoot *msg, IClientAggregateRoot *client);
-  ~Nick();
-  Nick(const Nick &obj);
-  Nick &operator=(const Nick &obj);
-
   SendMsgDTO execute();
-
-private:
-  void _setNickName(std::string nick);
 };
 
 #endif /* NICK_HPP */

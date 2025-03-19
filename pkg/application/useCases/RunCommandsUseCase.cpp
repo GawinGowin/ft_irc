@@ -16,8 +16,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     dto = Pass(&clientMsg, client).execute();
     break;
   case (MessageConstants::NICK): {
-    Nick nick(&clientMsg, client);
-    dto = nick.execute();
+    dto = Nick(&clientMsg, client).execute();
     break;
   }
   case (MessageConstants::USER):
