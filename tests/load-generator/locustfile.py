@@ -72,7 +72,7 @@ class IRCUser(User):
         
     def on_start(self):
         # ft_irc接続
-        host = os.getenv('FT_IRC_HOST', 'ft_irc')
+        host = os.getenv('FT_IRC_HOST', 'localhost')
         port = int(os.getenv('FT_IRC_PORT', 6668))
         password = os.getenv('IRC_PASSWORD', 'password')
         

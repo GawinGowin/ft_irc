@@ -5,7 +5,7 @@ RUN apt-get -qq update \
     && apt-get install -y --no-install-recommends g++ \
     && rm -rf /var/lib/apt/lists/*
 
-COPY e2e/requirements.txt .
+COPY tests/load-generator/requirements.txt .
 RUN pip install --prefix="/reqs" -r requirements.txt
 
 FROM base
@@ -14,6 +14,6 @@ COPY --from=builder /reqs /usr/local
 ENV PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers
 RUN playwright install --with-deps chromium
 
-COPY e2e/locustfile.py .
+COPY tests/load-generator/locustfile.py .
 
 ENTRYPOINT ["locust", "--skip-log-setup"]
