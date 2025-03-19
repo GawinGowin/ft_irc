@@ -50,19 +50,8 @@ target_include_directories(InfrastructureTest PRIVATE
   ${gtest_SOURCE_DIR}
 )
 
-# ..:: PresentationTest ::..
-# add_executable(PresentationTest 
-#  ${CMAKE_CURRENT_SOURCE_DIR}/presentation/test_main.cpp
-#  ${CMAKE_CURRENT_SOURCE_DIR}/presentation/test_entrypoint.cpp
-# )
-# target_link_libraries(PresentationTest testftirc gtest_main gmock_main)
-# target_include_directories(PresentationTest PRIVATE 
-#   ${CMAKE_SOURCE_DIR}/pkg
-#   ${gtest_SOURCE_DIR}
-# )
-
 # ..:: GoogleTest ::..
 gtest_add_tests(TARGET DomainTest)
 gtest_add_tests(TARGET ApplicationTest)
 gtest_add_tests(TARGET InfrastructureTest)
-# gtest_add_tests(TARGET PresentationTest)
+
