@@ -47,14 +47,5 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   default:
     break;
   }
-  if (clientMsg.getCommand() == MessageConstants::NICK ||
-      clientMsg.getCommand() == MessageConstants::USER) {
-    if (client->getClientType() == CLIENT_USER) {
-      logger->trace("welcome"); // 仮置き
-    } else if (client->getClientType() == CLIENT_NONPASS) {
-      // ERROR :Closing connection: sya[~g@172.18.0.1] (Access denied: Bad password?)
-      logger->trace("disconnect");
-    }
-  }
   return (dto);
 }

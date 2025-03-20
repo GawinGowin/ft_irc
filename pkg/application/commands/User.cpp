@@ -22,7 +22,7 @@ SendMsgDTO User::execute() {
     }
     if (checkUserName(msg->getParams()[0])) {
       // ERROR :Closing connection: *[~@172.18.0.1] (Invalid user name)
-      // 接続終了(remove)
+      client->setClientType(CLIENT_DISCONNECT);
       return SendMsgDTO(1, messageStreams);
     }
     // @が含まれてたらそれ以降切り捨て
@@ -38,8 +38,15 @@ SendMsgDTO User::execute() {
     }
     
     client->setClientType(CLIENT_GOTUSER);
+    if (client->getClientType() == CLIENT_LOGIN) {
+      client->setClientType(CLIENT_USER);
+    } else if (client->getClientType() == CLIENT_NONPASS) {
+      // ERROR :Closing connection: sya[~g@172.18.0.1] (Access denied: Bad password?)
+      client->setClientType(CLIENT_DISCONNECT);
+      return SendMsgDTO(1, messageStreams);
+    }
     return SendMsgDTO(0, messageStreams);
-  } else if (client->getClientType() == CLIENT_USER) {
+  } else if (client->getClientType() & CLIENT_USER) {
     stream << Message(serverName, MessageConstants::ResponseCode::ERR_ALREADYREGISTRED,
                       "* :Connection already registered");
     messageStreams.push_back(stream);

@@ -19,5 +19,12 @@ SendMsgDTO Nick::execute() {
   }
   client->setNickName(msg->getParams()[0]);
   client->setClientType(CLIENT_GOTNICK);
+  if (client->getClientType() == CLIENT_LOGIN) {
+    client->setClientType(CLIENT_USER);
+  } else if (client->getClientType() == CLIENT_NONPASS) {
+    // ERROR :Closing connection: sya[~g@172.18.0.1] (Access denied: Bad password?)
+    client->setClientType(CLIENT_DISCONNECT);
+    return SendMsgDTO(1, messageStreams);
+  }
   return SendMsgDTO(0, messageStreams);
 }

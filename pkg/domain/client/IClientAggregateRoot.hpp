@@ -8,8 +8,10 @@
 #define CLIENT_GOTPASS 0x0002 // PASS入力済
 #define CLIENT_GOTNICK 0x0004 // NICK入力済
 #define CLIENT_GOTUSER 0x0008 // USER入力済
-#define CLIENT_USER 0x000F    // USER登録済
+#define CLIENT_LOGIN 0x000F    // PASS+NICK+USERでログイン前
 #define CLIENT_NONPASS 0x000D // PASS未入力でNICK/USER入力済
+#define CLIENT_USER 0x0010 // LOGIN済user
+#define CLIENT_DISCONNECT 0x0020 // 切断
 
 class IClientAggregateRoot {
 public:

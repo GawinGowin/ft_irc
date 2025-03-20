@@ -46,6 +46,7 @@ void entrypoint(int argc, char **argv) {
       }
       sendMsgDto = RunCommandsUseCase::execute(recievedMsgDto);
       SendMsgFromServerUseCase::send(sendMsgDto);
+      // CLIENT_DISCONNECTだったらsendでエラー送ったあとremove
       break;
     case MonitorSocketEventDTO::Error:
       logger->fatal("Failed to monitor socket events");
