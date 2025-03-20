@@ -26,11 +26,13 @@ public:
   virtual const int &getSocketFd() const = 0;
   virtual const pollfd &getPollfd() const = 0;
   virtual const std::string &getAddress() const = 0;
+  virtual const std::string &getRealName() const = 0;
 
   virtual void setId(const std::string &id) = 0;
   virtual void setUserName(const std::string &userName) = 0;
   virtual void setNickName(const std::string &nickName) = 0;
   virtual int setPassword(const std::string &password) = 0;
+  virtual void setRealName(const std::string &realName) = 0;
 
   virtual int getClientType() = 0;
   virtual void setClientType(int clientType) = 0;
