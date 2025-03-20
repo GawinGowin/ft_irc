@@ -37,6 +37,7 @@ const int ERR_CANNOTSENDTOCHAN = 404;
 const int ERR_USERNOTINCHANNEL = 441;
 const int ERR_NOTONCHANNEL = 442;
 const int ERR_USERONCHANNEL = 443;
+const int ERR_NOTREGISTERED = 451;
 const int ERR_UNKNOWNMODE = 472;
 const int ERR_INVALIDMODEPARAM = 696;
 } // namespace ResponseCode

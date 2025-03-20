@@ -11,6 +11,13 @@ SendMsgDTO User::execute() {
 
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
 
+  if (client->getClientType() & CLIENT_GOTUSER && client->getClientType() != CLIENT_USER) {
+    stream << Message(serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
+                      ":Connection not registered");
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
+
   (void)msg;
   (void)stream;
   (void)serverName;
