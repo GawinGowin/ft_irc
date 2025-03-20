@@ -15,10 +15,9 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   case (MessageConstants::PASS):
     dto = Pass(&clientMsg, client).execute();
     break;
-  case (MessageConstants::NICK): {
+  case (MessageConstants::NICK):
     dto = Nick(&clientMsg, client).execute();
     break;
-  }
   case (MessageConstants::USER):
     dto = User(&clientMsg, client).execute();
     break;
@@ -47,6 +46,15 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     break;
   default:
     break;
+  }
+  if (clientMsg.getCommand() == MessageConstants::NICK ||
+      clientMsg.getCommand() == MessageConstants::USER) {
+    if (client->getClientType() == CLIENT_USER) {
+      logger->trace("welcome"); // 仮置き
+    } else if (client->getClientType() == CLIENT_NONPASS) {
+      // ERROR :Closing connection: sya[~g@172.18.0.1] (Access denied: Bad password?)
+      logger->trace("disconnect");
+    }
   }
   return (dto);
 }
