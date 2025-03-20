@@ -18,5 +18,8 @@ SendMsgDTO Nick::execute() {
     return SendMsgDTO(1, messageStreams);
   }
   client->setNickName(msg->getParams()[0]);
+  client->setClientType(CLIENT_GOTNICK);
+  // NICKまたはUSER受信後にclient->getClientType() == CLIENT_USERならログイン
+  // PASS未受信client->getClientType() == CLIENT_NONPASSなら接続失敗の旨表示
   return SendMsgDTO(0, messageStreams);
 }

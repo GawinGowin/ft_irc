@@ -11,6 +11,14 @@ SendMsgDTO Pass::execute() {
 
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
 
+  // 2回目以降のPASSまたは、NICK/USER受信後のPASS
+  if (client->getClientType() != CLIENT_UNKNOWN) {
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_ALREADYREGISTRED,
+        "* :Connection already registered");
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
   if (msg->getParams().size() != 1) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* :Syntax error");
@@ -24,5 +32,6 @@ SendMsgDTO Pass::execute() {
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
+  client->setClientType(CLIENT_GOTPASS);
   return SendMsgDTO(0, messageStreams);
 }

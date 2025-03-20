@@ -1,10 +1,12 @@
 #include "domain/client/Client.hpp"
 
-Client::Client() : _id(0), _nickName(""), _userName(""), _password(Password()), _connectionInfo() {}
+Client::Client()
+    : _id(0), _nickName(""), _userName(""), _password(Password()), _connectionInfo(),
+      _clientType(CLIENT_UNKNOWN) {}
 
 Client::Client(std::string addr, pollfd pollfd)
     : _id(0), _nickName(""), _userName(""), _password(Password()),
-      _connectionInfo(ConnectionInfo(addr, pollfd)) {}
+      _connectionInfo(ConnectionInfo(addr, pollfd)), _clientType(CLIENT_UNKNOWN) {}
 
 Client::~Client() {}
 
@@ -17,6 +19,7 @@ Client &Client::operator=(const Client &other) {
     this->_userName = other._userName;
     this->_password = other._password;
     this->_connectionInfo = other._connectionInfo;
+    this->_clientType = other._clientType;
   }
   return *this;
 }
@@ -28,7 +31,8 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
   }
   return this->_id == otherClient->_id && this->_nickName == otherClient->_nickName &&
          this->_userName == otherClient->_userName && this->_password == otherClient->_password &&
-         this->_connectionInfo == otherClient->_connectionInfo;
+         this->_connectionInfo == otherClient->_connectionInfo &&
+         this->_clientType == otherClient->_clientType;
 }
 
 Client *Client::clone() const { return new Client(*this); }
@@ -62,3 +66,7 @@ int Client::setPassword(const std::string &password) {
   }
   return 0; // password change failed
 }
+
+int Client::getClientType() { return this->_clientType; }
+
+void Client::setClientType(int clientType) { this->_clientType |= clientType; }
