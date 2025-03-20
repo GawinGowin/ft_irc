@@ -85,6 +85,7 @@ TEST(MessageTest, AssignmentOperatorWithNumericResponse) {
 
 TEST(MessageTest, AssignmentOperatorSelfAssignment) {
   Message message("nick!user@host", MessageConstants::PRIVMSG, "target :Hello world!");
+
   message = message; // 自己代入
 
   EXPECT_EQ(message.getPrefix(), ":nick!user@host");

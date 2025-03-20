@@ -26,6 +26,7 @@ public:
   void setKey(const std::string key);
   void setModeFlags(int modeFlags);
   void setMaxUsers(unsigned long maxusers);
+  void updateTopic(const std::string &topic, const std::string &who);
 
   Channel *clone() const;
 

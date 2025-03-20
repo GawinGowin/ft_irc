@@ -35,7 +35,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     dto = Invite(&clientMsg, client).execute();
     break;
   case (MessageConstants::TOPIC):
-    // dto = ..
+    dto = Topic(&clientMsg, client).execute();
     break;
   case (MessageConstants::MODE):
     dto = Mode(&clientMsg, client).execute();
