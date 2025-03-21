@@ -2,11 +2,11 @@
 
 Client::Client()
     : _id(0), _nickName(""), _userName(""), _password(Password()), _connectionInfo(),
-      _clientType(CLIENT_UNKNOWN) {}
+      _clientType(CLIENT_UNKNOWN), _realName("-") {}
 
 Client::Client(std::string addr, pollfd pollfd)
     : _id(0), _nickName(""), _userName(""), _password(Password()),
-      _connectionInfo(ConnectionInfo(addr, pollfd)), _clientType(CLIENT_UNKNOWN) {}
+      _connectionInfo(ConnectionInfo(addr, pollfd)), _clientType(CLIENT_UNKNOWN), _realName("-") {}
 
 Client::~Client() {}
 
@@ -20,6 +20,7 @@ Client &Client::operator=(const Client &other) {
     this->_password = other._password;
     this->_connectionInfo = other._connectionInfo;
     this->_clientType = other._clientType;
+    this->_realName = other._realName;
   }
   return *this;
 }
@@ -32,7 +33,7 @@ bool Client::operator==(const IClientAggregateRoot &other) const {
   return this->_id == otherClient->_id && this->_nickName == otherClient->_nickName &&
          this->_userName == otherClient->_userName && this->_password == otherClient->_password &&
          this->_connectionInfo == otherClient->_connectionInfo &&
-         this->_clientType == otherClient->_clientType;
+         this->_clientType == otherClient->_clientType && this->_realName == otherClient->_realName;
 }
 
 Client *Client::clone() const { return new Client(*this); }
@@ -53,10 +54,7 @@ const std::string &Client::getAddress() const { return this->_connectionInfo.get
 
 void Client::setId(const std::string &id) { this->_nickName = id; } // TODO: id -> nickName
 
-void Client::setNickName(const std::string &nickName) {
-  this->_nickName = nickName;
-  this->_userName = "~" + nickName;
-}
+void Client::setNickName(const std::string &nickName) { this->_nickName = nickName; }
 
 void Client::setUserName(const std::string &userName) { this->_userName = userName; }
 
@@ -70,3 +68,7 @@ int Client::setPassword(const std::string &password) {
 int Client::getClientType() { return this->_clientType; }
 
 void Client::setClientType(int clientType) { this->_clientType |= clientType; }
+
+const std::string &Client::getRealName() const { return this->_realName; }
+
+void Client::setRealName(const std::string &realName) { this->_realName = realName; }

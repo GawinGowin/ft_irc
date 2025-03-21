@@ -19,7 +19,19 @@ SendMsgDTO Nick::execute() {
   }
   client->setNickName(msg->getParams()[0]);
   client->setClientType(CLIENT_GOTNICK);
-  // NICKまたはUSER受信後にclient->getClientType() == CLIENT_USERならログイン
-  // PASS未受信client->getClientType() == CLIENT_NONPASSなら接続失敗の旨表示
+  if (client->getClientType() == CLIENT_LOGIN) {
+    client->setClientType(CLIENT_USER);
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::RPL_WELCOME,
+        client->getNickName() + " :Welcome to the Internet Relay Network " + client->getNickName() +
+            "! " + client->getUserName() + "@" + client->getAddress());
+    messageStreams.push_back(stream);
+  } else if (client->getClientType() == CLIENT_NONPASS) {
+    client->setClientType(CLIENT_DISCONNECT);
+    stream << "ERROR :Closing connection: " + client->getNickName() + "[" + client->getUserName() +
+                  "@" + client->getAddress() + "] (Access denied: Bad password?)\r\n";
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
   return SendMsgDTO(0, messageStreams);
 }

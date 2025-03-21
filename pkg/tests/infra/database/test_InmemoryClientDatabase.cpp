@@ -19,6 +19,8 @@ public:
   MOCK_METHOD(int, setPassword, (const std::string &password), ());
   MOCK_METHOD(int, getClientType, (), ());
   MOCK_METHOD(void, setClientType, (int clientType), ());
+  MOCK_METHOD(void, setRealName, (const std::string &realName), ());
+  MOCK_METHOD(const std::string &, getRealName, (), (const));
 
   bool operator==(const IClientAggregateRoot &other) const override {
     return _id == other.getId() && _pfd.fd == other.getPollfd().fd &&
