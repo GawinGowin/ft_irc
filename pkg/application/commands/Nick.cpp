@@ -21,9 +21,16 @@ SendMsgDTO Nick::execute() {
   client->setClientType(CLIENT_GOTNICK);
   if (client->getClientType() == CLIENT_LOGIN) {
     client->setClientType(CLIENT_USER);
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::RPL_WELCOME,
+        client->getNickName() + " :Welcome to the Internet Relay Network " + client->getNickName() +
+            "! " + client->getUserName() + "@" + client->getAddress());
+    messageStreams.push_back(stream);
   } else if (client->getClientType() == CLIENT_NONPASS) {
-    // ERROR :Closing connection: sya[~g@172.18.0.1] (Access denied: Bad password?)
     client->setClientType(CLIENT_DISCONNECT);
+    stream << "ERROR :Closing connection: " + client->getNickName() + "[" + client->getUserName() + "@" +
+        client->getAddress() + "] (Access denied: Bad password?)\r\n";
+    messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
   return SendMsgDTO(0, messageStreams);

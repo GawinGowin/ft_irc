@@ -56,7 +56,6 @@ void Client::setId(const std::string &id) { this->_nickName = id; } // TODO: id 
 
 void Client::setNickName(const std::string &nickName) {
   this->_nickName = nickName;
-  this->_userName = "~" + nickName;
 }
 
 void Client::setUserName(const std::string &userName) { this->_userName = userName; }

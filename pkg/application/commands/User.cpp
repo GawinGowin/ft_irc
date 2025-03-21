@@ -13,7 +13,7 @@ SendMsgDTO User::execute() {
 
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
 
-  if ((client->getClientType() & CLIENT_GOTNICK || client->getClientType() & CLIENT_GOTPASS) && !(client->getClientType() & CLIENT_GOTUSER)) {
+  if (!(client->getClientType() & CLIENT_GOTUSER)) {
     if (msg->getParams().size() != 4) {
       stream << Message(
           serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* :Syntax error");
@@ -21,8 +21,9 @@ SendMsgDTO User::execute() {
       return SendMsgDTO(1, messageStreams);
     }
     if (checkUserName(msg->getParams()[0])) {
-      // ERROR :Closing connection: *[~@172.18.0.1] (Invalid user name)
       client->setClientType(CLIENT_DISCONNECT);
+      stream << "ERROR :Closing connection: *[@" + client->getAddress() + "] (Invalid user name)\r\n";
+      messageStreams.push_back(stream);
       return SendMsgDTO(1, messageStreams);
     }
     // @が含まれてたらそれ以降切り捨て
@@ -36,32 +37,42 @@ SendMsgDTO User::execute() {
     } else {
       client->setRealName(msg->getParams()[3]);
     }
-    
+
     client->setClientType(CLIENT_GOTUSER);
     if (client->getClientType() == CLIENT_LOGIN) {
       client->setClientType(CLIENT_USER);
+      stream << Message(
+          serverName, MessageConstants::ResponseCode::RPL_WELCOME,
+          client->getNickName() + " :Welcome to the Internet Relay Network " +
+              client->getNickName() + "! " + client->getUserName() + "@" + client->getAddress());
+      messageStreams.push_back(stream);
     } else if (client->getClientType() == CLIENT_NONPASS) {
-      // ERROR :Closing connection: sya[~g@172.18.0.1] (Access denied: Bad password?)
       client->setClientType(CLIENT_DISCONNECT);
+      stream << "ERROR :Closing connection: " + client->getNickName() + "[" + client->getUserName() +
+          "@" + client->getAddress() + "] (Access denied: Bad password?)\r\n";
+      messageStreams.push_back(stream);
       return SendMsgDTO(1, messageStreams);
     }
     return SendMsgDTO(0, messageStreams);
   } else if (client->getClientType() & CLIENT_USER) {
-    stream << Message(serverName, MessageConstants::ResponseCode::ERR_ALREADYREGISTRED,
-                      "* :Connection already registered");
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_ALREADYREGISTRED,
+        "* :Connection already registered");
     messageStreams.push_back(stream);
-    return SendMsgDTO(1, messageStreams);  
+    return SendMsgDTO(1, messageStreams);
   } else {
-    stream << Message(serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
-                      "* :Connection not registered");
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
+        "* :Connection not registered");
     messageStreams.push_back(stream);
-    return SendMsgDTO(1, messageStreams);  
+    return SendMsgDTO(1, messageStreams);
   }
 }
 
 static int checkUserName(const std::string &userName) {
   for (size_t i = 0; i < userName.size(); i++) {
-    if (!std::isalnum(userName[i]) && userName[i] != '+' && userName[i] != '-' && userName[i] != '.' && userName[i] != '_' && userName[i] != '@') {
+    if (!std::isalnum(userName[i]) && userName[i] != '+' && userName[i] != '-' &&
+        userName[i] != '.' && userName[i] != '_' && userName[i] != '@') {
       return 1;
     }
   }
