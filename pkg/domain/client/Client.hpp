@@ -28,11 +28,13 @@ public:
   const int &getSocketFd() const;
   const pollfd &getPollfd() const;
   const std::string &getAddress() const;
+  const std::string &getRealName() const;
 
   void setId(const std::string &id);
   void setUserName(const std::string &userName);
   void setNickName(const std::string &nickName);
   int setPassword(const std::string &password);
+  void setRealName(const std::string &realName);
 
   int getClientType();
   void setClientType(int clientType);
@@ -44,6 +46,7 @@ private:
   Password _password;
   ConnectionInfo _connectionInfo;
   int _clientType;
+  std::string _realName;
 };
 
 #endif /* CLIENT_HPP */
