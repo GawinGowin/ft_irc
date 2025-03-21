@@ -54,7 +54,9 @@ const std::string &Client::getAddress() const { return this->_connectionInfo.get
 
 void Client::setId(const std::string &id) { this->_nickName = id; } // TODO: id -> nickName
 
-void Client::setNickName(const std::string &nickName) { this->_nickName = nickName; }
+void Client::setNickName(const std::string &nickName) {
+  this->_nickName = nickName;
+}
 
 void Client::setUserName(const std::string &userName) { this->_userName = userName; }
 
