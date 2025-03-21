@@ -22,7 +22,8 @@ SendMsgDTO User::execute() {
     }
     if (checkUserName(msg->getParams()[0])) {
       client->setClientType(CLIENT_DISCONNECT);
-      stream << "ERROR :Closing connection: *[@" + client->getAddress() + "] (Invalid user name)\r\n";
+      stream << "ERROR :Closing connection: *[@" + client->getAddress() +
+                    "] (Invalid user name)\r\n";
       messageStreams.push_back(stream);
       return SendMsgDTO(1, messageStreams);
     }
@@ -48,8 +49,9 @@ SendMsgDTO User::execute() {
       messageStreams.push_back(stream);
     } else if (client->getClientType() == CLIENT_NONPASS) {
       client->setClientType(CLIENT_DISCONNECT);
-      stream << "ERROR :Closing connection: " + client->getNickName() + "[" + client->getUserName() +
-          "@" + client->getAddress() + "] (Access denied: Bad password?)\r\n";
+      stream << "ERROR :Closing connection: " + client->getNickName() + "[" +
+                    client->getUserName() + "@" + client->getAddress() +
+                    "] (Access denied: Bad password?)\r\n";
       messageStreams.push_back(stream);
       return SendMsgDTO(1, messageStreams);
     }
