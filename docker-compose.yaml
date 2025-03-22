@@ -23,24 +23,3 @@ services:
       - ${FT_IRC_PORT}:${FT_IRC_PORT}
     command: ["${FT_IRC_PORT}", "${FT_IRC_PASSWORD}"]
     restart: unless-stopped
-
-  load-generator:
-    image: load-generator
-    container_name: load-generator
-    build:
-      context: .
-      dockerfile: tests/load-generator/Dockerfile
-    restart: unless-stopped
-    ports:
-      - "${LOCUST_WEB_PORT}"
-    environment:
-      - LOCUST_WEB_PORT
-      - LOCUST_USERS
-      - LOCUST_HEADLESS
-      - LOCUST_AUTOSTART
-      - LOCUST_BROWSER_TRAFFIC_ENABLED=true
-      - FT_IRC_HOST
-      - FT_IRC_PORT
-      - FT_IRC_PASSWORD
-    depends_on:
-      - ft_irc
