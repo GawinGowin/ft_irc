@@ -45,4 +45,4 @@ FetchContent_MakeAvailable(googletest)
 FetchContent_GetProperties(googletest)
 
 enable_testing()
-add_subdirectory(pkg/tests)
+add_subdirectory(tests/gtests)
