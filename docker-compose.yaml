@@ -20,6 +20,6 @@ services:
       - PGID=1000
       - TZ=Asia/Tokyo
     ports:
-      - 6668:6668
-    command: ["6668", "password"]
+      - ${FT_IRC_PORT}:${FT_IRC_PORT}
+    command: ["${FT_IRC_PORT}", "${FT_IRC_PASSWORD}"]
     restart: unless-stopped
