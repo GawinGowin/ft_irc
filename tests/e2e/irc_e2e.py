@@ -36,41 +36,42 @@ def send_command_sequence(server, port, commands):
     return responses
 
 def main():
-    parser = argparse.ArgumentParser(description="Simple IRC Test Client")
+    parser = argparse.ArgumentParser(description="Simple IRC Client for End-to-End Testing")
     parser.add_argument("--org", default="127.0.0.1:6667", help="Original server (host:port)")
     parser.add_argument("--alt", default="127.0.0.1:6668", help="Alternative server (host:port)")
-    parser.add_argument("--file", required=True, help="JSON file with test commands")
+    parser.add_argument("files", nargs=argparse.REMAINDER, help='List of test files to run')
     args = parser.parse_args()
 
     orig_host, orig_port = args.org.split(':')
     reimp_host, reimp_port = args.alt.split(':')
 
-    with open(args.file, 'r') as f:
-        test_cases = json.load(f)
+    for file in args.files:
+      with open(file, 'r') as f:
+          test_cases = json.load(f)
 
-    for test in test_cases:
-        test_name = test['name']
-        commands = test['commands']
-        
-        print(f"=== Testing: {test_name} ===")
+      for test in test_cases:
+          test_name = test['name']
+          commands = test['commands']
+          
+          print(f"=== Testing: {test_name} ===")
 
-        print(f"Original server ({orig_host}:{orig_port}):")
-        orig_responses = send_command_sequence(orig_host, int(orig_port), commands)
+          print(f"Original server ({orig_host}:{orig_port}):")
+          orig_responses = send_command_sequence(orig_host, int(orig_port), commands)
 
-        print(f"Alternative server ({reimp_host}:{reimp_port}):")
-        reimp_responses = send_command_sequence(reimp_host, int(reimp_port), commands)
-        
-        os.makedirs('log', exist_ok=True)
-        with open(f"log/{test_name}_org.log", 'w') as f:
-            for resp in orig_responses:
-                f.write(f"{resp}\n")
-        
-        with open(f"log/{test_name}_alt.log", 'w') as f:
-            for resp in reimp_responses:
-                f.write(f"{resp}\n")
-        
-        print(f"Results saved to log/{test_name}_*.log")
-        print()
+          print(f"Alternative server ({reimp_host}:{reimp_port}):")
+          reimp_responses = send_command_sequence(reimp_host, int(reimp_port), commands)
+          
+          os.makedirs('log', exist_ok=True)
+          with open(f"log/{test_name}_org.log", 'w') as f:
+              for resp in orig_responses:
+                  f.write(f"{resp}\n")
+          
+          with open(f"log/{test_name}_alt.log", 'w') as f:
+              for resp in reimp_responses:
+                  f.write(f"{resp}\n")
+          
+          print(f"Results saved to log/{test_name}_*.log")
+          print()
 
 if __name__ == "__main__":
     main()
