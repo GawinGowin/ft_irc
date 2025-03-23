@@ -1,0 +1,33 @@
+[
+  {
+    "name": "PASS_basic",
+    "commands": [
+      ["PASS password", 0.6]
+    ]
+  },
+  {
+    "name": "PASS_invalid",
+    "commands": [
+      ["PASS invaild", 0.6]
+    ]
+  },
+  {
+    "name": "PASS_double",
+    "commands": [
+      ["PASS password", 0.6],
+      ["PASS password", 0.6]
+    ]
+  },
+  {
+    "name": "PASS_empty",
+    "commands": [
+      ["PASS", 0.6]
+    ]
+  },
+  {
+    "name": "PASS_too_much_argc",
+    "commands": [
+      ["PASS password password", 0.6]
+    ]
+  }
+]

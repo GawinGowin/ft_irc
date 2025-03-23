@@ -30,7 +30,7 @@
         "${workspaceFolder}/tests/e2e/irc_e2e.py",
         "--org", "host.docker.internal:6667",
         "--alt", "host.docker.internal:6668",
-        "--file", "${workspaceFolder}/tests/e2e/testcases.json"
+        "--file", "${workspaceFolder}/tests/e2e/pass.json"
       ],
       "group": "build",
     }
