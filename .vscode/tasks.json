@@ -21,6 +21,18 @@
       "problemMatcher": [
         "$gcc"
       ]
+    },
+    {
+      "type": "process",
+      "label": "e2e",
+      "command": "/usr/bin/python3",
+      "args": [
+        "${workspaceFolder}/tests/e2e/irc_e2e.py",
+        "--org", "host.docker.internal:6667",
+        "--alt", "host.docker.internal:6668",
+        "--file", "${workspaceFolder}/tests/e2e/testcases.json"
+      ],
+      "group": "build",
     }
   ],
   "version": "2.0.0"

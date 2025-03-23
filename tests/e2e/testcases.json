@@ -1,0 +1,29 @@
+[
+  {
+    "name": "basic_connection",
+    "commands": [
+      ["PASS password", 0.5],
+      ["NICK testuser", 0.5],
+      ["USER testuser 0 * :Test User", 1.0]
+    ]
+  },
+  {
+    "name": "pass_auth",
+    "commands": [
+      ["PASS password", 0.5],
+      ["NICK authuser", 0.5],
+      ["USER authuser 0 * :Auth Test User", 1.0]
+    ]
+  },
+  {
+    "name": "join_channel",
+    "commands": [
+      ["PASS password", 0.5],
+      ["NICK chan", 0.5],
+      ["USER chan 0 * :Channel Test User", 1.0],
+      ["JOIN #testchannel", 1.0],
+      ["PRIVMSG #testchannel :Hello everyone!", 0.5],
+      ["PART #testchannel", 0.5]
+    ]
+  }
+]
