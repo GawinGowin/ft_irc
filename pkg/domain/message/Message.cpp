@@ -120,7 +120,7 @@ int Message::parseMessage(const std::string &msgStr) {
     words.push_back(word);
   }
 
-  if (words.size() < 2) {
+  if (words.size() < 1) {
     return 1;
   }
   int error = 0;
