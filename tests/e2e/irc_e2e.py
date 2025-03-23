@@ -16,7 +16,7 @@ def send_command_sequence(server, port, commands):
         
         time.sleep(wait_time)
 
-        sock.settimeout(0.1)
+        sock.settimeout(0.5)
         buffer = b""
         try:
             while True:
