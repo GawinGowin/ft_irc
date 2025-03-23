@@ -61,15 +61,15 @@ def main():
         reimp_responses = send_command_sequence(reimp_host, int(reimp_port), commands)
         
         os.makedirs('log', exist_ok=True)
-        with open(f"log/{test_name}_org.txt", 'w') as f:
+        with open(f"log/{test_name}_org.log", 'w') as f:
             for resp in orig_responses:
                 f.write(f"{resp}\n")
         
-        with open(f"log/{test_name}_alt.txt", 'w') as f:
+        with open(f"log/{test_name}_alt.log", 'w') as f:
             for resp in reimp_responses:
                 f.write(f"{resp}\n")
         
-        print(f"Results saved to log/{test_name}_*.txt")
+        print(f"Results saved to log/{test_name}_*.log")
         print()
 
 if __name__ == "__main__":
