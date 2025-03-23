@@ -24,8 +24,8 @@ add_executable(DomainTest
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_MessageParser.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_MessageParserPrefix.cpp
  ${CMAKE_CURRENT_SOURCE_DIR}/domain/message/test_MessageParseParams.cpp
- ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_JenkinsHash.cpp
- ${CMAKE_CURRENT_SOURCE_DIR}/domain/shared/test_RFCChannelHash.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/hash/test_JenkinsHash.cpp
+ ${CMAKE_CURRENT_SOURCE_DIR}/domain/hash/test_RFCChannelHash.cpp
 )
 
 target_link_libraries(DomainTest testftirc gtest_main)

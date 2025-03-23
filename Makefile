@@ -14,7 +14,8 @@ TESTS =
 TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
 
 CXX := c++
-CFLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
+COMMON_FLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
+CFLAGS := -O3
 LFALGS := 
 DFLAGS := -fdiagnostics-color=always -g3 -fsanitize=address
 
@@ -24,27 +25,27 @@ DEP = $(OBJS:.o=.d)
 DDEP = $(DOBJS:.o=.d)
 
 COV_INFO = coverage.info
-TEST_LOG = build/pkg/tests/Testing/Temporary/LastTest.log
+TEST_LOG = build/tests/gtests/Testing/Temporary/LastTest.log
 
 .PHONY: all
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CFLAGS) -O3 $^ $(LFALGS) -o $@
+	$(CXX) $(COMMON_FLAGS) $(CFLAGS) -O3 $^ $(LFALGS) -o $@
 
 .PHONY: debug
 debug: $(DNAME)
 
 $(DNAME): $(DOBJS)
-	$(CXX) $(CFLAGS) $(DFLAGS) $^ $(LFALGS) -o $@
+	$(CXX) $(COMMON_FLAGS) $(CFLAGS) $(DFLAGS) $^ $(LFALGS) -o $@
 
 -include $(DEP)
 %.o: %.cpp
-	$(CXX) $(CFLAGS) -c $< -o $@
+	$(CXX) $(COMMON_FLAGS) $(CFLAGS) -c $< -o $@
 
 -include $(DDEP)
 %_d.o: %.cpp
-	$(CXX) $(CFLAGS) $(DFLAGS) -c $< -o $@
+	$(CXX) $(COMMON_FLAGS) $(CFLAGS) $(DFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
@@ -69,7 +70,7 @@ build:
 
 .PHONY: test
 test: build
-	cd $(BUILD_DIR)/pkg/tests && make test
+	cd $(BUILD_DIR)/tests/gtests && make test
 
 .PHONY: locust
 locust: debug

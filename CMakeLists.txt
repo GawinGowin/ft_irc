@@ -8,11 +8,8 @@ set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -g3 -fsanitize=address -fprofile-arcs -
 ## Sources
 file(GLOB_RECURSE SOURCES
 "${CMAKE_SOURCE_DIR}/pkg/application/**/*.cpp"
-"${CMAKE_SOURCE_DIR}/pkg/application/*.cpp"
 "${CMAKE_SOURCE_DIR}/pkg/domain/**/*.cpp"
-"${CMAKE_SOURCE_DIR}/pkg/domain/*.cpp"
 "${CMAKE_SOURCE_DIR}/pkg/infra/**/*.cpp"
-"${CMAKE_SOURCE_DIR}/pkg/infra/*.cpp"
 "${CMAKE_SOURCE_DIR}/pkg/presentation/**/*.cpp"
 "${CMAKE_SOURCE_DIR}/pkg/presentation/*.cpp"
 )
@@ -45,4 +42,4 @@ FetchContent_MakeAvailable(googletest)
 FetchContent_GetProperties(googletest)
 
 enable_testing()
-add_subdirectory(pkg/tests)
+add_subdirectory(tests/gtests)
