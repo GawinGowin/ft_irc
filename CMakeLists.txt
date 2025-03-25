@@ -22,8 +22,6 @@ ${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)
 find_path(SENTRY_INCLUDE_DIRS sentry.h)
 find_library(SENTRY_LIBRARY NAMES sentry)
 
-add_executable(ft_irc
-${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)
 target_include_directories(
   ft_irc
   PRIVATE ${CMAKE_SOURCE_DIR}/pkg/

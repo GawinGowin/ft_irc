@@ -1,7 +1,11 @@
 #include "presentation/entrypoint.hpp"
 
+#if defined(USE_SENTRY)
 const int logTypes =
     LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE | LoggerServiceLocator::SENTRY;
+#else
+const int logTypes = LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE;
+#endif
 
 volatile sig_atomic_t g_signal = 0;
 

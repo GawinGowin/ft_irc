@@ -23,14 +23,13 @@
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
-      "envFile": "${workspaceFolder}/.env",
 			"externalConsole": true,
 			"preLaunchTask": "make-compile", 
 			"MIMode": "gdb",
 			"miDebuggerPath": "/usr/bin/gdb"
 		},
 		{
-			"name": "ft_irc (cpp11)",
+      "name": "ft_irc (cpp11)",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/build/ft_irc",
@@ -39,6 +38,7 @@
       ],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env.sentry",
 			"environment": [],
 			"externalConsole": true,
       "preLaunchTask": "CMake: ビルド",

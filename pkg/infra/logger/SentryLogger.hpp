@@ -38,6 +38,12 @@ public:
         /*  logger */ "custom",
         /* message */ msg.c_str()));
   };
+  void fatal(std::string msg) {
+    sentry_capture_event(sentry_value_new_message_event(
+        /*   level */ SENTRY_LEVEL_FATAL,
+        /*  logger */ "custom",
+        /* message */ msg.c_str()));
+  }
 };
 
 #endif
