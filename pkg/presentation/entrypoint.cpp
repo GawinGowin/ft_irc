@@ -1,6 +1,8 @@
 #include "presentation/entrypoint.hpp"
 
-const int logTypes = LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE;
+const int logTypes =
+    LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE | LoggerServiceLocator::SENTRY;
+
 volatile sig_atomic_t g_signal = 0;
 
 void entrypoint(int argc, char **argv) {

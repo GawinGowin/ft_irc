@@ -5,6 +5,11 @@
 #include "infra/logger/FileLogger.hpp"
 #include "infra/logger/ILogger.hpp"
 #include "infra/logger/MultiLogger.hpp"
+
+#if defined(USE_SENTRY)
+#include "infra/logger/SentryLogger.hpp"
+#endif
+
 #include <stdexcept>
 #include <string>
 
@@ -49,6 +54,11 @@ public:
       }
       _logger->addLogger(new FileLogger(logFile));
     }
+#if defined(USE_SENTRY)
+    if (type & SENTRY) {
+      _logger->addLogger(new SentryLogger());
+    }
+#endif
     _logger->trace("Logger initialized");
   }
 

@@ -15,11 +15,12 @@ file(GLOB_RECURSE SOURCES
 )
 message(STATUS "SOURCES: ${SOURCES}")
 add_library(testftirc ${SOURCES}) 
+add_executable(ft_irc
+${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)
 
-target_include_directories(
-  testftirc
-  PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
-)
+## Sentry
+find_path(SENTRY_INCLUDE_DIRS sentry.h)
+find_library(SENTRY_LIBRARY NAMES sentry)
 
 add_executable(ft_irc
 ${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)
@@ -27,7 +28,37 @@ target_include_directories(
   ft_irc
   PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
 )
-target_link_libraries(ft_irc testftirc ${LIBRARIES})
+target_link_libraries(ft_irc testftirc)
+
+if (SENTRY_INCLUDE_DIRS AND SENTRY_LIBRARY)
+  add_compile_definitions(USE_SENTRY=1)
+  message(STATUS "Using Sentry for logging")
+  message(STATUS "include dir " ${SENTRY_INCLUDE_DIRS})
+  message(STATUS "library " ${SENTRY_LIBRARY})
+  target_include_directories(
+    testftirc
+    PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
+    PRIVATE ${SENTRY_INCLUDE_DIRS}
+  )
+  target_include_directories(
+    ft_irc
+    PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
+    PRIVATE ${SENTRY_INCLUDE_DIRS}
+  )
+  target_link_libraries(ft_irc testftirc ${SENTRY_LIBRARY})
+  target_link_libraries(testftirc ${SENTRY_LIBRARY})
+else()
+  message(STATUS "Sentry not found, falling back to console logging")
+  target_include_directories(
+    testftirc
+    PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
+  )
+  target_include_directories(
+    ft_irc
+    PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
+  )
+  target_link_libraries(ft_irc testftirc)
+endif()
 
 ## install gtest
 include(FetchContent)
