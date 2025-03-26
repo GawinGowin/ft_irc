@@ -42,7 +42,7 @@ TEST(MessageTest, ConstructorWithPrefixAndResponseCode) {
   EXPECT_EQ(message.getParams()[0], "param1");
   EXPECT_EQ(message.getParams()[1], "param2");
   EXPECT_EQ(message.getParams()[2], "param3");
-  EXPECT_EQ(message.getNumericResponse(), "123");
+  EXPECT_EQ(message.getNumericResponse(), 123);
   EXPECT_TRUE(message.isNumericResponse());
 }
 
@@ -77,7 +77,7 @@ TEST(MessageTest, AssignmentOperatorWithNumericResponse) {
 
   EXPECT_EQ(assigned.getPrefix(), ":server.example.com");
   EXPECT_TRUE(assigned.isNumericResponse());
-  EXPECT_EQ(assigned.getNumericResponse(), "404");
+  EXPECT_EQ(assigned.getNumericResponse(), 404);
   EXPECT_EQ(assigned.getParams().size(), 2);
   EXPECT_EQ(assigned.getParams()[0], "nick");
   EXPECT_EQ(assigned.getParams()[1], "No such nick/channel");

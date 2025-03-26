@@ -42,6 +42,7 @@ build/
 ft_irc
 !cmd/ft_irc/
 ft_irc_debug
+.sentry-native/
 
 *.log
 
@@ -182,6 +183,7 @@ ENV/
 env.bak/
 venv.bak/
 !.env
+.env.sentry
 
 # Spyder project settings
 .spyderproject
@@ -219,3 +221,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+*.debug

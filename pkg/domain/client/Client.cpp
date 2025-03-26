@@ -56,7 +56,7 @@ void Client::setId(const std::string &id) { this->_nickName = id; } // TODO: id 
 
 void Client::setNickName(const std::string &nickName) { this->_nickName = nickName; }
 
-void Client::setUserName(const std::string &userName) { this->_userName = userName; }
+void Client::setUserName(const std::string &userName) { this->_userName = "~" + userName; }
 
 int Client::setPassword(const std::string &password) {
   if (this->_password.setPassword(password)) {

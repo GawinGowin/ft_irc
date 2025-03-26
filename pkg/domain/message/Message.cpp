@@ -8,9 +8,11 @@ static const std::string CRLF = "\r\n";
 
 std::ostream &operator<<(std::ostream &os, const Message &msg) {
   std::vector<std::string>::const_iterator it;
-  os << msg.getPrefix() << " ";
+  if (msg.getPrefix() != "") {
+    os << msg.getPrefix() << " ";
+  }
   if (msg.isNumericResponse()) {
-    os << msg.getNumericResponse() << " ";
+    os << std::setfill('0') << std::setw(3) << msg.getNumericResponse() << " ";
   } else {
     os << enumToCommandStr(msg.getCommand()) << " ";
   }
@@ -29,36 +31,39 @@ Message::Message() {
   this->_command = MessageConstants::UNDEFINED;
   this->_params = std::vector<std::string>();
   this->_isNumericResponse = false;
-  this->_numericResponse = "";
+  this->_numericResponse = 0;
 }
 
 Message::Message(const std::string &message) {
+  *this = Message();
   if (parseMessage(message) != 0) {
-    this->_prefix = "";
+    *this = Message();
     this->_command = MessageConstants::ERROR;
-    this->_params = std::vector<std::string>();
-    this->_isNumericResponse = false;
-    this->_numericResponse = "";
   }
 }
 
 Message::Message(
     const std::string prefix, MessageConstants::CommandType command, const std::string params) {
-  this->_prefix = ":" + prefix;
+  if (prefix.length() == 0) {
+    this->_prefix = "";
+  } else {
+    this->_prefix = ":" + prefix;
+  }
   this->_command = command;
   parseParams(this->_params, params);
   this->_isNumericResponse = false;
-  this->_numericResponse = "";
+  this->_numericResponse = 0;
 }
 
 Message::Message(const std::string prefix, const int responseCode, const std::string params) {
-  this->_prefix = ":" + prefix;
+  if (prefix.length() == 0) {
+    this->_prefix = "";
+  } else {
+    this->_prefix = ":" + prefix;
+  }
   this->_command = MessageConstants::UNDEFINED;
   parseParams(this->_params, params);
-
-  std::ostringstream ss;
-  ss << responseCode;
-  this->_numericResponse = ss.str();
+  this->_numericResponse = responseCode;
   this->_isNumericResponse = true;
 }
 
@@ -84,7 +89,7 @@ const MessageConstants::CommandType &Message::getCommand() const { return this->
 
 const std::vector<std::string> &Message::getParams() const { return this->_params; }
 
-const std::string &Message::getNumericResponse() const { return this->_numericResponse; }
+const int &Message::getNumericResponse() const { return this->_numericResponse; }
 
 const bool &Message::isNumericResponse() const { return this->_isNumericResponse; }
 
@@ -120,7 +125,7 @@ int Message::parseMessage(const std::string &msgStr) {
     words.push_back(word);
   }
 
-  if (words.size() < 2) {
+  if (words.size() < 1) {
     return 1;
   }
   int error = 0;
@@ -129,10 +134,10 @@ int Message::parseMessage(const std::string &msgStr) {
       error |= 1;
     }
     this->_prefix = getPrefixString(this->_prefixObj);
-    if (parseCommand(this->_command, words[1]) != 0) {
+    if (words.size() > 1 && parseCommand(this->_command, words[1]) != 0) {
       error |= 1;
     }
-    if (parseParams(this->_params, words.begin() + 2, words.end()) != 0) {
+    if (words.size() > 1 && parseParams(this->_params, words.begin() + 2, words.end()) != 0) {
       error |= 1;
     }
   } else {
@@ -279,6 +284,8 @@ inline static std::string enumToCommandStr(const MessageConstants::CommandType &
     return "TOPIC";
   case MessageConstants::MODE:
     return "MODE";
+  case MessageConstants::ERROR:
+    return "ERROR";
   default:
     return "UNKNOWN";
   }

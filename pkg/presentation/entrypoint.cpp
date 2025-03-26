@@ -1,10 +1,10 @@
 #include "presentation/entrypoint.hpp"
 
+const int logTypes = LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE;
 volatile sig_atomic_t g_signal = 0;
 
 void entrypoint(int argc, char **argv) {
-  LogggerUseCase loggerWrapper(
-      LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE, "ft_irc.log");
+  LogggerUseCase loggerWrapper(logTypes, "ft_irc.log");
   MultiLogger *logger = LoggerServiceLocator::get();
 
   StartServerDTO dto(argc, argv);
@@ -23,7 +23,8 @@ void entrypoint(int argc, char **argv) {
   RecievedMsgDTO recievedMsgDto;
   SendMsgDTO sendMsgDto;
 
-  logger->info("Start Listening...");
+  logger->infoss() << "Start Listening port:"
+                   << ConfigsServiceLocator::get().getConfigs().Global.Port;
   while (!g_signal) {
     try {
       eventDto = monitorSocketEventsUseCase.monitor();
@@ -56,5 +57,5 @@ void entrypoint(int argc, char **argv) {
     }
   }
   logger->infoss() << "Interrupt signal (" << g_signal << ") received";
-  logger->info("Stop server...");
+  logger->info("Stop server");
 }

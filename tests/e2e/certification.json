@@ -1,0 +1,34 @@
+[
+  {
+    "name": "basic_connection1",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.0]
+    ]
+  },
+  {
+    "name": "basic_connection2",
+    "commands": [
+      ["PASS password", 0.8],
+      ["USER testuser 0 * :Test User", 1.0],
+      ["NICK testuser", 0.8]
+    ]
+  },
+  {
+    "name": "invalid_password1",
+    "commands": [
+      ["PASS invalid", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.0]
+    ]
+  },
+  {
+    "name": "invalid_password2",
+    "commands": [
+      ["PASS invalid", 0.8],
+      ["USER testuser 0 * :Test User", 1.0],
+      ["NICK testuser", 0.8]
+    ]
+  }
+]

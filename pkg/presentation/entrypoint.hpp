@@ -4,6 +4,7 @@
 #include "application/dto/MonitorSocketEventDTO.hpp"
 #include "application/dto/SendMsgDTO.hpp"
 #include "application/dto/StartServerDTO.hpp"
+#include "application/serviceLocator/ConfigsServiceLocator.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "application/useCases/AcceptConnectionUseCase.hpp"
 #include "application/useCases/LogggerUseCase.hpp"

@@ -5,6 +5,7 @@
 #include "domain/message/MessageConstants.hpp"
 #include "domain/message/PrefixInfo.hpp"
 #include <algorithm>
+#include <iomanip>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -24,7 +25,7 @@ public:
   const std::string &getPrefix() const;
   const MessageConstants::CommandType &getCommand() const;
   const std::vector<std::string> &getParams() const;
-  const std::string &getNumericResponse() const;
+  const int &getNumericResponse() const;
   const bool &isNumericResponse() const;
 
   int parseMessage(const std::string &message);
@@ -42,7 +43,7 @@ private:
 
   MessageConstants::CommandType _command;
   bool _isNumericResponse;
-  std::string _numericResponse;
+  int _numericResponse;
 
   std::vector<std::string> _params;
 };

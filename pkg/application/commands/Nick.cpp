@@ -17,21 +17,45 @@ SendMsgDTO Nick::execute() {
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
-  client->setNickName(msg->getParams()[0]);
-  client->setClientType(CLIENT_GOTNICK);
-  if (client->getClientType() == CLIENT_LOGIN) {
-    client->setClientType(CLIENT_USER);
+
+  const std::string nickName = msg->getParams()[0];
+
+  if (InmemoryClientDBServiceLocator::get().getById(nickName) != NULL) {
     stream << Message(
-        serverName, MessageConstants::ResponseCode::RPL_WELCOME,
-        client->getNickName() + " :Welcome to the Internet Relay Network " + client->getNickName() +
-            "! " + client->getUserName() + "@" + client->getAddress());
-    messageStreams.push_back(stream);
-  } else if (client->getClientType() == CLIENT_NONPASS) {
-    client->setClientType(CLIENT_DISCONNECT);
-    stream << "ERROR :Closing connection: " + client->getNickName() + "[" + client->getUserName() +
-                  "@" + client->getAddress() + "] (Access denied: Bad password?)\r\n";
+        serverName, MessageConstants::ResponseCode::ERR_NICKNAMEINUSE,
+        "* " + nickName + " ::Nickname already in use");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
+  }
+
+  client->setNickName(nickName);
+  client->setClientType(CLIENT_GOTNICK);
+
+  ClientService::LoginResult ret = ClientService::login(*client);
+  switch (ret) {
+  case ClientService::LOGIN_SUCCESS:
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::RPL_WELCOME,
+        client->getNickName() + " ::" + ClientService::generateWelcomeMessage(*client));
+    messageStreams.push_back(stream);
+    break;
+  case ClientService::LOGIN_FAILED:
+    stream << Message(
+        "", MessageConstants::ERROR,
+        "::Closing connection: " + client->getNickName() + "[" + client->getUserName() + "@" +
+            client->getAddress() + "] (Access denied: Bad password?)");
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+    break;
+  case ClientService::LOGIN_ALREADY:
+    stream << Message(
+        client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
+        MessageConstants::NICK, "::" + nickName);
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+    break;
+  case ClientService::LOGIN_SKIP:
+    break;
   }
   return SendMsgDTO(0, messageStreams);
 }

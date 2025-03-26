@@ -11,7 +11,7 @@ HEADER =
 HEADER += $(shell find $(BASE_PKG_DIR)/application $(BASE_PKG_DIR)/domain $(BASE_PKG_DIR)/infra $(BASE_PKG_DIR)/presentation -name '*.h' -o -name '*.hpp')
 
 TESTS =
-TESTS += $(shell find $(BASE_PKG_DIR)/tests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
+TESTS += $(shell find tests/gtests -name '*.h' -o -name '*.hpp' -o -name '*.c' -o -name '*.cpp')
 
 CXX := c++
 COMMON_FLAGS := -Wall -Wextra -Werror -std=c++98 -MMD -MP -I$(BASE_PKG_DIR)
@@ -27,17 +27,20 @@ DDEP = $(DOBJS:.o=.d)
 COV_INFO = coverage.info
 TEST_LOG = build/tests/gtests/Testing/Temporary/LastTest.log
 
+ORGANIZATION := 42tokyo-b9
+PROJECT := ft_irc
+
 .PHONY: all
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(COMMON_FLAGS) $(CFLAGS) -O3 $^ $(LFALGS) -o $@
+	$(CXX) $(COMMON_FLAGS) $(CFLAGS) $^ $(LFALGS) -o $@
 
 .PHONY: debug
 debug: $(DNAME)
 
 $(DNAME): $(DOBJS)
-	$(CXX) $(COMMON_FLAGS) $(CFLAGS) $(DFLAGS) $^ $(LFALGS) -o $@
+	$(CXX) $(COMMON_FLAGS) $(DFLAGS) $^ $(LFALGS) -o $@
 
 -include $(DEP)
 %.o: %.cpp
@@ -45,7 +48,7 @@ $(DNAME): $(DOBJS)
 
 -include $(DDEP)
 %_d.o: %.cpp
-	$(CXX) $(COMMON_FLAGS) $(CFLAGS) $(DFLAGS) -c $< -o $@
+	$(CXX) $(COMMON_FLAGS) $(DFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
@@ -53,8 +56,8 @@ clean:
 
 .PHONY: fclean
 fclean: clean
-	rm -f $(NAME) $(DNAME)
-	rm -rf $(BUILD_DIR)
+	rm -f $(NAME) $(DNAME) $(DNAME).debug
+	rm -rf $(BUILD_DIR) 
 
 .PHONY: re
 re: fclean all
@@ -71,6 +74,18 @@ build:
 .PHONY: test
 test: build
 	cd $(BUILD_DIR)/tests/gtests && make test
+
+.PHONY: dif
+dif: debug
+	rm -f $(DNAME).debug
+	objcopy --only-keep-debug $(DNAME) $(DNAME).debug
+	objcopy --strip-debug --strip-unneeded $(DNAME)
+	objcopy --add-gnu-debuglink=$(DNAME).debug $(DNAME)
+	sentry-cli dif upload -o $(ORGANIZATION) -p $(PROJECT) --wait $(DNAME).debug --include-sources $(DOBJS) 
+
+.PHONY: login
+login: 
+	env `cat .env.sentry | xargs` sh -c 'sentry-cli login --auth-token $$SENTRY_CLI_AUTH_TOKEN'
 
 .PHONY: locust
 locust: debug
