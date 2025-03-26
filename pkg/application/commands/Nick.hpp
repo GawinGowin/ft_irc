@@ -11,10 +11,17 @@
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/MessageService.hpp"
 
+#include <sstream>
+#include <stdint.h>
+
 class Nick : public ACommands {
 public:
   Nick(IMessageAggregateRoot *msg, IClientAggregateRoot *client);
   SendMsgDTO execute();
+
+private:
+  MultiLogger *_logger;
+  ConfigsLoader *_conf;
 };
 
 #endif /* NICK_HPP */

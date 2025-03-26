@@ -1,6 +1,11 @@
 #include "application/commands/Nick.hpp"
 
-Nick::Nick(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
+static int checkNickName(const std::string &nickName);
+
+Nick::Nick(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {
+  this->_logger = LoggerServiceLocator::get();
+  this->_conf = &ConfigsServiceLocator::get();
+}
 
 SendMsgDTO Nick::execute() {
   IMessageAggregateRoot *msg = this->getMessage();
@@ -9,17 +14,31 @@ SendMsgDTO Nick::execute() {
   MessageStream stream =
       MessageService::generateMessageStream(&SocketHandlerServiceLocator::get(), client);
 
-  const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
+  const std::string serverName = this->_conf->getConfigs().Global.Name;
 
   if (msg->getParams().size() != 1) {
     stream << Message(
-        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* :Syntax error");
+        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* NICK ::Syntax error");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
 
   const std::string nickName = msg->getParams()[0];
-
+  const int maxNickLength = this->_conf->getConfigs().Limits.MaxNickLength;
+  if (nickName.length() > INT32_MAX || static_cast<int>(nickName.length()) > maxNickLength) {
+    std::stringstream ss;
+    ss << "* " << nickName << " ::Nickname too long, max. " << maxNickLength << " characters";
+    stream << Message(serverName, MessageConstants::ResponseCode::ERR_NICKNAMETOOLONG, ss.str());
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
+  if (checkNickName(nickName)) {
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_ERRONEUSNICKNAME,
+        "* " + nickName + " ::Erroneous nickname");
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
   if (InmemoryClientDBServiceLocator::get().getById(nickName) != NULL) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NICKNAMEINUSE,
@@ -58,4 +77,14 @@ SendMsgDTO Nick::execute() {
     break;
   }
   return SendMsgDTO(0, messageStreams);
+}
+
+static int checkNickName(const std::string &nickName) {
+  for (size_t i = 0; i < nickName.size(); i++) {
+    if (!std::isalnum(nickName[i]) || nickName[i] == '+' || nickName[i] == '-' ||
+        nickName[i] == '.' || nickName[i] == '_' || nickName[i] == '@') {
+      return 1;
+    }
+  }
+  return 0;
 }
