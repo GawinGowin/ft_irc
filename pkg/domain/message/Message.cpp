@@ -44,7 +44,11 @@ Message::Message(const std::string &message) {
 
 Message::Message(
     const std::string prefix, MessageConstants::CommandType command, const std::string params) {
-  this->_prefix = ":" + prefix;
+  if (prefix.length() == 0) {
+    this->_prefix = "";
+  } else {
+    this->_prefix = ":" + prefix;
+  }
   this->_command = command;
   parseParams(this->_params, params);
   this->_isNumericResponse = false;
@@ -52,7 +56,11 @@ Message::Message(
 }
 
 Message::Message(const std::string prefix, const int responseCode, const std::string params) {
-  this->_prefix = ":" + prefix;
+  if (prefix.length() == 0) {
+    this->_prefix = "";
+  } else {
+    this->_prefix = ":" + prefix;
+  }
   this->_command = MessageConstants::UNDEFINED;
   parseParams(this->_params, params);
 
@@ -120,7 +128,7 @@ int Message::parseMessage(const std::string &msgStr) {
     words.push_back(word);
   }
 
-  if (words.size() < 1) {
+  if (words.size() < 2) {
     return 1;
   }
   int error = 0;
@@ -279,6 +287,8 @@ inline static std::string enumToCommandStr(const MessageConstants::CommandType &
     return "TOPIC";
   case MessageConstants::MODE:
     return "MODE";
+  case MessageConstants::ERROR:
+    return "ERROR";
   default:
     return "UNKNOWN";
   }
