@@ -1,0 +1,52 @@
+[
+  {
+    "name": "NICK_basic",
+    "commands": [
+      ["NICK user1", 0.8]
+    ]
+  },
+  {
+    "name": "NICK_change",
+    "commands": [
+      ["NICK initial", 0.8],
+      ["NICK changed", 0.8]
+    ]
+  },
+  {
+    "name": "NICK_invalid_characters",
+    "commands": [
+      ["NICK name@", 1.0],
+      ["NICK name@solonglonglong", 1.0]
+    ]
+  },
+  {
+    "name": "NICK_no_parameter",
+    "commands": [
+      ["NICK", 0.8]
+    ]
+  },
+  {
+    "name": "NICK_numeric",
+    "commands": [
+      ["NICK user123", 0.8]
+    ]
+  },
+  {
+    "name": "NICK_special_chars",
+    "commands": [
+      ["NICK user-_[]{}\\`|", 0.8]
+    ]
+  },
+  {
+    "name": "NICK_long",
+    "commands": [
+      ["NICK verylongnicknamethatshouldbetruncated", 0.8]
+    ]
+  },
+  {
+    "name": "NICK_too_much_argc",
+    "commands": [
+      ["NICK user1 extra", 0.8]
+    ]
+  }
+]
