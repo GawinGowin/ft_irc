@@ -29,6 +29,6 @@ ClientService::LoginResult ClientService::login(IClientAggregateRoot &client) {
 }
 
 std::string ClientService::generateWelcomeMessage(IClientAggregateRoot &client) {
-  return "Welcome to the Internet Relay Network " + client.getNickName() + "! " +
+  return "Welcome to the Internet Relay Network " + client.getNickName() + "!" +
          client.getUserName() + "@" + client.getAddress();
 }
