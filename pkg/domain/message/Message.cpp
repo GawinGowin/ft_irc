@@ -38,6 +38,7 @@ Message::Message(const std::string &message) {
   *this = Message();
   if (parseMessage(message) != 0) {
     *this = Message();
+    this->_command = MessageConstants::ERROR;
   }
 }
 
