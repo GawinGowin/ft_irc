@@ -11,8 +11,8 @@
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/MessageService.hpp"
 
-#include <stdint.h>
 #include <sstream>
+#include <stdint.h>
 
 class Nick : public ACommands {
 public:
