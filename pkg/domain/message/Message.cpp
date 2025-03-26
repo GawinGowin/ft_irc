@@ -125,7 +125,7 @@ int Message::parseMessage(const std::string &msgStr) {
     words.push_back(word);
   }
 
-  if (words.size() < 2) {
+  if (words.size() < 1) {
     return 1;
   }
   int error = 0;
@@ -134,10 +134,10 @@ int Message::parseMessage(const std::string &msgStr) {
       error |= 1;
     }
     this->_prefix = getPrefixString(this->_prefixObj);
-    if (parseCommand(this->_command, words[1]) != 0) {
+    if (words.size() > 1 && parseCommand(this->_command, words[1]) != 0) {
       error |= 1;
     }
-    if (parseParams(this->_params, words.begin() + 2, words.end()) != 0) {
+    if (words.size() > 1 && parseParams(this->_params, words.begin() + 2, words.end()) != 0) {
       error |= 1;
     }
   } else {

@@ -37,8 +37,8 @@ TEST(ParserTest, testPrefix) {
   EXPECT_EQ(prefix.getParams()[0], "#channel");
   EXPECT_EQ(prefix.getParams()[1], ":Hello, world!");
   EXPECT_EQ(noprefix.getPrefix(), "");
-  EXPECT_EQ(onlyPrefix.getCommand(), CommandType::ERROR);
-  EXPECT_EQ(onlyPrefixAndSpace.getCommand(), CommandType::ERROR);
+  EXPECT_EQ(onlyPrefix.getCommand(), CommandType::UNDEFINED);
+  EXPECT_EQ(onlyPrefixAndSpace.getCommand(), CommandType::UNDEFINED);
 }
 
 TEST(ParserTest, testCommand) {
