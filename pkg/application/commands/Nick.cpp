@@ -18,7 +18,7 @@ SendMsgDTO Nick::execute() {
 
   if (msg->getParams().size() != 1) {
     stream << Message(
-        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* NICK ::Syntax error");
+        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* NICK :Syntax error");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
@@ -27,7 +27,7 @@ SendMsgDTO Nick::execute() {
   const int maxNickLength = this->_conf->getConfigs().Limits.MaxNickLength;
   if (nickName.length() > INT32_MAX || static_cast<int>(nickName.length()) > maxNickLength) {
     std::stringstream ss;
-    ss << "* " << nickName << " ::Nickname too long, max. " << maxNickLength << " characters";
+    ss << "* " << nickName << " :Nickname too long, max. " << maxNickLength << " characters";
     stream << Message(serverName, MessageConstants::ResponseCode::ERR_NICKNAMETOOLONG, ss.str());
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
@@ -35,14 +35,14 @@ SendMsgDTO Nick::execute() {
   if (checkNickName(nickName)) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_ERRONEUSNICKNAME,
-        "* " + nickName + " ::Erroneous nickname");
+        "* " + nickName + " :Erroneous nickname");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
   if (InmemoryClientDBServiceLocator::get().getById(nickName) != NULL) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NICKNAMEINUSE,
-        "* " + nickName + " ::Nickname already in use");
+        "* " + nickName + " :Nickname already in use");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
@@ -55,13 +55,13 @@ SendMsgDTO Nick::execute() {
   case ClientService::LOGIN_SUCCESS:
     stream << Message(
         serverName, MessageConstants::ResponseCode::RPL_WELCOME,
-        client->getNickName() + " ::" + ClientService::generateWelcomeMessage(*client));
+        client->getNickName() + " :" + ClientService::generateWelcomeMessage(*client));
     messageStreams.push_back(stream);
     break;
   case ClientService::LOGIN_FAILED:
     stream << Message(
         "", MessageConstants::ERROR,
-        "::Closing connection: " + client->getNickName() + "[" + client->getUserName() + "@" +
+        ":Closing connection: " + client->getNickName() + "[" + client->getUserName() + "@" +
             client->getAddress() + "] (Access denied: Bad password?)");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
@@ -69,7 +69,7 @@ SendMsgDTO Nick::execute() {
   case ClientService::LOGIN_ALREADY:
     stream << Message(
         client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
-        MessageConstants::NICK, "::" + nickName);
+        MessageConstants::NICK, ":" + nickName);
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
     break;

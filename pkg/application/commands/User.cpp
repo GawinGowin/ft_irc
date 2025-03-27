@@ -19,7 +19,7 @@ SendMsgDTO User::execute() {
   if (!(client->getClientType() & CLIENT_GOTUSER)) {
     if (msg->getParams().size() != 4) {
       stream << Message(
-          serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* ::Syntax error");
+          serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* :Syntax error");
       messageStreams.push_back(stream);
       return SendMsgDTO(1, messageStreams);
     }
@@ -27,7 +27,7 @@ SendMsgDTO User::execute() {
       client->setClientType(CLIENT_DISCONNECT);
       stream << Message(
           "", MessageConstants::ERROR,
-          "::Closing connection: *[@" + client->getAddress() + "] (Invalid user name)\r\n");
+          ":Closing connection: *[@" + client->getAddress() + "] (Invalid user name)\r\n");
       return SendMsgDTO(1, messageStreams);
     }
     // @が含まれてたらそれ以降切り捨て
@@ -48,13 +48,13 @@ SendMsgDTO User::execute() {
     case ClientService::LOGIN_SUCCESS:
       stream << Message(
           serverName, MessageConstants::ResponseCode::RPL_WELCOME,
-          client->getNickName() + " ::" + ClientService::generateWelcomeMessage(*client));
+          client->getNickName() + " :" + ClientService::generateWelcomeMessage(*client));
       messageStreams.push_back(stream);
       break;
     case ClientService::LOGIN_FAILED:
       stream << Message(
           "", MessageConstants::ERROR,
-          "::Closing connection: " + client->getNickName() + "[" + client->getUserName() + "@" +
+          ":Closing connection: " + client->getNickName() + "[" + client->getUserName() + "@" +
               client->getAddress() + "] (Access denied: Bad password?)");
       messageStreams.push_back(stream);
       return SendMsgDTO(1, messageStreams);
@@ -68,13 +68,13 @@ SendMsgDTO User::execute() {
   } else if (client->getClientType() & CLIENT_USER) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_ALREADYREGISTRED,
-        "* ::Connection already registered");
+        "* :Connection already registered");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   } else {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
-        "* ::Connection not registered");
+        "* :Connection not registered");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
