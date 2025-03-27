@@ -35,7 +35,10 @@ public:
       std::vector<std::string> &params,
       std::vector<std::string>::iterator paramIter,
       std::vector<std::string>::iterator end);
-  static int parseParams(std::vector<std::string> &params, const std::string paramStr);
+  static int parseParams(
+      std::vector<std::string> &params, const std::string paramStr, int *const isIncludeTrailing);
+
+  int getIsIncludeTrailing() const;
 
 private:
   PrefixInfo _prefixObj;
@@ -44,7 +47,7 @@ private:
   MessageConstants::CommandType _command;
   bool _isNumericResponse;
   int _numericResponse;
-
+  int _isIncludeTrailing;
   std::vector<std::string> _params;
 };
 

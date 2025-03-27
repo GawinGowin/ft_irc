@@ -17,6 +17,9 @@ std::ostream &operator<<(std::ostream &os, const Message &msg) {
     os << enumToCommandStr(msg.getCommand()) << " ";
   }
   for (it = msg.getParams().begin(); it != msg.getParams().end(); ++it) {
+    if (it + 1 == msg.getParams().end() && msg.getIsIncludeTrailing()) {
+      os << ":";
+    }
     os << *it;
     if (it + 1 != msg.getParams().end()) {
       os << " ";
@@ -32,6 +35,7 @@ Message::Message() {
   this->_params = std::vector<std::string>();
   this->_isNumericResponse = false;
   this->_numericResponse = 0;
+  this->_isIncludeTrailing = 0;
 }
 
 Message::Message(const std::string &message) {
@@ -50,7 +54,7 @@ Message::Message(
     this->_prefix = ":" + prefix;
   }
   this->_command = command;
-  parseParams(this->_params, params);
+  parseParams(this->_params, params, &this->_isIncludeTrailing);
   this->_isNumericResponse = false;
   this->_numericResponse = 0;
 }
@@ -62,7 +66,7 @@ Message::Message(const std::string prefix, const int responseCode, const std::st
     this->_prefix = ":" + prefix;
   }
   this->_command = MessageConstants::UNDEFINED;
-  parseParams(this->_params, params);
+  parseParams(this->_params, params, &this->_isIncludeTrailing);
   this->_numericResponse = responseCode;
   this->_isNumericResponse = true;
 }
@@ -78,6 +82,7 @@ Message &Message::operator=(const Message &obj) {
     this->_command = obj._command;
     this->_isNumericResponse = obj._isNumericResponse;
     this->_numericResponse = obj._numericResponse;
+    this->_isIncludeTrailing = obj._isIncludeTrailing;
     this->_params = obj._params;
   }
   return *this;
@@ -217,7 +222,8 @@ int Message::parseParams(
   return 0;
 }
 
-int Message::parseParams(std::vector<std::string> &params, const std::string paramStr) {
+int Message::parseParams(
+    std::vector<std::string> &params, const std::string paramStr, int *const isIncludeTrailing) {
   params.clear();
   std::istringstream iss(paramStr);
   std::string word;
@@ -232,6 +238,8 @@ int Message::parseParams(std::vector<std::string> &params, const std::string par
         remaining.resize(remaining.size() - 1);
       }
       word += remaining;
+      if (isIncludeTrailing != NULL)
+        *isIncludeTrailing = 1;
       params.push_back(word.substr(1));
       break;
     }
@@ -239,6 +247,8 @@ int Message::parseParams(std::vector<std::string> &params, const std::string par
   }
   return 0;
 }
+
+int Message::getIsIncludeTrailing() const { return this->_isIncludeTrailing; }
 
 inline static MessageConstants::CommandType strToCommandType(const std::string &str) {
   if (str == "PASS") {

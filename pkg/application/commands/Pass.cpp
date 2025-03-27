@@ -15,20 +15,20 @@ SendMsgDTO Pass::execute() {
   if (client->getClientType() != CLIENT_UNKNOWN) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_ALREADYREGISTRED,
-        "* ::Connection already registered");
+        "* :Connection already registered");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
   if (msg->getParams().size() != 1 || msg->getParams()[0].empty()) {
     stream << Message(
-        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* PASS ::Syntax error");
+        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* PASS :Syntax error");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
   if (client->setPassword(msg->getParams()[0])) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_ALREADYREGISTRED,
-        "* ::Connection already registered");
+        "* :Connection already registered");
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
