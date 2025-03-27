@@ -16,7 +16,7 @@ TEST_P(MessageParseParamsTest, ParseParams) {
   auto testCase = GetParam();
 
   std::vector<std::string> params;
-  int result = Message::parseParams(params, testCase.paramStr);
+  int result = Message::parseParams(params, testCase.paramStr, NULL);
 
   EXPECT_EQ(result, 0) << "Failed on test case: " << testCase.description;
   EXPECT_EQ(params.size(), testCase.expectedParams.size())
@@ -33,7 +33,7 @@ TEST(MessageParseParamsTest, EmptyString) {
   std::vector<std::string> params;
   std::string paramStr = "";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 0);
@@ -43,7 +43,7 @@ TEST(MessageParseParamsTest, SingleParam) {
   std::vector<std::string> params;
   std::string paramStr = "param1";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 1);
@@ -54,7 +54,7 @@ TEST(MessageParseParamsTest, MultipleParams) {
   std::vector<std::string> params;
   std::string paramStr = "param1 param2 param3";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 3);
@@ -67,7 +67,7 @@ TEST(MessageParseParamsTest, TrailingParam) {
   std::vector<std::string> params;
   std::string paramStr = "param1 param2 :This is a trailing parameter";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 3);
@@ -80,7 +80,7 @@ TEST(MessageParseParamsTest, OnlyTrailingParam) {
   std::vector<std::string> params;
   std::string paramStr = ":This is only a trailing parameter";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 1);
@@ -91,7 +91,7 @@ TEST(MessageParseParamsTest, TrailingParamWithColon) {
   std::vector<std::string> params;
   std::string paramStr = "param1 :This is a: trailing parameter with: colons";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 2);
@@ -103,7 +103,7 @@ TEST(MessageParseParamsTest, ParamsWithCRLF) {
   std::vector<std::string> params;
   std::string paramStr = "param1 param2\r\n";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 2);
@@ -115,7 +115,7 @@ TEST(MessageParseParamsTest, TrailingParamWithCRLF) {
   std::vector<std::string> params;
   std::string paramStr = "param1 :Trailing parameter\r\n";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 2);
@@ -127,7 +127,7 @@ TEST(MessageParseParamsTest, ClearsExistingParams) {
   std::vector<std::string> params = {"existing1", "existing2"};
   std::string paramStr = "param1 param2";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 2);
@@ -139,7 +139,7 @@ TEST(MessageParseParamsTest, SpecialCharacters) {
   std::vector<std::string> params;
   std::string paramStr = "param1 param-2 param_3 :Special chars: !@#$%^&*()";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 4);
@@ -153,7 +153,7 @@ TEST(MessageParseParamsTest, EmptyTrailingParam) {
   std::vector<std::string> params;
   std::string paramStr = "param1 param2 :";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 3);
@@ -166,7 +166,7 @@ TEST(MessageParseParamsTest, WhitespaceHandling) {
   std::vector<std::string> params;
   std::string paramStr = "  param1   param2  param3  ";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 3);
@@ -179,7 +179,7 @@ TEST(MessageParseParamsTest, WhitespaceInTrailingParam) {
   std::vector<std::string> params;
   std::string paramStr = "param1 :  Trailing with   multiple   spaces  ";
 
-  int result = Message::parseParams(params, paramStr);
+  int result = Message::parseParams(params, paramStr, NULL);
 
   EXPECT_EQ(result, 0);
   EXPECT_EQ(params.size(), 2);
