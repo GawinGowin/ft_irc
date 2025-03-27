@@ -12,7 +12,9 @@ class SentryLogger : virtual public ILogger, virtual public StreamLogger {
 public:
   SentryLogger() : StreamLogger(this) {}
   void trace(std::string msg) {
-    (void)msg; // do nothing
+    sentry_value_t crumb = sentry_value_new_breadcrumb("default", msg.c_str());
+    sentry_value_set_by_key(crumb, "level", sentry_value_new_string("trace"));
+    sentry_add_breadcrumb(crumb);
   };
   void debug(std::string msg) {
     sentry_value_t crumb = sentry_value_new_breadcrumb("default", msg.c_str());
