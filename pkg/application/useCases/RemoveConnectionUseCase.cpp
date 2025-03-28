@@ -9,11 +9,6 @@ void RemoveConnectionUseCase::remove(int clientFd) {
     if (client == NULL) {
       throw std::runtime_error("Client not found unexpectedly");
     }
-    ChannelService::removeClientFromAllChannels(client->getId());
-    logger->debugss() << client->getId() << "(fd:" << clientFd << ") removed from all channels";
-
-    // TODO: ユーザーが空ならば、チャンネルを削除する機構を追加する
-
     db->remove(client->getId());
     _socketHandler->closeConnection(clientFd);
     logger->infoss() << "Connection closed: (fd:" << clientFd << ")";

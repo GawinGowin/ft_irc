@@ -39,6 +39,9 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   case (MessageConstants::MODE):
     dto = Mode(&clientMsg, client).execute();
     break;
+  case (MessageConstants::QUIT):
+    dto = Quit(&clientMsg, client).execute();
+    return (dto);
   case (MessageConstants::ERROR):
     dto.setStatus(1);
     return (dto);
