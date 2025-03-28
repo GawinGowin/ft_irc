@@ -1,0 +1,42 @@
+[
+  {
+    "name": "QUIT",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.0],
+      ["JOIN #test", 0.8],
+      ["QUIT", 0.8]
+    ]
+  },
+  {
+    "name": "QUIT_msg_tail",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.0],
+      ["JOIN #test", 0.8],
+      ["QUIT :aaaaaa", 0.8]
+    ]
+  },
+  {
+    "name": "QUIT_msg_1_arg",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.0],
+      ["JOIN #test", 0.8],
+      ["QUIT aaaaaa", 0.8]
+    ]
+  },
+  {
+    "name": "QUIT_msg_2_arg",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.0],
+      ["JOIN #test", 0.8],
+      ["QUIT aaaaaa bbbbbbb", 0.8]
+    ]
+  }
+]
