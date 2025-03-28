@@ -294,6 +294,8 @@ inline static std::string enumToCommandStr(const MessageConstants::CommandType &
     return "TOPIC";
   case MessageConstants::MODE:
     return "MODE";
+  case MessageConstants::QUIT:
+    return "QUIT";
   case MessageConstants::ERROR:
     return "ERROR";
   default:

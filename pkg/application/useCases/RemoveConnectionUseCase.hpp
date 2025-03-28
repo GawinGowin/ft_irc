@@ -9,8 +9,10 @@
 #include "domain/channel/ChannelService.hpp"
 #include "domain/client/Client.hpp"
 #include "domain/message/MessageConstants.hpp"
+#include "domain/message/MessageService.hpp"
 #include "infra/logger/MultiLogger.hpp"
 
+#include <map>
 #include <stdexcept>
 
 class RemoveConnectionUseCase {
