@@ -1,18 +1,21 @@
 #ifndef REMOVECONNECTIONUSECASE_HPP
 #define REMOVECONNECTIONUSECASE_HPP
 
+#include "application/dto/SendMsgDTO.hpp"
+#include "application/serviceLocator/InmemoryChannelDBServiceLocator.hpp"
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
 #include "domain/channel/ChannelService.hpp"
 #include "domain/client/Client.hpp"
+#include "domain/message/MessageConstants.hpp"
 #include "infra/logger/MultiLogger.hpp"
 
 #include <stdexcept>
 
 class RemoveConnectionUseCase {
 public:
-  static void remove(int clientFd);
+  static SendMsgDTO remove(int clientFd);
 
 private:
   RemoveConnectionUseCase();

@@ -22,6 +22,7 @@ void entrypoint(int argc, char **argv) {
   MonitorSocketEventDTO eventDto;
   RecievedMsgDTO recievedMsgDto;
   SendMsgDTO sendMsgDto;
+  SendMsgDTO sendCleanUpMsgDto;
 
   logger->infoss() << "Start Listening port:"
                    << ConfigsServiceLocator::get().getConfigs().Global.Port;
@@ -48,7 +49,8 @@ void entrypoint(int argc, char **argv) {
       sendMsgDto = RunCommandsUseCase::execute(recievedMsgDto);
       SendMsgFromServerUseCase::send(sendMsgDto);
       if (recievedMsgDto.getClient()->getClientType() & CLIENT_DISCONNECT) {
-        RemoveConnectionUseCase::remove(eventDto.getConnectionFd());
+        sendCleanUpMsgDto = RemoveConnectionUseCase::remove(eventDto.getConnectionFd());
+        SendMsgFromServerUseCase::send(sendCleanUpMsgDto);
       }
       break;
     case MonitorSocketEventDTO::Error:
