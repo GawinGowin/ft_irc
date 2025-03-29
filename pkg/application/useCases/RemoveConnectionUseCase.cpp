@@ -5,11 +5,7 @@ void RemoveConnectionUseCase::remove(int clientFd) {
   InmemoryClientDatabase *db = &InmemoryClientDBServiceLocator::get();
   MultiLogger *logger = LoggerServiceLocator::get();
   try {
-    IClientAggregateRoot *client = db->getByFd(clientFd);
-    if (client == NULL) {
-      throw std::runtime_error("Client not found unexpectedly");
-    }
-    db->remove(client->getId());
+    db->removeFdsByFd(clientFd);
     _socketHandler->closeConnection(clientFd);
     logger->infoss() << "Connection closed: (fd:" << clientFd << ")";
   } catch (const std::runtime_error &e) {
