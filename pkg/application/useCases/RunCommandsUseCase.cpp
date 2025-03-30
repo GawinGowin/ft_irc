@@ -39,6 +39,12 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   case (MessageConstants::MODE):
     dto = Mode(&clientMsg, client).execute();
     break;
+  case (MessageConstants::PING):
+    dto = Ping(&clientMsg, client).execute();
+    break;
+  case (MessageConstants::PONG):
+    dto = Pong(&clientMsg, client).execute();
+    break;
   case (MessageConstants::ERROR):
     dto.setStatus(1);
     return (dto);

@@ -14,6 +14,8 @@ enum CommandType {
   INVITE,
   TOPIC,
   MODE,
+  PING,
+  PONG,
   ERROR,
   UNKNOWN,
   UNDEFINED
