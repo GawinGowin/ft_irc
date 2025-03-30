@@ -6,6 +6,7 @@
 #include "domain/message/PrefixInfo.hpp"
 #include <algorithm>
 #include <iomanip>
+#include <iterator>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -31,10 +32,6 @@ public:
   int parseMessage(const std::string &message);
   static int parsePrefixDetails(PrefixInfo &prefixInfo, const std::string prefix);
   static int parseCommand(MessageConstants::CommandType &command, const std::string message);
-  static int parseParams(
-      std::vector<std::string> &params,
-      std::vector<std::string>::iterator paramIter,
-      std::vector<std::string>::iterator end);
   static int parseParams(
       std::vector<std::string> &params, const std::string paramStr, int *const isIncludeTrailing);
 

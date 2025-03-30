@@ -30,12 +30,12 @@ TEST(ParserTest, testPrefix) {
   EXPECT_EQ(noCRLF.getPrefix(), "");
   EXPECT_EQ(noCRLF.getCommand(), CommandType::PRIVMSG);
   EXPECT_EQ(noCRLF.getParams()[0], "#channel");
-  EXPECT_EQ(noCRLF.getParams()[1], ":Hello, world!");
+  EXPECT_EQ(noCRLF.getParams()[1], "Hello, world!");
 
   EXPECT_EQ(prefix.getPrefix(), ":prefix");
   EXPECT_EQ(prefix.getCommand(), CommandType::PRIVMSG);
   EXPECT_EQ(prefix.getParams()[0], "#channel");
-  EXPECT_EQ(prefix.getParams()[1], ":Hello, world!");
+  EXPECT_EQ(prefix.getParams()[1], "Hello, world!");
   EXPECT_EQ(noprefix.getPrefix(), "");
   EXPECT_EQ(onlyPrefix.getCommand(), CommandType::UNDEFINED);
   EXPECT_EQ(onlyPrefixAndSpace.getCommand(), CommandType::UNDEFINED);
