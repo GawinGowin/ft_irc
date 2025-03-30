@@ -12,14 +12,24 @@ TEST(MessageTest, DefaultConstructor) {
   EXPECT_EQ(message.getParams().size(), 0);
 }
 
-TEST(MessageTest, Constructor) {
+TEST(MessageTest, ConstructorResp) {
   Message message(":nick!user@host PASS your 1 1 :Current local users: 1, Max: 1\r\n");
 
   EXPECT_EQ(message.getPrefix(), ":nick!user@host");
   EXPECT_EQ(message.getParams()[0], "your");
   EXPECT_EQ(message.getParams()[1], "1");
   EXPECT_EQ(message.getParams()[2], "1");
-  EXPECT_EQ(message.getParams()[3], ":Current local users: 1, Max: 1");
+  EXPECT_EQ(message.getParams()[3], "Current local users: 1, Max: 1");
+}
+
+TEST(MessageTest, ConstructorUserCmd) {
+  Message message("USER me * 0 :realusername\r\n");
+
+  EXPECT_EQ(message.getPrefix(), "");
+  EXPECT_EQ(message.getCommand(), MessageConstants::USER);
+  EXPECT_EQ(message.getParams()[0], "*");
+  EXPECT_EQ(message.getParams()[1], "0");
+  EXPECT_EQ(message.getParams()[2], "realusername");
 }
 
 TEST(MessageTest, ConstructorWithPrefixCommandAndParams) {
