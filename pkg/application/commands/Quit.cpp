@@ -27,17 +27,17 @@ SendMsgDTO Quit::execute() {
   // 離脱するClientと同じチャンネルに所属する人にQuitメッセージを送信する
   std::string quitMessage;
   if (msg->getCommand() == MessageConstants::UNDEFINED) { // Ctrl + C で終了したとき
-    quitMessage = ":Client closed connection";
+    quitMessage = "Client closed connection";
   } else if (msg->getParams().size() == 0) { // QUITメッセージなし
-    quitMessage = ":" + client->getNickName();
+    quitMessage = client->getNickName();
   } else { // Quitメッセージ
-    quitMessage = ":\"" + msg->getParams()[0] + "\"";
+    quitMessage = "\"" + msg->getParams()[0] + "\"";
   }
 
   const std::string prefix =
       client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress();
   std::stringstream quitMsgss;
-  quitMsgss << Message(prefix, MessageConstants::QUIT, quitMessage);
+  quitMsgss << Message(prefix, MessageConstants::QUIT, ":" + quitMessage);
   const IdToChannelMap &channels = this->_channelDB->getDatabase();
   std::map<std::string, IClientAggregateRoot *> clientQuitTargetsMap;
   for (IdToChannelMap::const_iterator it = channels.begin(); it != channels.end(); ++it) {
@@ -86,5 +86,14 @@ SendMsgDTO Quit::execute() {
   client->setClientType(CLIENT_DISCONNECT);
   // _clientDBからクライアントを削除する手続きはRemoveConnectionUseCase::removeで行われる
   this->_logger->debugss() << "Total Channels Count: " << channels.size();
+  if (msg->getCommand() != MessageConstants::UNDEFINED) {
+    std::string userInfo =
+        client->getNickName() + "[" + client->getUserName() + "@" + client->getAddress() + "]";
+    quitMessage =
+        userInfo + " (\"" + (msg->getParams().size() == 0 ? "" : msg->getParams()[0]) + "\")";
+    MessageStream quitMsgstream(this->_socketHandler, client);
+    quitMsgstream << Message("", MessageConstants::ERROR, ":Closing connection: " + quitMessage);
+    messageStreams.push_back(quitMsgstream);
+  }
   return SendMsgDTO(0, messageStreams);
 }
