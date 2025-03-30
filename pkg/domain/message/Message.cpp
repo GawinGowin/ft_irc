@@ -112,6 +112,7 @@ int Message::parseMessage(const std::string &msgStr) {
   std::istringstream iss(msg);
   std::string word;
   std::vector<std::string> words;
+  std::ostringstream os;
 
   while (iss >> word) {
     if (word == CRLF) {
@@ -129,7 +130,6 @@ int Message::parseMessage(const std::string &msgStr) {
     }
     words.push_back(word);
   }
-
   if (words.size() < 1) {
     return 1;
   }
@@ -142,16 +142,18 @@ int Message::parseMessage(const std::string &msgStr) {
     if (words.size() > 1 && parseCommand(this->_command, words[1]) != 0) {
       error |= 1;
     }
-    if (words.size() > 1 && parseParams(this->_params, words.begin() + 2, words.end()) != 0) {
-      error |= 1;
+    if (words.size() > 1) {
+      std::copy(words.begin() + 2, words.end(), std::ostream_iterator<std::string>(os, " "));
+      size_t len = os.str().length();
+      parseParams(this->_params, os.str().substr(0, len - 1), &this->_isIncludeTrailing);
     }
   } else {
     if (parseCommand(this->_command, words[0]) != 0) {
       error |= 1;
     }
-    if (parseParams(this->_params, words.begin() + 1, words.end()) != 0) {
-      error |= 1;
-    }
+    std::copy(words.begin() + 1, words.end(), std::ostream_iterator<std::string>(os, " "));
+    size_t len = os.str().length();
+    parseParams(this->_params, os.str().substr(0, len - 1), &this->_isIncludeTrailing);
   }
   return error;
 }
@@ -206,18 +208,6 @@ int Message::parseCommand(MessageConstants::CommandType &command, const std::str
   command = strToCommandType(message);
   if (command == MessageConstants::UNKNOWN) {
     return 1;
-  }
-  return 0;
-}
-
-int Message::parseParams(
-    std::vector<std::string> &params,
-    std::vector<std::string>::iterator paramIter,
-    std::vector<std::string>::iterator end) {
-  params.clear();
-  while (paramIter != end) {
-    params.push_back(*paramIter);
-    paramIter++;
   }
   return 0;
 }
