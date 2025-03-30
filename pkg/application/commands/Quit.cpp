@@ -9,13 +9,31 @@ Quit::Quit(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands
 }
 
 SendMsgDTO Quit::execute() {
-  // IMessageAggregateRoot *msg = this->getMessage();
+  IMessageAggregateRoot *msg = this->getMessage();
   IClientAggregateRoot *client = this->getClient();
 
+  const std::string serverName = this->_conf->getConfigs().Global.Name;
   MessageStreamVector messageStreams;
 
+  if (msg->getParams().size() > 1) {
+    MessageStream stream(this->_socketHandler, client);
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS,
+        client->getNickName() + " QUIT :Syntax error");
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
+
   // 離脱するClientと同じチャンネルに所属する人にQuitメッセージを送信する
-  const std::string quitMessage = ":Client closed connection";
+  std::string quitMessage;
+  if (msg->getCommand() == MessageConstants::UNDEFINED) { // Ctrl + C で終了したとき
+    quitMessage = ":Client closed connection";
+  } else if (msg->getParams().size() == 0) { // QUITメッセージなし
+    quitMessage = ":" + client->getNickName();
+  } else { // Quitメッセージ
+    quitMessage = ":\"" + msg->getParams()[0] + "\"";
+  }
+
   const std::string prefix =
       client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress();
   std::stringstream quitMsgss;
