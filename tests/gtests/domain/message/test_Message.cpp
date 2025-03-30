@@ -27,9 +27,10 @@ TEST(MessageTest, ConstructorUserCmd) {
 
   EXPECT_EQ(message.getPrefix(), "");
   EXPECT_EQ(message.getCommand(), MessageConstants::USER);
-  EXPECT_EQ(message.getParams()[0], "*");
-  EXPECT_EQ(message.getParams()[1], "0");
-  EXPECT_EQ(message.getParams()[2], "realusername");
+  EXPECT_EQ(message.getParams()[0], "me");
+  EXPECT_EQ(message.getParams()[1], "*");
+  EXPECT_EQ(message.getParams()[2], "0");
+  EXPECT_EQ(message.getParams()[3], "realusername");
 }
 
 TEST(MessageTest, ConstructorWithPrefixCommandAndParams) {
