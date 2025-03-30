@@ -78,12 +78,13 @@ SendMsgDTO Quit::execute() {
     ChannelClientList &clientList = channel->getListConnects();
 
     if (clientList.getClients().empty()) {
-      this->_logger->debugss() << "Channel " << channel->getName() << " is empty, removing it";
+      this->_logger->tracess() << "Channel " << channel->getName() << " is empty, removing it";
       this->_channelDB->remove(channel->getName());
     }
   }
   // CLIENT_DISCONNECT にすれば後の処理で自動的に切断される。
   client->setClientType(CLIENT_DISCONNECT);
   // _clientDBからクライアントを削除する手続きはRemoveConnectionUseCase::removeで行われる
+  this->_logger->debugss() << "Total Channels Count: " << channels.size();
   return SendMsgDTO(0, messageStreams);
 }
