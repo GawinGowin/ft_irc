@@ -6,19 +6,25 @@ SendMsgDTO Pong::execute() {
   IMessageAggregateRoot *msg = this->getMessage();
   IClientAggregateRoot *client = this->getClient();
   MessageStreamVector messageStreams;
-  
+  MessageStream stream =
+      MessageService::generateMessageStream(&SocketHandlerServiceLocator::get(), client);
+
+  const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
   MultiLogger *logger = LoggerServiceLocator::get();
 
-  // Extract parameters
-  std::string token = msg->getParams().size() > 0 ? msg->getParams()[0] : "";
-  std::string target = msg->getParams().size() > 1 ? msg->getParams()[1] : "";
+  std::string target = msg->getParams().size() > 0 ? msg->getParams()[0] : "";
+  std::string token = msg->getParams().size() > 1 ? msg->getParams()[1] : "";
 
-  // Log the PONG message
-  logger->debug("PONG received from client " + client->getNickName() + 
-                " with token: " + token + 
-                (target.empty() ? "" : " and target: " + target));
-
-  // PONG is just a response to PING, so we don't need to send anything back
-  // Just log it and return success
+  if (target.empty()) {
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NOORIGIN,
+        client->getNickName() + " :No origin specified");
+    messageStreams.push_back(stream);
+    logger->trace("[PONG] received from client " + client->getNickName() + " but no target");
+    return SendMsgDTO(1, messageStreams);
+  }
+  logger->debug(
+      "[PONG] received from client " + client->getNickName() + " with token: " + token +
+      (target.empty() ? "" : " and target: " + target));
   return SendMsgDTO(0, messageStreams);
 }
