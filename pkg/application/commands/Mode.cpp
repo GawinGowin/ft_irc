@@ -22,7 +22,7 @@ SendMsgDTO Mode::execute() {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
         "* :Connection not registered");
-        streams.push_back(stream);
+    streams.push_back(stream);
     return SendMsgDTO(1, streams);
   }
 

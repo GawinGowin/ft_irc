@@ -16,7 +16,7 @@ SendMsgDTO Ping::execute() {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
         "* :Connection not registered");
-        messageStreams.push_back(stream);
+    messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
 
