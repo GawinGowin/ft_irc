@@ -263,6 +263,8 @@ inline static MessageConstants::CommandType strToCommandType(const std::string &
     return (MessageConstants::PING);
   } else if (str == "PONG") {
     return (MessageConstants::PONG);
+  } else if (str == "QUIT") {
+    return (MessageConstants::QUIT);
   } else {
     return (MessageConstants::UNKNOWN);
   }
@@ -292,6 +294,8 @@ inline static std::string enumToCommandStr(const MessageConstants::CommandType &
     return "PING";
   case MessageConstants::PONG:
     return "PONG";
+  case MessageConstants::QUIT:
+    return "QUIT";
   case MessageConstants::ERROR:
     return "ERROR";
   default:

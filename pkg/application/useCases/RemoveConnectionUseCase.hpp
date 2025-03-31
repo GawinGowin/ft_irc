@@ -4,6 +4,7 @@
 #include "application/serviceLocator/InmemoryClientDBServiceLocator.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
 #include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
+#include "domain/channel/ChannelService.hpp"
 #include "domain/client/Client.hpp"
 #include "infra/logger/MultiLogger.hpp"
 

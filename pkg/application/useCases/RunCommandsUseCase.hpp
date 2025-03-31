@@ -10,6 +10,7 @@
 #include "application/commands/Ping.hpp"
 #include "application/commands/Pong.hpp"
 #include "application/commands/Privmsg.hpp"
+#include "application/commands/Quit.hpp"
 #include "application/commands/Topic.hpp"
 #include "application/commands/User.hpp"
 #include "application/dto/RecievedMsgDTO.hpp"

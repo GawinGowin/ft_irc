@@ -40,11 +40,6 @@ void entrypoint(int argc, char **argv) {
       break;
     case MonitorSocketEventDTO::MessageReceived:
       recievedMsgDto = RecieveMsgUseCase::recieve(eventDto);
-      if (recievedMsgDto.getMessage().size() == 0) {
-        int clientFd = eventDto.getConnectionFd();
-        RemoveConnectionUseCase::remove(clientFd);
-        break;
-      }
       sendMsgDto = RunCommandsUseCase::execute(recievedMsgDto);
       SendMsgFromServerUseCase::send(sendMsgDto);
       if (recievedMsgDto.getClient()->getClientType() & CLIENT_DISCONNECT) {

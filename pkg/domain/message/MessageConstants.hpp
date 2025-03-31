@@ -16,6 +16,7 @@ enum CommandType {
   MODE,
   PING,
   PONG,
+  QUIT,
   ERROR,
   UNKNOWN,
   UNDEFINED
