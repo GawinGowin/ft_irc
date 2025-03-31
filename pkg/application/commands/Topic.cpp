@@ -9,8 +9,22 @@
 Topic::Topic(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
 SendMsgDTO Topic::execute() {
+  
+  IClientAggregateRoot *client = this->getClient();
+  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+    MessageStreamVector streams;
+    ISocketHandler *socketHandler = &SocketHandlerServiceLocator::get();
+    const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
+  
+    MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
+        "* :Connection not registered");
+        streams.push_back(stream);
+        return SendMsgDTO(1, streams);
+      }
   std::string channelName = getMessage()->getParams()[0];
-
+  
   // チャンネルの存在確認
   InmemoryChannelDatabase &db = InmemoryChannelDBServiceLocator::get();
   IChannelAggregateRoot *channel = db.get(channelName);

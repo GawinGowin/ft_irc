@@ -5,9 +5,11 @@
 #include "application/dto/SendMsgDTO.hpp"
 #include "application/serviceLocator/InmemoryChannelDBServiceLocator.hpp"
 #include "application/serviceLocator/LoggerServiceLocator.hpp"
+#include "domain/client/ClientService.hpp"
 #include "domain/channel/IChannelAggregateRoot.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
+#include "domain/message/MessageService.hpp"
 
 class Topic : public ACommands {
 public:

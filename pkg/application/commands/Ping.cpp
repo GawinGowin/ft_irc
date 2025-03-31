@@ -12,6 +12,14 @@ SendMsgDTO Ping::execute() {
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
   MultiLogger *logger = LoggerServiceLocator::get();
 
+  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
+        "* :Connection not registered");
+        messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
+
   if (msg->getParams().size() < 1) {
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NOORIGIN,
