@@ -44,6 +44,7 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     break;
   case (MessageConstants::PONG):
     dto = Pong(&clientMsg, client).execute();
+    break;
   case (MessageConstants::QUIT):
   case (MessageConstants::UNDEFINED):
     dto = Quit(&clientMsg, client).execute();
