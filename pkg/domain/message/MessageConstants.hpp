@@ -14,6 +14,8 @@ enum CommandType {
   INVITE,
   TOPIC,
   MODE,
+  PING,
+  PONG,
   QUIT,
   ERROR,
   UNKNOWN,
@@ -30,8 +32,10 @@ const int RPL_ENDOFNAMES = 366;
 const int RPL_INVITING = 341;
 const int RPL_NAMREPLY = 353;
 const int ERR_NOSUCHNICK = 401;
+const int ERR_NOSUCHSERVER = 402;
 const int ERR_NOSUCHCHANNEL = 403;
 const int ERR_CANNOTSENDTOCHAN = 404;
+const int ERR_NOORIGIN = 409;
 const int ERR_ERRONEUSNICKNAME = 432;
 const int ERR_NICKNAMETOOLONG = 432;
 const int ERR_NICKNAMEINUSE = 433;
