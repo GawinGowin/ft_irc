@@ -2,15 +2,15 @@
 
 SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   MultiLogger *logger = LoggerServiceLocator::get();
-  if (recieved.getMessage().empty()) {
-    logger->error("Recieved message is empty");
-    throw std::invalid_argument("Recieved message is empty");
-  }
-  Message clientMsg(recieved.getMessage());
-  logger->tracess() << "clientMsg: " << clientMsg;
-
-  SendMsgDTO dto;
+  Message clientMsg;
   IClientAggregateRoot *client = recieved.getClient();
+  if (recieved.getMessage().empty()) {
+    logger->warningss() << "Recieved message is empty (fd: " << client->getSocketFd() << ")";
+  } else {
+    clientMsg = Message(recieved.getMessage());
+    logger->tracess() << "Recieved message: " << clientMsg;
+  }
+  SendMsgDTO dto;
   switch (clientMsg.getCommand()) {
   case (MessageConstants::PASS):
     dto = Pass(&clientMsg, client).execute();
@@ -38,6 +38,10 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
     break;
   case (MessageConstants::MODE):
     dto = Mode(&clientMsg, client).execute();
+    break;
+  case (MessageConstants::QUIT):
+  case (MessageConstants::UNDEFINED):
+    dto = Quit(&clientMsg, client).execute();
     break;
   case (MessageConstants::ERROR):
     dto.setStatus(1);

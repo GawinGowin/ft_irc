@@ -8,6 +8,7 @@
 #include "application/commands/Nick.hpp"
 #include "application/commands/Pass.hpp"
 #include "application/commands/Privmsg.hpp"
+#include "application/commands/Quit.hpp"
 #include "application/commands/Topic.hpp"
 #include "application/commands/User.hpp"
 #include "application/dto/RecievedMsgDTO.hpp"

@@ -69,7 +69,7 @@ SendMsgDTO Join::execute() {
       channelDB.add(Channel(channels[i]));
       channel = channelDB.get(channels[i]);
       channel->addOperator(client->getNickName());
-      logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): create" << channels[i];
+      logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): create " << channels[i];
     } else {
       // パスワードのチェック
       if (!channel->checkKey(password)) {
@@ -100,6 +100,7 @@ SendMsgDTO Join::execute() {
       generateChannelInfoResponse(messageStreams, socketHandler, client, channel);
     }
   }
+  logger->debugss() << "Total Channels Count: " << channels.size();
   return SendMsgDTO(0, messageStreams);
 }
 

@@ -14,6 +14,7 @@ enum CommandType {
   INVITE,
   TOPIC,
   MODE,
+  QUIT,
   ERROR,
   UNKNOWN,
   UNDEFINED
