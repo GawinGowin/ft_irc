@@ -153,6 +153,9 @@ inline static void generateChannelInfoResponse(
     if (member != members.begin()) {
       membersStr += " ";
     }
+    if (channel->isOperator(*member)) {
+      membersStr += "@";
+    }
     membersStr += *member;
   }
   membersStr += "\r\n";
