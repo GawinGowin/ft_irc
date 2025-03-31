@@ -1,0 +1,83 @@
+[
+  {
+    "name": "PING_default",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PING :ping!", 0.8]
+    ]
+  },
+  {
+    "name": "PING_two_parameter",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PING ping irc.example.net", 0.8]
+    ]
+  },
+  {
+    "name": "PING_two_parameter_tailing",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PING ping :irc.example.net", 0.8]
+    ]
+  },
+  {
+    "name": "PING_three_parameter",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PING ping :irc.example.net 1111111", 0.8]
+    ]
+  },
+  {
+    "name": "PING_no_parameter",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PING", 0.8]
+    ]
+  },
+  {
+    "name": "PONG_default",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PONG irc.example.net", 0.8]
+    ]
+  },
+  {
+    "name": "PONG_invalid_server",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PONG aaaa", 0.8]
+    ]
+  },
+  {
+    "name": "PONG_with_parameter",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PONG irc.example.net aaaaa", 0.8]
+    ]
+  },
+  {
+    "name": "PONG_no_parameter",
+    "commands": [
+      ["PASS password", 0.8],
+      ["NICK testuser", 0.8],
+      ["USER testuser 0 * :Test User", 1.5],
+      ["PONG", 0.8]
+    ]
+  }
+]
