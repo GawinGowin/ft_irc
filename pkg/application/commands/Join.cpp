@@ -25,7 +25,7 @@ SendMsgDTO Join::execute() {
 
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
 
-  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+  if (client->getClientType() != CLIENT_USER) {
     MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
@@ -96,7 +96,7 @@ SendMsgDTO Join::execute() {
       logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): already joined to "
                         << channels[i];
     } else {
-      logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): success to join"
+      logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): success to join "
                         << channels[i];
       // チャンネルメンバーにJOIN通知をブロードキャスト
       std::vector<MessageStream> streams;
@@ -170,7 +170,7 @@ inline static void generateChannelInfoResponse(
   membersStr += "\r\n";
   response = Message(
       serverName, MessageConstants::ResponseCode::RPL_NAMREPLY,
-      client->getNickName() + " " + channel->getName() + " :" + membersStr);
+      client->getNickName() + " = " + channel->getName() + " :" + membersStr);
   messageStreams.push_back(MessageStream(socketHandler, client) << response);
 
   // NAMES終了の通知

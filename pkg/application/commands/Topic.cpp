@@ -1,17 +1,11 @@
 #include "application/commands/Topic.hpp"
-#include "application/dto/SendMsgDTO.hpp"
-#include "application/serviceLocator/SocketHandlerServiceLocator.hpp"
-#include "domain/channel/ChannelTopic.hpp"
-#include "domain/message/MessageStreamVector.hpp"
-#include "infra/database/InmemoryChannelDatabase.hpp"
-#include "infra/socket/ISocketHandler.hpp"
 
 Topic::Topic(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
 SendMsgDTO Topic::execute() {
 
   IClientAggregateRoot *client = this->getClient();
-  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+  if (client->getClientType() != CLIENT_USER) {
     MessageStreamVector streams;
     ISocketHandler *socketHandler = &SocketHandlerServiceLocator::get();
     const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;

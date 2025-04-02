@@ -17,7 +17,7 @@ SendMsgDTO Mode::execute() {
   ISocketHandler *socketHandler = &SocketHandlerServiceLocator::get();
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
 
-  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+  if (client->getClientType() != CLIENT_USER) {
     MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
     stream << Message(
         serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,

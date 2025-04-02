@@ -48,7 +48,7 @@ SendMsgDTO Nick::execute() {
   }
 
   client->setNickName(nickName);
-  client->setClientType(CLIENT_GOTNICK);
+  client->setClientType(client->getClientType() | CLIENT_GOTNICK);
 
   ClientService::LoginResult ret = ClientService::login(*client);
   switch (ret) {
