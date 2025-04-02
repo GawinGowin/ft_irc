@@ -33,10 +33,6 @@ SendMsgDTO Join::execute() {
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
-
-  if (client->getNickName() == "") {
-    return sendError(client);
-  }
   if (msg->getParams().size() < 1 || msg->getParams().size() > 2) {
     return sendError(client);
   }

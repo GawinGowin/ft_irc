@@ -29,8 +29,8 @@
       "args": [
         "${workspaceFolder}/tests/e2e/irc_e2e.py",
         "--org", "host.docker.internal:6667",
-        "--alt", "host.docker.internal:6668",
-        "${workspaceFolder}/tests/e2e/quit.json",
+        "--alt", "localhost:8080",
+        "${workspaceFolder}/tests/e2e/JOIN.json",
       ],
       "group": "build",
     }
