@@ -1,42 +1,150 @@
 [
   {
     "name": "QUIT",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.0],
-      ["JOIN #test", 0.8],
-      ["QUIT", 0.8]
+    "description": "基本的なQUITコマンドのテスト（パラメータなし）",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.0
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 5,
+        "client_id": "client1",
+        "command": "QUIT",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "QUIT_msg_tail",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.0],
-      ["JOIN #test", 0.8],
-      ["QUIT :aaaaaa", 0.8]
+    "description": "終了メッセージ付きのQUITコマンドテスト（コロン形式）",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.0
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 5,
+        "client_id": "client1",
+        "command": "QUIT :aaaaaa",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "QUIT_msg_1_arg",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.0],
-      ["JOIN #test", 0.8],
-      ["QUIT aaaaaa", 0.8]
+    "description": "1つの引数を持つQUITコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.0
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 5,
+        "client_id": "client1",
+        "command": "QUIT aaaaaa",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "QUIT_msg_2_arg",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.0],
-      ["JOIN #test", 0.8],
-      ["QUIT aaaaaa bbbbbbb", 0.8]
+    "description": "2つの引数を持つQUITコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.0
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 5,
+        "client_id": "client1",
+        "command": "QUIT aaaaaa bbbbbbb",
+        "wait_after": 0.8
+      }
     ]
   }
 ]

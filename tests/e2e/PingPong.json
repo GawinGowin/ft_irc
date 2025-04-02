@@ -1,83 +1,281 @@
 [
   {
     "name": "PING_default",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PING :ping!", 0.8]
+    "description": "基本的なPINGコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PING :ping!",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PING_two_parameter",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PING ping irc.example.net", 0.8]
+    "description": "2つのパラメータを持つPINGコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PING ping irc.example.net",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PING_two_parameter_tailing",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PING ping :irc.example.net", 0.8]
+    "description": "後続パラメータ付きのPINGコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PING ping :irc.example.net",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PING_three_parameter",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PING ping :irc.example.net 1111111", 0.8]
+    "description": "3つのパラメータを持つPINGコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PING ping :irc.example.net 1111111",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PING_no_parameter",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PING", 0.8]
+    "description": "パラメータなしのPINGコマンドテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PING",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PONG_default",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PONG irc.example.net", 0.8]
+    "description": "基本的なPONGコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PONG irc.example.net",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PONG_invalid_server",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PONG aaaa", 0.8]
+    "description": "無効なサーバーへのPONGコマンドテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PONG aaaa",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PONG_with_parameter",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PONG irc.example.net aaaaa", 0.8]
+    "description": "追加パラメータ付きのPONGコマンドテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PONG irc.example.net aaaaa",
+        "wait_after": 0.8
+      }
     ]
   },
   {
     "name": "PONG_no_parameter",
-    "commands": [
-      ["PASS password", 0.8],
-      ["NICK testuser", 0.8],
-      ["USER testuser 0 * :Test User", 1.5],
-      ["PONG", 0.8]
+    "description": "パラメータなしのPONGコマンドテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "PONG",
+        "wait_after": 0.8
+      }
     ]
   }
 ]
