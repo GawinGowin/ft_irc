@@ -14,6 +14,16 @@ SendMsgDTO Privmsg::execute() {
   IClientAggregateRoot *client = this->getClient();
 
   MessageStreamVector streams;
+
+  const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
+  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+    MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
+        "* :Connection not registered");
+    streams.push_back(stream);
+    return SendMsgDTO(1, streams);
+  }
   if (msg->getParams().size() < 2) {
     MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
 

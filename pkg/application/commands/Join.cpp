@@ -25,6 +25,15 @@ SendMsgDTO Join::execute() {
 
   const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
 
+  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+    MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
+        "* :Connection not registered");
+    messageStreams.push_back(stream);
+    return SendMsgDTO(1, messageStreams);
+  }
+
   if (client->getNickName() == "") {
     return sendError(client);
   }

@@ -13,8 +13,20 @@ SendMsgDTO Mode::execute() {
   IClientAggregateRoot *client = this->getClient();
 
   const Configs &configs = this->_conf->getConfigs();
+  MessageStreamVector streams;
+  ISocketHandler *socketHandler = &SocketHandlerServiceLocator::get();
+  const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
+
+  if (ClientService::login(*client) != ClientService::LOGIN_ALREADY) {
+    MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+    stream << Message(
+        serverName, MessageConstants::ResponseCode::ERR_NOTREGISTERED,
+        "* :Connection not registered");
+    streams.push_back(stream);
+    return SendMsgDTO(1, streams);
+  }
+
   if (msg->getParams().size() < 1) {
-    MessageStreamVector streams;
     MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
     stream << Message(
         configs.Global.Name, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS,
