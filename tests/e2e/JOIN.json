@@ -1,0 +1,157 @@
+[
+  {
+    "name": "JOIN_default",
+    "description": "基本的なJOINコマンドのテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test",
+        "wait_after": 1.5
+      }
+    ]
+  },
+  {
+    "name": "JOIN_no_parameters",
+    "description": "パラメータなしのJOINコマンドテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN",
+        "wait_after": 1.5
+      }
+    ]
+  },
+  {
+    "name": "JOIN_invalid_channel",
+    "description": "無効なチャンネル名（#シンボルなし）のJOINコマンドテスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN test",
+        "wait_after": 1.5
+      }
+    ]
+  },
+  {
+    "name": "JOIN_invalid_channel_2",
+    "description": "無効な形式の複数チャンネル指定テスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test test",
+        "wait_after": 1.5
+      }
+    ]
+  },
+  {
+    "name": "JOIN_invalid_channel_3",
+    "description": "カンマ区切りのチャンネル名指定テスト",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test, #test2",
+        "wait_after": 1.5
+      }
+    ]
+  }
+]
