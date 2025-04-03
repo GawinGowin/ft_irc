@@ -80,10 +80,6 @@ void SocketHandler::closeConnection(int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
-  char send_buf = 0;
-  if (send(targetSocket, &send_buf, 1, 0) == -1) {
-    throw std::runtime_error("send failed");
-  }
   close(targetSocket);
   this->_currentConnections--;
 }
@@ -114,7 +110,7 @@ ssize_t SocketHandler::sendMsg(const std::string &message, int &targetSocket) {
   if (!this->_isListening) {
     return (-1);
   }
-  return send(targetSocket, message.c_str(), message.size(), 0);
+  return send(targetSocket, message.c_str(), message.size(), MSG_NOSIGNAL);
 }
 
 std::string SocketHandler::receiveMsg(const int &targetSocket) {
