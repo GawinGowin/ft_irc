@@ -73,15 +73,31 @@ SendMsgDTO Quit::execute() {
                            << ") removed from all channels";
 
   // ユーザーが空ならば、チャンネルを削除する
+  std::vector<std::string> channelsToRemove;
+  for (IdToChannelMap::const_iterator it = channels.begin(); it != channels.end(); ++it) {
+    IChannelAggregateRoot *channel = it->second;
+    ChannelClientList &clientList = channel->getListConnects();
+      if (clientList.getClients().empty()) {
+      this->_logger->tracess() << "Channel " << channel->getName() << " is empty, adding to removal list";
+      channelsToRemove.push_back(channel->getName());
+    }
+  }
+  for (std::vector<std::string>::const_iterator it = channelsToRemove.begin(); 
+       it != channelsToRemove.end(); ++it) {
+    this->_logger->tracess() << "Removing empty channel: " << *it;
+    this->_channelDB->remove(*it);
+  }
+
   for (IdToChannelMap::const_iterator it = channels.begin(); it != channels.end(); ++it) {
     IChannelAggregateRoot *channel = it->second;
     ChannelClientList &clientList = channel->getListConnects();
 
     if (clientList.getClients().empty()) {
-      this->_logger->tracess() << "Channel " << channel->getName() << " is empty, removing it";
       this->_channelDB->remove(channel->getName());
+      this->_logger->tracess() << "Channel " << channel->getName() << " is empty, removing it";
     }
   }
+
   // CLIENT_DISCONNECT にすれば後の処理で自動的に切断される。
   client->setClientType(CLIENT_DISCONNECT);
   // _clientDBからクライアントを削除する手続きはRemoveConnectionUseCase::removeで行われる
