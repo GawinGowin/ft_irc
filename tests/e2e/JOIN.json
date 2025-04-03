@@ -409,5 +409,66 @@
         "wait_after": 1.5
       }
     ]
+  },
+  {
+    "name": "JOIN_multiple_clients",
+    "description": "複数のクライアントが同時にJOINするテスト",
+    "clients": ["client1", "client2"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 2,
+        "client_id": "client1",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 3,
+        "client_id": "client1",
+        "command": "USER testuser 0 * :Test User",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 4,
+        "client_id": "client1",
+        "command": "JOIN #test",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 5,
+        "client_id": "client2",
+        "command": "PASS password",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 6,
+        "client_id": "client2",
+        "command": "NICK testuser",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 7,
+        "client_id": "client2",
+        "command": "NICK user2",
+        "wait_after": 0.8
+      },
+      {
+        "step_id": 7,
+        "client_id": "client2",
+        "command": "USER user2 0 * :Test User 2",
+        "wait_after": 1.5
+      },
+      {
+        "step_id": 8,
+        "client_id": "client2",
+        "command": "JOIN #test",
+        "wait_after": 1.5
+      }
+    ]
   }
 ]
