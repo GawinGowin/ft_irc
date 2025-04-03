@@ -10,6 +10,7 @@ void SendMsgFromServerUseCase::send(SendMsgDTO &message) {
     IClientAggregateRoot *client = msgStreams[i].getClient();
     if (results[i] != 0) {
       logger->errorss() << "Failed to send message to " << client->getNickName();
+      client->setClientType(CLIENT_DISCONNECT);
     } else {
       logger->tracess() << "Success to send message to " << client->getNickName();
     }

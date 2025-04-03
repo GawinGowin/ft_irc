@@ -67,7 +67,7 @@ int Client::setPassword(const std::string &password) {
 
 int Client::getClientType() { return this->_clientType; }
 
-void Client::setClientType(int clientType) { this->_clientType |= clientType; }
+void Client::setClientType(int clientType) { this->_clientType = clientType; }
 
 const std::string &Client::getRealName() const { return this->_realName; }
 

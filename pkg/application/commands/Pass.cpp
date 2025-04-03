@@ -32,6 +32,6 @@ SendMsgDTO Pass::execute() {
     messageStreams.push_back(stream);
     return SendMsgDTO(1, messageStreams);
   }
-  client->setClientType(CLIENT_GOTPASS);
+  client->setClientType(client->getClientType() | CLIENT_GOTPASS);
   return SendMsgDTO(0, messageStreams);
 }

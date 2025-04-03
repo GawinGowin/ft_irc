@@ -41,7 +41,7 @@ SendMsgDTO User::execute() {
     } else {
       client->setRealName(msg->getParams()[3]);
     }
-    client->setClientType(CLIENT_GOTUSER);
+    client->setClientType(client->getClientType() | CLIENT_GOTUSER);
 
     ClientService::LoginResult ret = ClientService::login(*client);
     switch (ret) {
