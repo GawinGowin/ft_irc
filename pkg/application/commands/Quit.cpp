@@ -77,12 +77,13 @@ SendMsgDTO Quit::execute() {
   for (IdToChannelMap::const_iterator it = channels.begin(); it != channels.end(); ++it) {
     IChannelAggregateRoot *channel = it->second;
     ChannelClientList &clientList = channel->getListConnects();
-      if (clientList.getClients().empty()) {
-      this->_logger->tracess() << "Channel " << channel->getName() << " is empty, adding to removal list";
+    if (clientList.getClients().empty()) {
+      this->_logger->tracess() << "Channel " << channel->getName()
+                               << " is empty, adding to removal list";
       channelsToRemove.push_back(channel->getName());
     }
   }
-  for (std::vector<std::string>::const_iterator it = channelsToRemove.begin(); 
+  for (std::vector<std::string>::const_iterator it = channelsToRemove.begin();
        it != channelsToRemove.end(); ++it) {
     this->_logger->tracess() << "Removing empty channel: " << *it;
     this->_channelDB->remove(*it);

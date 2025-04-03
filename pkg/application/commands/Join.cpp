@@ -2,8 +2,8 @@
 
 typedef std::vector<std::string>::iterator iter;
 
-inline static bool
-checkChannelName(const std::string &channelName, const std::string &allowedChannelTypes, std::size_t maxLength);
+inline static bool checkChannelName(
+    const std::string &channelName, const std::string &allowedChannelTypes, std::size_t maxLength);
 inline static void split(const std::string &s, char delim, std::vector<std::string> &elems);
 inline static void generateChannelInfoResponse(
     MessageStreamVector &messageStreams,
@@ -66,7 +66,8 @@ SendMsgDTO Join::execute() {
     }
   }
 
-  std::string allowedChannelTypes = ConfigsServiceLocator::get().getConfigs().Options.AllowedChannelTypes;
+  std::string allowedChannelTypes =
+      ConfigsServiceLocator::get().getConfigs().Options.AllowedChannelTypes;
   for (size_t i = 0; i < channels.size(); i++) {
     if (!checkChannelName(channels[i], allowedChannelTypes, 51)) {
       MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
@@ -135,8 +136,8 @@ static inline void split(const std::string &s, char delim, std::vector<std::stri
   }
 }
 
-inline static bool
-checkChannelName(const std::string &channelName, const std::string &allowedChannelTypes, std::size_t maxLength) {
+inline static bool checkChannelName(
+    const std::string &channelName, const std::string &allowedChannelTypes, std::size_t maxLength) {
   if (channelName.empty() || channelName.length() > maxLength) {
     return false;
   }
