@@ -76,7 +76,7 @@ SendMsgDTO Join::execute() {
     }
     IChannelAggregateRoot *channel = channelDB.get(channels[i]);
     std::string password = "";
-    if (!channelwasswords.empty()) {
+    if (!channelwasswords.empty() && i < channelwasswords.size()) {
       password = channelwasswords[i];
     }
     if (channel == NULL) {
@@ -133,6 +133,9 @@ static inline void split(const std::string &s, char delim, std::vector<std::stri
   std::stringstream ss(s);
   std::string item;
   while (std::getline(ss, item, delim)) {
+    if (item.empty()) {
+      continue;
+    }
     elems.push_back(item);
   }
 }
