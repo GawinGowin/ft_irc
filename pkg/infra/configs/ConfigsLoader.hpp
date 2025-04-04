@@ -3,6 +3,8 @@
 
 #include "domain/configs/Configs.hpp"
 #include "domain/configs/IConfigsRepository.hpp"
+#include <ctime>
+#include <sstream>
 
 class ConfigsLoader : virtual public IConfigsRepository {
 public:
@@ -16,6 +18,7 @@ public:
 
   void setPort(const int &port);
   void setPassword(const std::string &password);
+  void setStartStr();
 
 private:
   Configs _configs;

@@ -4,6 +4,9 @@
 #include "application/serviceLocator/ConfigsServiceLocator.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
 #include "domain/client/Password.hpp"
+#include "domain/message/IMessageAggregateRoot.hpp"
+#include "domain/message/Message.hpp"
+#include "domain/message/MessageService.hpp"
 
 #include <string>
 
@@ -17,6 +20,7 @@ public:
   };
   static LoginResult login(IClientAggregateRoot &client);
   static std::string generateWelcomeMessage(IClientAggregateRoot &client);
+  static void writeWelcomeMessageToStream(MessageStream &stream, IClientAggregateRoot &client);
 };
 
 #endif /* CLIENTSERVICE_HPP */

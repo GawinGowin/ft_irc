@@ -4,6 +4,7 @@ StartServerUseCase::StartServerUseCase(const StartServerDTO &dto) {
   ConfigsLoader &loader = ConfigsServiceLocator::get();
   loader.setPort(dto.getPort());
   loader.setPassword(dto.getPassword());
+  loader.setStartStr();
   const Configs &conf = loader.getConfigs();
   try {
     SocketHandlerServiceLocator::init(

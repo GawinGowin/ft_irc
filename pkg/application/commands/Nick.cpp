@@ -53,9 +53,7 @@ SendMsgDTO Nick::execute() {
   ClientService::LoginResult ret = ClientService::login(*client);
   switch (ret) {
   case ClientService::LOGIN_SUCCESS:
-    stream << Message(
-        serverName, MessageConstants::ResponseCode::RPL_WELCOME,
-        client->getNickName() + " :" + ClientService::generateWelcomeMessage(*client));
+    ClientService::writeWelcomeMessageToStream(stream, *client);
     messageStreams.push_back(stream);
     break;
   case ClientService::LOGIN_FAILED:
