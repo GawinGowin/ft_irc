@@ -100,12 +100,6 @@ SendMsgDTO Join::execute() {
       }
     }
 
-    MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
-    stream << Message(
-        client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
-        MessageConstants::JOIN, ":" + channels[i]);
-    messageStreams.push_back(stream);
-
     int joinResult = channel->getListConnects().addClient(client->getNickName());
     if (joinResult == 1) {
       logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): already joined to "
@@ -113,6 +107,12 @@ SendMsgDTO Join::execute() {
     } else {
       logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): success to join "
                         << channels[i];
+      MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+      stream << Message(
+          client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
+          MessageConstants::JOIN, ":" + channels[i]);
+      messageStreams.push_back(stream);
+
       // チャンネルメンバーにJOIN通知をブロードキャスト
       std::vector<MessageStream> streams;
       std::stringstream joinMsg;
