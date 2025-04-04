@@ -61,9 +61,6 @@ SendMsgDTO Join::execute() {
   split(msg->getParams()[0], ',', channels);
   if (msg->getParams().size() == 2) {
     split(msg->getParams()[1], ',', channelwasswords);
-    if (channels.size() != channelwasswords.size()) {
-      return sendError(client);
-    }
   }
 
   std::string allowedChannelTypes =
@@ -90,7 +87,11 @@ SendMsgDTO Join::execute() {
     } else {
       // パスワードのチェック
       if (!channel->checkKey(password)) {
-        sendError(client); // TODO: JOIN messageStreams
+        MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+        stream << Message(
+            serverName, MessageConstants::ResponseCode::ERR_BADCHANNELKEY,
+            client->getNickName() + " " + channels[i] + " :Cannot join channel (+k) -- Wrong channel key");
+        messageStreams.push_back(stream);
         continue;
       }
       // ユーザー数制限のチェック
