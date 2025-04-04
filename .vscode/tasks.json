@@ -30,7 +30,7 @@
         "${workspaceFolder}/tests/e2e/irc_e2e.py",
         "--org", "host.docker.internal:6667",
         "--alt", "localhost:8080",
-        "${workspaceFolder}/tests/e2e/JOIN.json",
+        "${workspaceFolder}/tests/e2e/MODE_k.json",
       ],
       "group": "build",
     }
