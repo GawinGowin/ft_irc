@@ -10,7 +10,6 @@ inline static void generateChannelInfoResponse(
     ISocketHandler *socketHandler,
     IClientAggregateRoot *client,
     IChannelAggregateRoot *channel);
-inline static SendMsgDTO sendError(IClientAggregateRoot *client);
 
 Join::Join(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
@@ -210,15 +209,4 @@ inline static void generateChannelInfoResponse(
       serverName, MessageConstants::ResponseCode::RPL_ENDOFNAMES,
       client->getNickName() + " " + channel->getName() + " :End of NAMES list");
   messageStreams.push_back(MessageStream(socketHandler, client) << response);
-}
-
-inline static SendMsgDTO sendError(IClientAggregateRoot *client) {
-  const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
-
-  MessageStreamVector messageStreams;
-  MessageStream stream =
-      MessageService::generateMessageStream(&SocketHandlerServiceLocator::get(), client);
-  stream << Message(serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* : Error");
-  messageStreams.push_back(stream);
-  return SendMsgDTO(1, messageStreams);
 }
