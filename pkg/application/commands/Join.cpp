@@ -85,6 +85,15 @@ SendMsgDTO Join::execute() {
       channel->addOperator(client->getNickName());
       logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): create " << channels[i];
     } else {
+      // 招待性のチャンネルかチェック
+      if (channel->isInviteOnly() && !channel->isUserInvited(client->getNickName())) {
+        MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+        stream << Message(
+            serverName, MessageConstants::ResponseCode::ERR_INVITEONLYCHAN,
+            client->getNickName() + " " + channels[i] + " :Cannot join channel (+i) -- Invited users only");
+        messageStreams.push_back(stream);
+        continue;
+      }
       // パスワードのチェック
       if (!channel->checkKey(password)) {
         MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
