@@ -19,6 +19,10 @@ ConfigsLoader::ConfigsLoader() {
   conf.Global.Port = 6667;
   conf.Global.ServerGID = "irc";
   conf.Global.ServerUID = "irc";
+  conf.Global.Version = "ft_irc-1.0";
+  conf.Global.StartStr = "Fri Apr 04 2025 at 19:40:56 (JST)";
+  conf.Global.UserModes = "o";
+  conf.Global.ChanModes = "iklot";
 
   // [Limits]
   conf.Limits.ConnectRetry = 60;
@@ -80,4 +84,13 @@ void ConfigsLoader::setPort(const int &port) { this->_configs.Global.Port = port
 
 void ConfigsLoader::setPassword(const std::string &password) {
   this->_configs.Global.Password = password;
+}
+
+void ConfigsLoader::setStartStr() {
+  std::time_t now = std::time(NULL);
+  std::tm *tm = std::localtime(&now);
+
+  char buffer[50];
+  std::strftime(buffer, sizeof(buffer), "%a %b %d %Y at %H:%M:%S (JST)", tm);
+  this->_configs.Global.StartStr = std::string(buffer);
 }

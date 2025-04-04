@@ -25,6 +25,8 @@ enum CommandType {
 namespace ResponseCode {
 const int RPL_WELCOME = 1;
 const int RPL_YOURHOST = 2;
+const int RPL_CREATED = 3;
+const int RPL_MYINFO = 4;
 const int RPL_CHANNELMODEIS = 324;
 const int RPL_CREATIONTIME_MSG = 329;
 const int RPL_TOPIC = 332;
