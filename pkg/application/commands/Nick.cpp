@@ -82,7 +82,7 @@ SendMsgDTO Nick::execute() {
 static int checkNickName(const std::string &nickName) {
   for (size_t i = 0; i < nickName.size(); i++) {
     if (!std::isalnum(nickName[i]) || nickName[i] == '+' || nickName[i] == '-' ||
-        nickName[i] == '.' || nickName[i] == '_' || nickName[i] == '@') {
+        nickName[i] == '.' || nickName[i] == '@') {
       return 1;
     }
   }
