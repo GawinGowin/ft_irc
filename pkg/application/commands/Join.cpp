@@ -96,7 +96,11 @@ SendMsgDTO Join::execute() {
       }
       // ユーザー数制限のチェック
       if (channel->isMemberLimitExceeded()) {
-        sendError(client); // TODO: JOIN messageStreams
+        MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+        stream << Message(
+            serverName, MessageConstants::ResponseCode::ERR_CHANNELISFULL,
+            client->getNickName() + " " + channels[i] + " :Cannot join channel (+l) -- Channel is full, try later");
+        messageStreams.push_back(stream);
         continue;
       }
     }
