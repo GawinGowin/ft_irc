@@ -6,7 +6,6 @@
 #include <ctime>
 #include <sstream>
 
-
 class ConfigsLoader : virtual public IConfigsRepository {
 public:
   ConfigsLoader();

@@ -4,9 +4,9 @@
 #include "application/serviceLocator/ConfigsServiceLocator.hpp"
 #include "domain/client/IClientAggregateRoot.hpp"
 #include "domain/client/Password.hpp"
-#include "domain/message/MessageService.hpp"
 #include "domain/message/IMessageAggregateRoot.hpp"
 #include "domain/message/Message.hpp"
+#include "domain/message/MessageService.hpp"
 
 #include <string>
 
