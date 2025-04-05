@@ -89,7 +89,8 @@ SendMsgDTO Join::execute() {
         MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
         stream << Message(
             serverName, MessageConstants::ResponseCode::ERR_INVITEONLYCHAN,
-            client->getNickName() + " " + channels[i] + " :Cannot join channel (+i) -- Invited users only");
+            client->getNickName() + " " + channels[i] +
+                " :Cannot join channel (+i) -- Invited users only");
         messageStreams.push_back(stream);
         continue;
       }
@@ -98,7 +99,8 @@ SendMsgDTO Join::execute() {
         MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
         stream << Message(
             serverName, MessageConstants::ResponseCode::ERR_BADCHANNELKEY,
-            client->getNickName() + " " + channels[i] + " :Cannot join channel (+k) -- Wrong channel key");
+            client->getNickName() + " " + channels[i] +
+                " :Cannot join channel (+k) -- Wrong channel key");
         messageStreams.push_back(stream);
         continue;
       }
@@ -107,7 +109,8 @@ SendMsgDTO Join::execute() {
         MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
         stream << Message(
             serverName, MessageConstants::ResponseCode::ERR_CHANNELISFULL,
-            client->getNickName() + " " + channels[i] + " :Cannot join channel (+l) -- Channel is full, try later");
+            client->getNickName() + " " + channels[i] +
+                " :Cannot join channel (+l) -- Channel is full, try later");
         messageStreams.push_back(stream);
         continue;
       }
