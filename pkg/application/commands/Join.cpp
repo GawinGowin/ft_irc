@@ -123,19 +123,21 @@ SendMsgDTO Join::execute() {
     } else {
       logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): success to join "
                         << channels[i];
-      MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
-      stream << Message(
+      Message joinMessage(
           client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
           MessageConstants::JOIN, ":" + channels[i]);
+
+      MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+      stream << joinMessage;
       messageStreams.push_back(stream);
+
+      std::stringstream ss;
+      ss << joinMessage;
 
       // チャンネルメンバーにJOIN通知をブロードキャスト
       std::vector<MessageStream> streams;
-      std::stringstream joinMsg;
-      joinMsg << ":" << client->getNickName() << " JOIN " << channel->getName() << "\r\n";
-
       streams = MessageService::generateMessageToChannel(
-          socketHandler, client, &clientDB, channel, joinMsg.str());
+          socketHandler, client, &clientDB, channel, ss.str());
       messageStreams.insert(messageStreams.end(), streams.begin(), streams.end());
       generateChannelInfoResponse(messageStreams, socketHandler, client, channel);
     }
