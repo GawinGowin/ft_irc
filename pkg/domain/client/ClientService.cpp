@@ -32,3 +32,29 @@ std::string ClientService::generateWelcomeMessage(IClientAggregateRoot &client) 
   return "Welcome to the Internet Relay Network " + client.getNickName() + "!" +
          client.getUserName() + "@" + client.getAddress();
 }
+
+void ClientService::writeWelcomeMessageToStream(
+    MessageStream &stream, IClientAggregateRoot &client) {
+  stream << Message(
+      ConfigsServiceLocator::get().getConfigs().Global.Name,
+      MessageConstants::ResponseCode::RPL_WELCOME,
+      client.getNickName() + " :" + ClientService::generateWelcomeMessage(client));
+  stream << Message(
+      ConfigsServiceLocator::get().getConfigs().Global.Name,
+      MessageConstants::ResponseCode::RPL_YOURHOST,
+      client.getNickName() + " :Your host is " +
+          ConfigsServiceLocator::get().getConfigs().Global.Name + ", running version " +
+          ConfigsServiceLocator::get().getConfigs().Global.Version);
+  stream << Message(
+      ConfigsServiceLocator::get().getConfigs().Global.Name,
+      MessageConstants::ResponseCode::RPL_CREATED,
+      client.getNickName() + " :This server was created " +
+          ConfigsServiceLocator::get().getConfigs().Global.StartStr);
+  stream << Message(
+      ConfigsServiceLocator::get().getConfigs().Global.Name,
+      MessageConstants::ResponseCode::RPL_MYINFO,
+      client.getNickName() + " " + ConfigsServiceLocator::get().getConfigs().Global.Name + " " +
+          ConfigsServiceLocator::get().getConfigs().Global.Version + " " +
+          ConfigsServiceLocator::get().getConfigs().Global.UserModes + " " +
+          ConfigsServiceLocator::get().getConfigs().Global.ChanModes);
+}

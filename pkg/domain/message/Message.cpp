@@ -40,6 +40,7 @@ Message::Message() {
 
 Message::Message(const std::string &message) {
   *this = Message();
+  this->_isIncludeTrailing = 0;
   if (parseMessage(message) != 0) {
     *this = Message();
     this->_command = MessageConstants::ERROR;
@@ -48,6 +49,7 @@ Message::Message(const std::string &message) {
 
 Message::Message(
     const std::string prefix, MessageConstants::CommandType command, const std::string params) {
+  this->_isIncludeTrailing = 0;
   if (prefix.length() == 0) {
     this->_prefix = "";
   } else {
@@ -60,6 +62,7 @@ Message::Message(
 }
 
 Message::Message(const std::string prefix, const int responseCode, const std::string params) {
+  this->_isIncludeTrailing = 0;
   if (prefix.length() == 0) {
     this->_prefix = "";
   } else {

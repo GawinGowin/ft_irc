@@ -20,6 +20,10 @@ struct GlobalConfig {
   int Port;
   std::string ServerGID;
   std::string ServerUID;
+  std::string Version;
+  std::string StartStr;
+  std::string UserModes;
+  std::string ChanModes;
 };
 
 #endif /* GLOBALCONFIG_HPP */
