@@ -29,8 +29,11 @@
       "args": [
         "${workspaceFolder}/tests/e2e/irc_e2e.py",
         "--org", "host.docker.internal:6667",
-        "--alt", "localhost:8080",
-        "${workspaceFolder}/tests/e2e/JOIN.json",
+        "--alt", "host.docker.internal:6668",
+        "${workspaceFolder}/tests/e2e/MODE_i.json",
+        "${workspaceFolder}/tests/e2e/MODE_l.json",
+        "${workspaceFolder}/tests/e2e/MODE_t.json",
+        "${workspaceFolder}/tests/e2e/MODE_o.json",
       ],
       "group": "build",
     }

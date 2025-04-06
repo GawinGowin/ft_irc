@@ -6,6 +6,7 @@ import os
 import threading
 import queue
 import datetime
+import concurrent.futures
 
 class IRCClient:
     """各IRCクライアントを表すクラス"""
@@ -144,6 +145,11 @@ def run_ordered_multi_client_test(test_case, server, port):
     
     return client_responses, all_events
 
+def run_test_on_server(test, host, port, server_type):
+    """指定されたサーバーでテストを実行"""
+    print(f"\n{server_type} server ({host}:{port}):")
+    responses, events = run_ordered_multi_client_test(test, host, int(port))
+    return server_type, responses, events
 
 def main():
     parser = argparse.ArgumentParser(description="Ordered Multi-client IRC Testing Tool")
@@ -169,23 +175,24 @@ def main():
             
             print(f"\n=== Testing: {test_name} ===")
 
-            print(f"\nOriginal server ({orig_host}:{orig_port}):")
-            orig_responses, orig_events = run_ordered_multi_client_test(test, orig_host, int(orig_port))
-
-            print(f"\nAnother server ({reimp_host}:{reimp_port}):")
-            reimp_responses, reimp_events = run_ordered_multi_client_test(test, reimp_host, int(reimp_port))
+            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+                futures = {
+                    executor.submit(run_test_on_server, test, orig_host, orig_port, "Original"): "org",
+                    executor.submit(run_test_on_server, test, reimp_host, reimp_port, "Alternative"): "alt"
+                }
+                results = {}
+                for future in concurrent.futures.as_completed(futures):
+                    server_type_long, responses, events = future.result()
+                    server_type = futures[future]
+                    results[server_type] = (responses, events)
 
             os.makedirs('log', exist_ok=True)
 
-            for server_type, responses, events in [
-                ("org", orig_responses, orig_events),
-                ("alt", reimp_responses, reimp_events)
-            ]:
+            for server_type, (responses, events) in results.items():
                 with open(f"log/{test_name}_{server_type}.log", 'w') as f:
                     server_name = "Original" if server_type == "org" else "Alternative"
                     f.write(f"=== Test: {test_name} on {server_name} Server ===\n\n")
                     
-                    # イベントログ（時系列順）
                     f.write("=== Event Log (Step Order) ===\n")
                     for event in sorted(events, key=lambda e: e['step_id']):
                         if event['type'] == 'sent':
@@ -193,7 +200,6 @@ def main():
                         elif event['type'] == 'received':
                             f.write(f"[{event['timestamp']}] Step {event['step_id']}: Client {event['client_id']} received: {event['message']}\n")
                     
-                    # クライアントごとのレスポンスログ
                     for client_id, client_responses in responses.items():
                         f.write(f"\n=== Client {client_id} Responses ===\n")
                         for resp in client_responses:

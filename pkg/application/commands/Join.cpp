@@ -10,7 +10,6 @@ inline static void generateChannelInfoResponse(
     ISocketHandler *socketHandler,
     IClientAggregateRoot *client,
     IChannelAggregateRoot *channel);
-inline static SendMsgDTO sendError(IClientAggregateRoot *client);
 
 Join::Join(IMessageAggregateRoot *msg, IClientAggregateRoot *client) : ACommands(msg, client) {}
 
@@ -61,9 +60,6 @@ SendMsgDTO Join::execute() {
   split(msg->getParams()[0], ',', channels);
   if (msg->getParams().size() == 2) {
     split(msg->getParams()[1], ',', channelwasswords);
-    if (channels.size() != channelwasswords.size()) {
-      return sendError(client);
-    }
   }
 
   std::string allowedChannelTypes =
@@ -79,7 +75,7 @@ SendMsgDTO Join::execute() {
     }
     IChannelAggregateRoot *channel = channelDB.get(channels[i]);
     std::string password = "";
-    if (!channelwasswords.empty()) {
+    if (!channelwasswords.empty() && i < channelwasswords.size()) {
       password = channelwasswords[i];
     }
     if (channel == NULL) {
@@ -88,23 +84,37 @@ SendMsgDTO Join::execute() {
       channel->addOperator(client->getNickName());
       logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): create " << channels[i];
     } else {
+      // 招待性のチャンネルかチェック
+      if (channel->isInviteOnly() && !channel->isUserInvited(client->getNickName())) {
+        MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+        stream << Message(
+            serverName, MessageConstants::ResponseCode::ERR_INVITEONLYCHAN,
+            client->getNickName() + " " + channels[i] +
+                " :Cannot join channel (+i) -- Invited users only");
+        messageStreams.push_back(stream);
+        continue;
+      }
       // パスワードのチェック
       if (!channel->checkKey(password)) {
-        sendError(client); // TODO: JOIN messageStreams
+        MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+        stream << Message(
+            serverName, MessageConstants::ResponseCode::ERR_BADCHANNELKEY,
+            client->getNickName() + " " + channels[i] +
+                " :Cannot join channel (+k) -- Wrong channel key");
+        messageStreams.push_back(stream);
         continue;
       }
       // ユーザー数制限のチェック
       if (channel->isMemberLimitExceeded()) {
-        sendError(client); // TODO: JOIN messageStreams
+        MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+        stream << Message(
+            serverName, MessageConstants::ResponseCode::ERR_CHANNELISFULL,
+            client->getNickName() + " " + channels[i] +
+                " :Cannot join channel (+l) -- Channel is full, try later");
+        messageStreams.push_back(stream);
         continue;
       }
     }
-
-    MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
-    stream << Message(
-        client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
-        MessageConstants::JOIN, ":" + channels[i]);
-    messageStreams.push_back(stream);
 
     int joinResult = channel->getListConnects().addClient(client->getNickName());
     if (joinResult == 1) {
@@ -113,13 +123,21 @@ SendMsgDTO Join::execute() {
     } else {
       logger->debugss() << "[JOIN] (fd: " << client->getSocketFd() << "): success to join "
                         << channels[i];
+      Message joinMessage(
+          client->getNickName() + "!" + client->getUserName() + "@" + client->getAddress(),
+          MessageConstants::JOIN, ":" + channels[i]);
+
+      MessageStream stream = MessageService::generateMessageStream(socketHandler, client);
+      stream << joinMessage;
+      messageStreams.push_back(stream);
+
+      std::stringstream ss;
+      ss << joinMessage;
+
       // チャンネルメンバーにJOIN通知をブロードキャスト
       std::vector<MessageStream> streams;
-      std::stringstream joinMsg;
-      joinMsg << ":" << client->getNickName() << " JOIN " << channel->getName() << "\r\n";
-
       streams = MessageService::generateMessageToChannel(
-          socketHandler, client, &clientDB, channel, joinMsg.str());
+          socketHandler, client, &clientDB, channel, ss.str());
       messageStreams.insert(messageStreams.end(), streams.begin(), streams.end());
       generateChannelInfoResponse(messageStreams, socketHandler, client, channel);
     }
@@ -132,6 +150,9 @@ static inline void split(const std::string &s, char delim, std::vector<std::stri
   std::stringstream ss(s);
   std::string item;
   while (std::getline(ss, item, delim)) {
+    if (item.empty()) {
+      continue;
+    }
     elems.push_back(item);
   }
 }
@@ -193,15 +214,4 @@ inline static void generateChannelInfoResponse(
       serverName, MessageConstants::ResponseCode::RPL_ENDOFNAMES,
       client->getNickName() + " " + channel->getName() + " :End of NAMES list");
   messageStreams.push_back(MessageStream(socketHandler, client) << response);
-}
-
-inline static SendMsgDTO sendError(IClientAggregateRoot *client) {
-  const std::string serverName = ConfigsServiceLocator::get().getConfigs().Global.Name;
-
-  MessageStreamVector messageStreams;
-  MessageStream stream =
-      MessageService::generateMessageStream(&SocketHandlerServiceLocator::get(), client);
-  stream << Message(serverName, MessageConstants::ResponseCode::ERR_NEEDMOREPARAMS, "* : Error");
-  messageStreams.push_back(stream);
-  return SendMsgDTO(1, messageStreams);
 }

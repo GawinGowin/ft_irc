@@ -47,7 +47,10 @@ const int ERR_USERONCHANNEL = 443;
 const int ERR_NOTREGISTERED = 451;
 const int ERR_NEEDMOREPARAMS = 461;
 const int ERR_ALREADYREGISTRED = 462;
+const int ERR_CHANNELISFULL = 471;
 const int ERR_UNKNOWNMODE = 472;
+const int ERR_INVITEONLYCHAN = 473;
+const int ERR_BADCHANNELKEY = 475;
 const int ERR_CHANOPRIVSNEEDED = 482;
 const int ERR_INVALIDMODEPARAM = 696;
 } // namespace ResponseCode

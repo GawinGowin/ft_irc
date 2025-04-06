@@ -18,7 +18,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/ft_irc_debug",
 			"args": [
-        "8080" , "pass"
+        "8080" , "password"
       ],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
@@ -34,7 +34,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/build/ft_irc",
 			"args": [
-        "8081" , "pass"
+        "8081" , "password"
       ],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",

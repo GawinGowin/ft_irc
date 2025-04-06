@@ -36,8 +36,8 @@ SendMsgDTO Mode::execute() {
     return SendMsgDTO(1, streams);
   }
   std::string target = msg->getParams()[0];
-  if (configs.Options.AllowedChannelTypes.find(target[0]) !=
-      std::string::npos) { // 引数が"#"もしくは"&"で始まる場合
+  // 引数が"#"もしくは"&"で始まる場合
+  if (configs.Options.AllowedChannelTypes.find(target[0]) != std::string::npos) {
     return this->_handleChannelMode(msg, client);
   }
   return this->_handleUserMode(msg, client);
@@ -316,6 +316,9 @@ int Mode::_parseAndProcessChannelMode(
           mod->ChangedFlags += "l";
         }
         break;
+      case ' ':
+        continue;
+        break;
       default:
         return MessageConstants::ResponseCode::ERR_UNKNOWNMODE;
         break;
@@ -327,6 +330,14 @@ int Mode::_parseAndProcessChannelMode(
 }
 
 SendMsgDTO Mode::_handleUserMode(IMessageAggregateRoot *msg, IClientAggregateRoot *client) {
+  // MessageStreamVector streams;
+  // MessageStream stream = MessageService::generateMessageStream(this->_socketHandler, client);
+  // stream << Message(
+  //     ConfigsServiceLocator::get().getConfigs().Global.Name,
+  //     MessageConstants::ResponseCode::ERR_NOSUCHNICK,
+  //     client->getNickName() + " " + channelName + " :No such nick or channel name");
+  // streams.push_back(stream);
+  // return SendMsgDTO(0, streams);
   MessageStreamVector streams;
   (void)msg;
   (void)client;

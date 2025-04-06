@@ -78,11 +78,15 @@ SendMsgDTO Nick::execute() {
 }
 
 static int checkNickName(const std::string &nickName) {
+  const std::string forbiddenFirstChars = ";0123456789-";
+  if (forbiddenFirstChars.find(nickName[0]) != std::string::npos)
+    return 1;
+  const std::string goodChars = ";0123456789-";
   for (size_t i = 0; i < nickName.size(); i++) {
-    if (!std::isalnum(nickName[i]) || nickName[i] == '+' || nickName[i] == '-' ||
-        nickName[i] == '.' || nickName[i] == '_' || nickName[i] == '@') {
+    if (nickName[i] < 'A' && goodChars.find(nickName[i]) == std::string::npos)
       return 1;
-    }
+    if (nickName[i] > '}')
+      return 1;
   }
   return 0;
 }
