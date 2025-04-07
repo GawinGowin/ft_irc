@@ -89,7 +89,7 @@ int SocketHandler::acceptConnection(struct sockaddr_in *clientAddr) {
     throw std::runtime_error("socket is not listening");
   }
   if (this->_currentConnections >= this->_maxConnections) {
-    throw std::runtime_error("max connections reached"); // TODO: 例外をスローしないように
+    return -1;
   }
   int clientSocket = -1;
   if (clientAddr == NULL) {
@@ -117,22 +117,12 @@ std::string SocketHandler::receiveMsg(const int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
-
-  std::string recieved;
-  std::string delimiter = "\r\n";
   char recv_buf[this->_maxBufferSize];
-  ssize_t bytes_received;
-
-  while ((bytes_received = recv(targetSocket, recv_buf, this->_maxBufferSize - 1, 0)) > 0) {
-    recv_buf[bytes_received] = '\0';
-    std::string recv_string = std::string(recv_buf);
-    size_t pos;
-    while ((pos = recv_string.find(delimiter)) != std::string::npos) {
-      recieved += recv_string.substr(0, pos + delimiter.size());
-      return recieved;
-    }
-    recieved += recv_string;
+  ssize_t bytes_received = recv(targetSocket, recv_buf, this->_maxBufferSize - 1, 0);
+  if (bytes_received <= 0) {
+    return std::string();
   }
+  std::string recieved = std::string(recv_buf, bytes_received);
   return recieved;
 }
 
