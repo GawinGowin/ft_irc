@@ -1,6 +1,6 @@
 #include "presentation/entrypoint.hpp"
 
-const int logTypes = LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE;
+static const int logTypes = LoggerServiceLocator::CONSOLE | LoggerServiceLocator::FILE;
 volatile sig_atomic_t g_signal = 0;
 
 void entrypoint(int argc, char **argv) {
@@ -20,7 +20,8 @@ void entrypoint(int argc, char **argv) {
   }
   MonitorSocketEventsUseCase monitorSocketEventsUseCase;
   MonitorSocketEventDTO eventDto;
-  RecievedMsgDTO recievedMsgDto;
+
+  std::vector<RecievedMsgDTO> recievedMsgDtos;
   SendMsgDTO sendMsgDto;
 
   logger->infoss() << "Start Listening port:"
@@ -39,11 +40,14 @@ void entrypoint(int argc, char **argv) {
       AcceptConnectionUseCase::accept();
       break;
     case MonitorSocketEventDTO::MessageReceived:
-      recievedMsgDto = RecieveMsgUseCase::recieve(eventDto);
-      sendMsgDto = RunCommandsUseCase::execute(recievedMsgDto);
-      SendMsgFromServerUseCase::send(sendMsgDto);
-      if (recievedMsgDto.getClient()->getClientType() & CLIENT_DISCONNECT) {
-        RemoveConnectionUseCase::remove(eventDto.getConnectionFd());
+      recievedMsgDtos = RecieveMsgUseCase::recieve(eventDto);
+      for (std::vector<RecievedMsgDTO>::iterator it = recievedMsgDtos.begin(); it != recievedMsgDtos.end(); ++it) {
+        RecievedMsgDTO &recievedMsgDto = *it;
+        sendMsgDto = RunCommandsUseCase::execute(recievedMsgDto);
+        SendMsgFromServerUseCase::send(sendMsgDto);
+        if (recievedMsgDto.getClient()->getClientType() & CLIENT_DISCONNECT) {
+          RemoveConnectionUseCase::remove(eventDto.getConnectionFd());
+        }
       }
       break;
     case MonitorSocketEventDTO::Error:

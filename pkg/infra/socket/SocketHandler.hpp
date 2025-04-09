@@ -8,6 +8,7 @@
 #include <string>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <map>
 
 class SocketHandler : virtual public ISocketHandler {
 public:
@@ -47,6 +48,8 @@ private:
 
   pollfd _serverPollfd;
   struct sockaddr_in _addr;
+
+  std::map<int, std::string> _receiveBuffers;
 
   SocketHandler();
 };
