@@ -1,0 +1,15 @@
+[
+  {
+    "name": "joined_connection",
+    "description": "接続されたコマンド - PASS→NICK→USER順",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password\r\nNICK nick\r\nUSER root root localhost :root\r\n",
+        "wait_after": 0.8
+      }
+    ]
+  }
+]
