@@ -9,6 +9,9 @@ void AcceptConnectionUseCase::accept() {
   struct sockaddr_in clientAddr;
   try {
     int clientSocket = _socketHandler->acceptConnection(&clientAddr);
+    if (clientSocket == -1) {
+      logger->warningss() << "Max connections reached, client rejected";
+    }
     std::string clientIp = _socketHandler->getClientIp(clientAddr);
 
     pollfd pollfd = {clientSocket, POLLIN, 0};

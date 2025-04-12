@@ -21,6 +21,7 @@ SocketHandler::SocketHandler(
   this->_serverPollfd.fd = 0;
   this->_serverPollfd.events = 0;
   this->_serverPollfd.revents = 0;
+  this->_receiveBuffers.clear();
 }
 
 SocketHandler::~SocketHandler() {
@@ -28,6 +29,7 @@ SocketHandler::~SocketHandler() {
     close(this->_socket);
     this->_socket = -1;
   }
+  this->_receiveBuffers.clear();
 }
 
 SocketHandler::SocketHandler(const SocketHandler &other) { *this = other; }
@@ -46,6 +48,7 @@ SocketHandler &SocketHandler::operator=(const SocketHandler &other) {
     this->_serverPollfd.events = other._serverPollfd.events;
     this->_serverPollfd.revents = other._serverPollfd.revents;
     this->_serverPollfd.fd = other._serverPollfd.fd;
+    this->_receiveBuffers = other._receiveBuffers;
   }
   return *this;
 }
@@ -80,6 +83,7 @@ void SocketHandler::closeConnection(int &targetSocket) {
   if (!this->_isListening) {
     throw std::runtime_error("socket is not listening");
   }
+  this->_receiveBuffers.erase(targetSocket);
   close(targetSocket);
   this->_currentConnections--;
 }
@@ -89,7 +93,7 @@ int SocketHandler::acceptConnection(struct sockaddr_in *clientAddr) {
     throw std::runtime_error("socket is not listening");
   }
   if (this->_currentConnections >= this->_maxConnections) {
-    throw std::runtime_error("max connections reached"); // TODO: 例外をスローしないように
+    return -1;
   }
   int clientSocket = -1;
   if (clientAddr == NULL) {
@@ -118,22 +122,29 @@ std::string SocketHandler::receiveMsg(const int &targetSocket) {
     throw std::runtime_error("socket is not listening");
   }
 
-  std::string recieved;
   std::string delimiter = "\r\n";
+  std::string &buffer = this->_receiveBuffers[targetSocket];
+
+  size_t pos;
   char recv_buf[this->_maxBufferSize];
   ssize_t bytes_received;
 
-  while ((bytes_received = recv(targetSocket, recv_buf, this->_maxBufferSize - 1, 0)) > 0) {
+  bytes_received = recv(targetSocket, recv_buf, this->_maxBufferSize - 1, 0);
+  if (bytes_received > 0) {
     recv_buf[bytes_received] = '\0';
-    std::string recv_string = std::string(recv_buf);
-    size_t pos;
-    while ((pos = recv_string.find(delimiter)) != std::string::npos) {
-      recieved += recv_string.substr(0, pos + delimiter.size());
-      return recieved;
+    buffer += std::string(recv_buf, bytes_received);
+
+    pos = buffer.rfind(delimiter);
+    if (pos != std::string::npos) {
+      std::string message = buffer.substr(0, pos + delimiter.size());
+      buffer.erase(0, pos + delimiter.size());
+      return message;
     }
-    recieved += recv_string;
+  } else if (bytes_received == 0) {
+    buffer.clear();
+    return "";
   }
-  return recieved;
+  return buffer;
 }
 
 void SocketHandler::setMaxConnections(const int maxConnections) {

@@ -3,6 +3,7 @@
 
 #include "infra/socket/ISocketHandler.hpp"
 #include <arpa/inet.h>
+#include <map>
 #include <poll.h>
 #include <stdexcept>
 #include <string>
@@ -47,6 +48,8 @@ private:
 
   pollfd _serverPollfd;
   struct sockaddr_in _addr;
+
+  std::map<int, std::string> _receiveBuffers;
 
   SocketHandler();
 };

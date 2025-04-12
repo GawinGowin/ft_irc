@@ -10,10 +10,11 @@
 
 #include <string>
 #include <sys/socket.h>
+#include <vector>
 
 class RecieveMsgUseCase {
 public:
-  static RecievedMsgDTO recieve(const MonitorSocketEventDTO &event);
+  static std::vector<RecievedMsgDTO> recieve(const MonitorSocketEventDTO &event);
 
 private:
   RecieveMsgUseCase();
