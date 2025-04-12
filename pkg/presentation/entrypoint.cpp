@@ -41,7 +41,8 @@ void entrypoint(int argc, char **argv) {
       break;
     case MonitorSocketEventDTO::MessageReceived:
       recievedMsgDtos = RecieveMsgUseCase::recieve(eventDto);
-      for (std::vector<RecievedMsgDTO>::iterator it = recievedMsgDtos.begin(); it != recievedMsgDtos.end(); ++it) {
+      for (std::vector<RecievedMsgDTO>::iterator it = recievedMsgDtos.begin();
+           it != recievedMsgDtos.end(); ++it) {
         RecievedMsgDTO &recievedMsgDto = *it;
         sendMsgDto = RunCommandsUseCase::execute(recievedMsgDto);
         SendMsgFromServerUseCase::send(sendMsgDto);

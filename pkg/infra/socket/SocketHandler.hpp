@@ -3,12 +3,12 @@
 
 #include "infra/socket/ISocketHandler.hpp"
 #include <arpa/inet.h>
+#include <map>
 #include <poll.h>
 #include <stdexcept>
 #include <string>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <map>
 
 class SocketHandler : virtual public ISocketHandler {
 public:
