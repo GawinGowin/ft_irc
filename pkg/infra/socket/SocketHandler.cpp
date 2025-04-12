@@ -29,6 +29,7 @@ SocketHandler::~SocketHandler() {
     close(this->_socket);
     this->_socket = -1;
   }
+  this->_receiveBuffers.clear();
 }
 
 SocketHandler::SocketHandler(const SocketHandler &other) { *this = other; }

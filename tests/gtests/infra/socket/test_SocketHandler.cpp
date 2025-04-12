@@ -131,21 +131,23 @@ TEST(SocketHandlerTest, SendAndReceiveMessage) {
     server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
-    ssize_t status = server.sendMsg(clientMsg, client_socket);
-    EXPECT_EQ(clientMsg.size(), status);
-    std::string received_message = server.receiveMsg(client_socket);
-    EXPECT_EQ(received_message, serverMsg);
+    ssize_t send_status = server.sendMsg(clientMsg, client_socket);
+    EXPECT_EQ(clientMsg.size(), send_status);
+
+    const std::string &received_from_server = server.receiveMsg(client_socket);
+    EXPECT_EQ(received_from_server, serverMsg);
+
     close(client_socket);
   });
 
   sockaddr_in client_addr;
-  int client_socket = server.acceptConnection(&client_addr);
-
-  std::string received_message = server.receiveMsg(client_socket);
-  EXPECT_EQ(received_message, clientMsg);
-
-  server.sendMsg(serverMsg, client_socket);
+  int server_client_socket = server.acceptConnection(&client_addr);
+  ASSERT_NE(-1, server_client_socket);
+  const std::string &received_from_client = server.receiveMsg(server_client_socket);
+  EXPECT_EQ(received_from_client, clientMsg);
+  ssize_t send_status_server = server.sendMsg(serverMsg, server_client_socket);
+  EXPECT_EQ(serverMsg.size(), send_status_server);
 
   client_thread.join();
-  close(client_socket);
+  close(server_client_socket);
 }
