@@ -1,13 +1,39 @@
 [
   {
-    "name": "joined_connection",
+    "name": "joined_connection_ok",
     "description": "接続されたコマンド - PASS→NICK→USER順",
     "clients": ["client1"],
     "steps": [
       {
         "step_id": 1,
         "client_id": "client1",
-        "command": "PASS password\r\nNICK nick\r\nUSER root root localhost :root\r\n",
+        "command": "PASS password\r\nNICK root\r\nUSER root root localhost :root\r\n",
+        "wait_after": 0.8
+      }
+    ]
+  },
+  {
+    "name": "joined_connection_ko1",
+    "description": "接続されたコマンド - 途中で切れている",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password\r\nNICK nick1\r\nUSER root root",
+        "wait_after": 0.8
+      }
+    ]
+  },
+  {
+    "name": "joined_connection_ko2",
+    "description": "接続されたコマンド - 改行なし",
+    "clients": ["client1"],
+    "steps": [
+      {
+        "step_id": 1,
+        "client_id": "client1",
+        "command": "PASS password\r\nNICK nick2\r\nUSER root root localhost :root",
         "wait_after": 0.8
       }
     ]

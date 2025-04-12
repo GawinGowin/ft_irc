@@ -36,9 +36,9 @@ class IRCClient:
         """コマンドを送信"""
         if not self.connected:
             self.connect()
-            
-        if not command.endswith('\r\n'):
-            command += '\r\n'
+
+        # if not command.endswith('\r\n'):
+        #     command += '\r\n'
         self.sock.send(command.encode('utf-8'))
         
         timestamp = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
