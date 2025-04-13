@@ -244,29 +244,33 @@ int Message::parseParams(
 int Message::getIsIncludeTrailing() const { return this->_isIncludeTrailing; }
 
 inline static MessageConstants::CommandType strToCommandType(const std::string &str) {
-  if (str == "PASS") {
+  std::string upperstr = str;
+  for (std::string::size_type i = 0; i < upperstr.size(); ++i) {
+    upperstr[i] = std::toupper(static_cast<unsigned char>(upperstr[i]));
+  }
+  if (upperstr == "PASS") {
     return (MessageConstants::PASS);
-  } else if (str == "NICK") {
+  } else if (upperstr == "NICK") {
     return (MessageConstants::NICK);
-  } else if (str == "USER") {
+  } else if (upperstr == "USER") {
     return (MessageConstants::USER);
-  } else if (str == "JOIN") {
+  } else if (upperstr == "JOIN") {
     return (MessageConstants::JOIN);
-  } else if (str == "PRIVMSG") {
+  } else if (upperstr == "PRIVMSG") {
     return (MessageConstants::PRIVMSG);
-  } else if (str == "KICK") {
+  } else if (upperstr == "KICK") {
     return (MessageConstants::KICK);
-  } else if (str == "INVITE") {
+  } else if (upperstr == "INVITE") {
     return (MessageConstants::INVITE);
-  } else if (str == "TOPIC") {
+  } else if (upperstr == "TOPIC") {
     return (MessageConstants::TOPIC);
-  } else if (str == "MODE") {
+  } else if (upperstr == "MODE") {
     return (MessageConstants::MODE);
-  } else if (str == "PING") {
+  } else if (upperstr == "PING") {
     return (MessageConstants::PING);
-  } else if (str == "PONG") {
+  } else if (upperstr == "PONG") {
     return (MessageConstants::PONG);
-  } else if (str == "QUIT") {
+  } else if (upperstr == "QUIT") {
     return (MessageConstants::QUIT);
   } else {
     return (MessageConstants::UNKNOWN);
