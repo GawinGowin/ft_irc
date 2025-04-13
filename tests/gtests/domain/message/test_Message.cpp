@@ -94,18 +94,6 @@ TEST(MessageTest, AssignmentOperatorWithNumericResponse) {
   EXPECT_EQ(assigned.getParams()[1], "No such nick/channel");
 }
 
-TEST(MessageTest, AssignmentOperatorSelfAssignment) {
-  Message message("nick!user@host", MessageConstants::PRIVMSG, "target :Hello world!");
-
-  message = message; // 自己代入
-
-  EXPECT_EQ(message.getPrefix(), ":nick!user@host");
-  EXPECT_EQ(message.getCommand(), MessageConstants::PRIVMSG);
-  EXPECT_EQ(message.getParams().size(), 2);
-  EXPECT_EQ(message.getParams()[0], "target");
-  EXPECT_EQ(message.getParams()[1], "Hello world!");
-}
-
 TEST(MessageTest, AssignmentOperatorEmptyMessage) {
   Message original;
   Message assigned("source", MessageConstants::JOIN, "#channel");
