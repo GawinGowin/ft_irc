@@ -6,7 +6,7 @@
 #include <gtest/gtest.h>
 
 const int argc = 3;
-char *argv[] = {(char *)"./ft_irc", (char *)"8085", (char *)"password", nullptr};
+char *argv[] = {(char *)"./ircserv", (char *)"8085", (char *)"password", nullptr};
 
 // テスト用の設定で初期化する
 void setupTestConfigs() {

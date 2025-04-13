@@ -1,10 +1,10 @@
-NAME := ft_irc
+NAME := ircserv
 DNAME := $(NAME)_debug
 BUILD_DIR = ./build
 BASE_PKG_DIR = ./pkg
 
 SOURCE =
-SOURCE += cmd/ft_irc/main.cpp
+SOURCE += cmd/ircserv/main.cpp
 SOURCE += $(shell find $(BASE_PKG_DIR)/application $(BASE_PKG_DIR)/domain $(BASE_PKG_DIR)/infra $(BASE_PKG_DIR)/presentation -name '*.cpp')
 
 HEADER =

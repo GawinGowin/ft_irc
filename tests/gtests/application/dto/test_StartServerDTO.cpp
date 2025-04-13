@@ -44,28 +44,28 @@ TEST_P(NegativeArgsTest, Negative) {
 }
 
 const TestData PositiveTestData[] = {
-    {{"./ft_irc", "9090", "admin"}},
-    {{"./ft_irc", "7070", "root"}},
-    {{"./ft_irc", "6060", "toor"}},
-    {{"./ft_irc", "5050", "123456"}},
-    {{"./ft_irc", "4040", "password123"}},
-    {{"./ft_irc", "3030", "password123456"}},
-    {{"./ft_irc", "2020", "password_123456789"}},
+    {{"./ircserv", "9090", "admin"}},
+    {{"./ircserv", "7070", "root"}},
+    {{"./ircserv", "6060", "toor"}},
+    {{"./ircserv", "5050", "123456"}},
+    {{"./ircserv", "4040", "password123"}},
+    {{"./ircserv", "3030", "password123456"}},
+    {{"./ircserv", "2020", "password_123456789"}},
 };
 
 const TestData NegativeTestData[] = {
-    {{"./ft_irc", "8080"}},
-    {{"./ft_irc", "80a0", "password"}},
-    {{"./ft_irc", "08080", "password"}},
-    {{"./ft_irc", "70000", "password"}},
-    {{"./ft_irc", "8080", ""}},
-    {{"./ft_irc", "8080", "pass word"}}, // パスワードにスペースは含められない(ngircdの仕様)
-    {{"./ft_irc", "8080", "password", "extra"}},
-    {{"./ft_irc"}},
-    {{"./ft_irc", "8080a", "p@sswArd"}},
-    {{"./ft_irc", "8080", "password", "extra"}},
-    {{"./ft_irc"}},
-    {{"./ft_irc", "8080a", "p@sswArd"}},
+    {{"./ircserv", "8080"}},
+    {{"./ircserv", "80a0", "password"}},
+    {{"./ircserv", "08080", "password"}},
+    {{"./ircserv", "70000", "password"}},
+    {{"./ircserv", "8080", ""}},
+    {{"./ircserv", "8080", "pass word"}}, // パスワードにスペースは含められない(ngircdの仕様)
+    {{"./ircserv", "8080", "password", "extra"}},
+    {{"./ircserv"}},
+    {{"./ircserv", "8080a", "p@sswArd"}},
+    {{"./ircserv", "8080", "password", "extra"}},
+    {{"./ircserv"}},
+    {{"./ircserv", "8080a", "p@sswArd"}},
 };
 
 INSTANTIATE_TEST_SUITE_P(

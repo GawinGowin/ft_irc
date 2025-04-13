@@ -71,14 +71,14 @@ class IRCUser(User):
         self.channels = []
         
     def on_start(self):
-        # ft_irc接続
+        # ircserv接続
         host = os.getenv('FT_IRC_HOST', 'localhost')
         port = int(os.getenv('FT_IRC_PORT', 6668))
         password = os.getenv('IRC_PASSWORD', 'password')
         
         self.ft_client = IRCClient(host, port, password)
         if not self.ft_client.connect():
-            print(f"ユーザー {self.user_id} がft_ircに接続できませんでした")
+            print(f"ユーザー {self.user_id} がircservに接続できませんでした")
             return
             
         self.ft_client.register(f"user_{self.user_id}")

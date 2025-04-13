@@ -39,9 +39,9 @@ tools/bircd/bircd
 
 build/
 
-ft_irc
-!cmd/ft_irc/
-ft_irc_debug
+ircserv
+!cmd/ircserv/
+ircserv_debug
 .sentry-native/
 
 *.log

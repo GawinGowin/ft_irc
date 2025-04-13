@@ -4,7 +4,7 @@ static const int logTypes = LoggerServiceLocator::CONSOLE | LoggerServiceLocator
 volatile sig_atomic_t g_signal = 0;
 
 void entrypoint(int argc, char **argv) {
-  LogggerUseCase loggerWrapper(logTypes, "ft_irc.log");
+  LogggerUseCase loggerWrapper(logTypes, "ircserv.log");
   MultiLogger *logger = LoggerServiceLocator::get();
 
   StartServerDTO dto(argc, argv);
