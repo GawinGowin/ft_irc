@@ -19,7 +19,7 @@ ConfigsLoader::ConfigsLoader() {
   conf.Global.Port = 6667;
   conf.Global.ServerGID = "irc";
   conf.Global.ServerUID = "irc";
-  conf.Global.Version = "ft_irc-1.0";
+  conf.Global.Version = "ircserv-1.0";
   conf.Global.StartStr = "Fri Apr 04 2025 at 19:40:56 (JST)";
   conf.Global.UserModes = "o";
   conf.Global.ChanModes = "iklot";

@@ -16,7 +16,7 @@
 			"name": "ft_irc (cpp98)",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/ft_irc_debug",
+			"program": "${workspaceFolder}/ircserv_debug",
 			"args": [
         "8080" , "password"
       ],
@@ -32,7 +32,7 @@
 			"name": "ft_irc (cpp11)",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/build/ft_irc",
+			"program": "${workspaceFolder}/build/ircserv",
 			"args": [
         "8081" , "password"
       ],

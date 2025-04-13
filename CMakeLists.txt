@@ -21,13 +21,13 @@ target_include_directories(
   PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
 )
 
-add_executable(ft_irc
-${CMAKE_SOURCE_DIR}/cmd/ft_irc/main.cpp)
+add_executable(ircserv
+${CMAKE_SOURCE_DIR}/cmd/ircserv/main.cpp)
 target_include_directories(
-  ft_irc
+  ircserv
   PRIVATE ${CMAKE_SOURCE_DIR}/pkg/
 )
-target_link_libraries(ft_irc testftirc ${LIBRARIES})
+target_link_libraries(ircserv testftirc ${LIBRARIES})
 
 ## install gtest
 include(FetchContent)

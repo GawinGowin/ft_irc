@@ -37,7 +37,7 @@ RUN make
 FROM gcr.io/distroless/cc-debian12 AS release
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY --from=build /repo/ft_irc /usr/local/bin/ft_irc
+COPY --from=build /repo/ircserv /usr/local/bin/ircserv
 
-ENTRYPOINT ["ft_irc"]
+ENTRYPOINT ["ircserv"]
 CMD ["8080", "password"]
