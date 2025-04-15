@@ -19,14 +19,14 @@ std::vector<RecievedMsgDTO> RecieveMsgUseCase::recieve(const MonitorSocketEventD
     logger->tracess() << "Message from client: " << client->getAddress()
                       << " (fd: " << client->getSocketFd() << ") " << msg;
     if (msg.empty()) {
-      dtos.push_back(RecievedMsgDTO(RecievedMsgDTO(msg, client)));
+      dtos.push_back(RecievedMsgDTO(msg, client));
       return dtos;
     }
     size_t start = 0;
     size_t end = 0;
     while ((end = msg.find(CRLF, start)) != std::string::npos) {
       std::string command = msg.substr(start, end - start + CRLF.length());
-      dtos.push_back(RecievedMsgDTO(RecievedMsgDTO(command, client)));
+      dtos.push_back(RecievedMsgDTO(command, client));
       start = end + CRLF.length();
     }
   } catch (const std::runtime_error &e) {
