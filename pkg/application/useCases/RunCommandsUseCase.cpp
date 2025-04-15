@@ -1,13 +1,15 @@
 #include "application/useCases/RunCommandsUseCase.hpp"
+#include "application/commands/Cap.hpp"
 
 SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
-  MultiLogger *logger = LoggerServiceLocator::get();
+  MultiLogger *logger;
   Message clientMsg;
-  IClientAggregateRoot *client = recieved.getClient();
+  IClientAggregateRoot *client;
   SendMsgDTO dto;
 
+  logger = LoggerServiceLocator::get();
+  client = recieved.getClient();
   const std::string &msg = recieved.getMessage();
-
   if (msg.empty()) {
     logger->warningss() << "Recieved message is empty (fd: " << client->getSocketFd() << ")";
   } else {
@@ -51,6 +53,9 @@ SendMsgDTO RunCommandsUseCase::execute(RecievedMsgDTO &recieved) {
   case (MessageConstants::QUIT):
   case (MessageConstants::UNDEFINED):
     dto = Quit(&clientMsg, client).execute();
+    break;
+  case (MessageConstants::CAP):
+    dto = Cap(&clientMsg, client).execute();
     break;
   case (MessageConstants::ERROR):
     dto.setStatus(1);
