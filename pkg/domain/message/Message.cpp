@@ -26,7 +26,7 @@ std::ostream &operator<<(std::ostream &os, const Message &msg) {
     }
   }
   os << CRLF;
-  return os;
+  return (os);
 }
 
 Message::Message() {
@@ -88,20 +88,23 @@ Message &Message::operator=(const Message &obj) {
     this->_isIncludeTrailing = obj._isIncludeTrailing;
     this->_params = obj._params;
   }
-  return *this;
+  return (*this);
 }
 
-const std::string &Message::getPrefix() const { return this->_prefix; }
+const std::string &Message::getPrefix() const { return (this->_prefix); }
 
-const MessageConstants::CommandType &Message::getCommand() const { return this->_command; }
+const MessageConstants::CommandType &Message::getCommand() const { return (this->_command); }
 
-const std::vector<std::string> &Message::getParams() const { return this->_params; }
+const std::vector<std::string> &Message::getParams() const { return (this->_params); }
 
-const int &Message::getNumericResponse() const { return this->_numericResponse; }
+const int &Message::getNumericResponse() const { return (this->_numericResponse); }
 
-const bool &Message::isNumericResponse() const { return this->_isNumericResponse; }
+const bool &Message::isNumericResponse() const { return (this->_isNumericResponse); }
 
 int Message::parseMessage(const std::string &msgStr) {
+  int error;
+  size_t len;
+
   /* RFC 2812に準拠し、メッセージの最大長は512バイト（CR+LFを含む） */
   std::string msg;
   if (msgStr.length() >= 510) {
@@ -111,12 +114,10 @@ int Message::parseMessage(const std::string &msgStr) {
   } else {
     msg = msgStr;
   }
-
   std::istringstream iss(msg);
   std::string word;
   std::vector<std::string> words;
   std::ostringstream os;
-
   while (iss >> word) {
     if (word == CRLF) {
       break;
@@ -134,9 +135,9 @@ int Message::parseMessage(const std::string &msgStr) {
     words.push_back(word);
   }
   if (words.size() < 1) {
-    return 1;
+    return (1);
   }
-  int error = 0;
+  error = 0;
   if (words[0][0] == ':') {
     if (this->parsePrefixDetails(this->_prefixObj, words[0]) != 0) {
       error |= 1;
@@ -147,7 +148,7 @@ int Message::parseMessage(const std::string &msgStr) {
     }
     if (words.size() > 1) {
       std::copy(words.begin() + 2, words.end(), std::ostream_iterator<std::string>(os, " "));
-      size_t len = os.str().length();
+      len = os.str().length();
       parseParams(this->_params, os.str().substr(0, len - 1), &this->_isIncludeTrailing);
     }
   } else {
@@ -155,25 +156,27 @@ int Message::parseMessage(const std::string &msgStr) {
       error |= 1;
     }
     std::copy(words.begin() + 1, words.end(), std::ostream_iterator<std::string>(os, " "));
-    size_t len = os.str().length();
+    len = os.str().length();
     parseParams(this->_params, os.str().substr(0, len - 1), &this->_isIncludeTrailing);
   }
-  return error;
+  return (error);
 }
 
 int Message::parsePrefixDetails(PrefixInfo &prefixInfo, const std::string prefix) {
+  size_t userPos;
+  size_t hostPos;
+
   std::string new_nick;
   std::string new_user;
   std::string new_host;
-
   if (prefix.length() == 0 || std::count(prefix.begin(), prefix.end(), '!') > 1 ||
       std::count(prefix.begin(), prefix.end(), '@') > 1) {
-    return 1;
+    return (1);
   }
-  size_t userPos = prefix.find('!');
-  size_t hostPos = prefix.find('@');
+  userPos = prefix.find('!');
+  hostPos = prefix.find('@');
   if (userPos != std::string::npos && hostPos != std::string::npos && hostPos < userPos) {
-    return 1;
+    return (1);
   }
   if (userPos != std::string::npos) {
     new_nick = prefix.substr(0, userPos);
@@ -181,38 +184,38 @@ int Message::parsePrefixDetails(PrefixInfo &prefixInfo, const std::string prefix
       new_user = prefix.substr(userPos + 1, hostPos - userPos - 1);
       new_host = prefix.substr(hostPos + 1);
       if (new_user.length() == 0 || new_host.length() == 0) {
-        return 1;
+        return (1);
       }
     } else {
       new_user = prefix.substr(userPos + 1);
       if (new_user.length() == 0) {
-        return 1;
+        return (1);
       }
     }
   } else if (hostPos != std::string::npos) {
     new_nick = prefix.substr(0, hostPos);
     new_host = prefix.substr(hostPos + 1);
     if (new_host.length() == 0) {
-      return 1;
+      return (1);
     }
   } else {
     new_nick = prefix;
   }
   if (new_nick.length() == 0) {
-    return 1;
+    return (1);
   }
   prefixInfo.nick = new_nick;
   prefixInfo.user = new_user;
   prefixInfo.host = new_host;
-  return 0;
+  return (0);
 }
 
 int Message::parseCommand(MessageConstants::CommandType &command, const std::string message) {
   command = strToCommandType(message);
   if (command == MessageConstants::UNKNOWN) {
-    return 1;
+    return (1);
   }
-  return 0;
+  return (0);
 }
 
 int Message::parseParams(
@@ -238,10 +241,10 @@ int Message::parseParams(
     }
     params.push_back(word);
   }
-  return 0;
+  return (0);
 }
 
-int Message::getIsIncludeTrailing() const { return this->_isIncludeTrailing; }
+int Message::getIsIncludeTrailing() const { return (this->_isIncludeTrailing); }
 
 inline static MessageConstants::CommandType strToCommandType(const std::string &str) {
   std::string upperstr = str;
@@ -272,41 +275,44 @@ inline static MessageConstants::CommandType strToCommandType(const std::string &
     return (MessageConstants::PONG);
   } else if (upperstr == "QUIT") {
     return (MessageConstants::QUIT);
+  } else if (upperstr == "CAP") {
+    return (MessageConstants::CAP);
   } else {
     return (MessageConstants::UNKNOWN);
   }
 };
-
 inline static std::string enumToCommandStr(const MessageConstants::CommandType &command) {
   switch (command) {
   case MessageConstants::PASS:
-    return "PASS";
+    return ("PASS");
   case MessageConstants::NICK:
-    return "NICK";
+    return ("NICK");
   case MessageConstants::USER:
-    return "USER";
+    return ("USER");
   case MessageConstants::JOIN:
-    return "JOIN";
+    return ("JOIN");
   case MessageConstants::PRIVMSG:
-    return "PRIVMSG";
+    return ("PRIVMSG");
   case MessageConstants::KICK:
-    return "KICK";
+    return ("KICK");
   case MessageConstants::INVITE:
-    return "INVITE";
+    return ("INVITE");
   case MessageConstants::TOPIC:
-    return "TOPIC";
+    return ("TOPIC");
   case MessageConstants::MODE:
-    return "MODE";
+    return ("MODE");
   case MessageConstants::PING:
-    return "PING";
+    return ("PING");
   case MessageConstants::PONG:
-    return "PONG";
+    return ("PONG");
   case MessageConstants::QUIT:
-    return "QUIT";
+    return ("QUIT");
   case MessageConstants::ERROR:
-    return "ERROR";
+    return ("ERROR");
+  case MessageConstants::CAP:
+    return ("CAP");
   default:
-    return "UNKNOWN";
+    return ("UNKNOWN");
   }
 }
 
@@ -323,5 +329,5 @@ inline static std::string getPrefixString(const PrefixInfo &prefixInfo) {
       prefix += "@" + prefixInfo.host;
     }
   }
-  return prefix;
+  return (prefix);
 }

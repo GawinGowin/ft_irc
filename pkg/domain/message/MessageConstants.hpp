@@ -18,6 +18,7 @@ enum CommandType {
   PONG,
   QUIT,
   ERROR,
+  CAP,
   UNKNOWN,
   UNDEFINED
 };
@@ -27,6 +28,7 @@ const int RPL_WELCOME = 1;
 const int RPL_YOURHOST = 2;
 const int RPL_CREATED = 3;
 const int RPL_MYINFO = 4;
+const int RPL_CAP = 410;
 const int RPL_CHANNELMODEIS = 324;
 const int RPL_CREATIONTIME_MSG = 329;
 const int RPL_TOPIC = 332;
@@ -53,6 +55,7 @@ const int ERR_INVITEONLYCHAN = 473;
 const int ERR_BADCHANNELKEY = 475;
 const int ERR_CHANOPRIVSNEEDED = 482;
 const int ERR_INVALIDMODEPARAM = 696;
+const int ERR_INVALIDCAPCMD = 410;
 } // namespace ResponseCode
 } // namespace MessageConstants
 
