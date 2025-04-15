@@ -6,6 +6,7 @@
 #include "application/commands/Kick.hpp"
 #include "application/commands/Mode.hpp"
 #include "application/commands/Nick.hpp"
+#include "application/commands/Part.hpp"
 #include "application/commands/Pass.hpp"
 #include "application/commands/Ping.hpp"
 #include "application/commands/Pong.hpp"
